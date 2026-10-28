@@ -476,7 +476,6 @@ body.chat-open #helpFab{display:none}
   
 </div></div>
 <div id="offline" hidden>Sem internet: o app funciona, mas mapas e previsão precisam de conexão.</div>
-<button id="helpFab" aria-label="Ajuda">Ajuda</button>
 <div id="ovl" hidden><div class="ovlBox"><div class="ovlHead"><b class="ovlTitle"></b><button id="ovlClose" aria-label="Fechar">×</button></div><div class="ovlBody"></div></div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
@@ -917,7 +916,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "tnTOYBJBDBp0Fyjw4QzFjQ==", "iv": "Ax4OKp1C0YbRqcMa", "ct": "UEyHAwCSM26y4ayMzQf6p+Tn"};
+const ENC = {"salt": "fhdiuv28iZ9rLuh9nCBVeA==", "iv": "Rr6Td8+UloFI7rrO", "ct": "wjgHRIEyKoJTMA4z9UNkyALi"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1919,51 +1918,6 @@ function openBig(v){
     <div class="small muted" style="text-align:center">Vire o celular para o funcionário ver.</div>`);
 }
 
-/* ================= CX: AJUDA ================= */
-function cityNow(){ const d=DAYS.find(x=>x.d===TODAY); return d ? d.city : (TODAY<FIRST?"MUC":"BER"); }
-function taxiCard(k){
-  const h=HOTELS[k];
-  ovl("Cartão para o taxista", `<div class="taxi">
-      <div class="taxiDe">Bitte bringen Sie mich zu dieser Adresse:</div>
-      <div class="taxiHotel">${esc(h.name)}</div>
-      <div class="taxiAddr">${esc(h.addr)}</div>
-      <div class="taxiTel">Tel. ${esc(h.phone)}</div>
-      <div class="taxiPt">"Por favor, me leve a este endereço." Mostre esta tela ao taxista ou a quem puder ajudar.</div>
-    </div>
-    <div class="seg" style="justify-content:center">${["MUC","DRS","BER"].map(c=>`<button data-taxi="${c}" class="${c===k?"on":""}">${CITY[c]}</button>`).join("")}</div>
-    <a class="btn" style="width:100%" href="${maps(h.name+", "+h.addr)}" target="_blank" rel="noopener">Abrir no mapa</a>`, "light");
-}
-function helpMenu(){
-  ovl("Ajuda", `<div class="helpGrid">
-    <button class="helpBtn" data-help="perdi"><b>Me perdi</b><small>Cartão do hotel para o taxista</small></button>
-    <button class="helpBtn" data-help="mal"><b>Estou passando mal</b><small>Emergência e seguro</small></button>
-    <button class="helpBtn" data-help="trem"><b>Perdi o trem</b><small>O que fazer agora</small></button>
-    <button class="helpBtn" data-help="pet"><b>Perdi o Ignacio</b><small>Passos e frases</small></button>
-  </div>
-  <div class="card"><span class="eyebrow">Número de emergência na Europa</span><div class="sos">112</div><div class="small muted">Ambulância, bombeiros e polícia. Funciona de qualquer celular, de graça.</div></div>`, "help");
-}
-const HELP = {
-  mal:()=>`<div class="card"><span class="eyebrow">Emergência</span><div class="sos">112</div><div class="small">Ligue e diga: <b>"Ich brauche einen Arzt."</b> (Preciso de um médico.)</div></div>
-    <div class="card"><span class="eyebrow">Seguro da Ana Maria (Intermac)</span>
-      <div class="kv"><small>WhatsApp, 24 horas</small>${copyBtn("+1 786 786 1194")}</div>
-      <div class="kv"><small>Número do bilhete</small>${copyBtn(CONTACTS.find(c=>c[0].includes("bilhete"))[1])}</div>
-      <div class="small muted">Avise a seguradora antes de ir ao médico, se der tempo.</div></div>
-    <div class="card"><span class="eyebrow">Farmácia</span><div class="small">Procure a placa vermelha com um <b>A</b> grande: <b>Apotheke</b>. Em Praga: <b>Lékárna</b>.</div>
-      <a class="btn" href="${maps("Apotheke")}" target="_blank" rel="noopener">Farmácias perto de mim</a></div>
-    <div class="card"><span class="eyebrow">Victor e Mariana</span><div class="small">Usem o Cartão Europeu de Seguro de Doença no atendimento público.</div></div>`,
-  trem:()=>`<div class="card"><span class="eyebrow">Atraso do trem</span><div class="small">Se o seu trem atrasar e por isso vocês perderem a conexão, ou se o atraso no destino passar de <b>20 minutos</b>, o mesmo bilhete vale no próximo trem do trajeto. Não precisa comprar outro.</div></div>
-    <div class="card"><span class="eyebrow">Se vocês perderam o trem</span><div class="small">Os bilhetes promocionais só valem no trem marcado. Vá ao balcão da DB na estação (<b>DB Reisezentrum</b>) com o bilhete e mostre a frase:</div>
-      <div class="phr"><b>Wir haben unseren Zug verpasst. Was können wir tun?</b><span class="small muted">Perdemos nosso trem. O que podemos fazer?</span></div></div>
-    <div class="card"><span class="eyebrow">Ver os bilhetes</span><button class="btn primary" data-go="reservas" data-sub="trens">Abrir os trens</button></div>`,
-  pet:()=>`<div class="card"><span class="eyebrow">Fique calmo e faça nesta ordem</span>
-      <ol class="route"><li><div><b>Volte ao último lugar onde ele estava</b><div class="small muted">Chihuahuas costumam se esconder perto, embaixo de bancos e barracas.</div></div></li>
-      <li><div><b>Avise o hotel</b><div class="small muted">Ele pode tentar voltar para lá.</div></div></li>
-      <li><div><b>Mostre a foto dele para as pessoas</b><div class="small muted">Use a frase abaixo.</div></div></li>
-      <li><div><b>Ligue para a polícia: 110</b><div class="small muted">Em Praga: 158.</div></div></li></ol></div>
-    <div class="card" style="align-items:center"><img src="${IG_IMG}" alt="Foto do Ignacio" style="width:140px">
-      <div class="phr" style="text-align:center"><b>Ich habe meinen Hund verloren. Haben Sie ihn gesehen?</b><span class="small muted">Perdi meu cachorro. Você o viu?</span></div></div>`,
-};
-
 /* ================= CX: PASSO A PASSO DOS DESLOCAMENTOS ================= */
 const STEPS = {
   "2026-12-20":{title:"Lisboa → Munique", steps:[
@@ -2039,10 +1993,6 @@ addEventListener("online", netBanner); addEventListener("offline", netBanner);
 
 document.addEventListener("click", e=>{
   const t=e.target;
-  if (t.closest("#helpFab")){ helpMenu(); return; }
-  const hp=t.closest("[data-help]"); if (hp){ const k=hp.dataset.help;
-    if (k==="perdi") taxiCard(cityNow()); else ovl({mal:"Estou passando mal",trem:"Perdi o trem",pet:"Perdi o Ignacio"}[k], HELP[k](), "light"); return; }
-  const tx=t.closest("[data-taxi]"); if (tx){ taxiCard(tx.dataset.taxi); return; }
   const st=t.closest("[data-steps]"); if (st){ openSteps(st.dataset.steps); return; }
   const sn=t.closest("[data-stepnext]"); if (sn){ const d=sn.dataset.stepnext; store.set(stepsKey(d), store.get(stepsKey(d),0)+1); burst(sn); openSteps(d); if(!$("#v-hoje").hidden) renderHoje(); return; }
   const sb=t.closest("[data-stepback]"); if (sb){ const d=sb.dataset.stepback; store.set(stepsKey(d), Math.max(0,store.get(stepsKey(d),0)-1)); openSteps(d); return; }
