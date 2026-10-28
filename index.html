@@ -430,7 +430,7 @@ body.chat-open #chatFab{display:none}
   <div class="gameHead"><img class="igimg" src="" alt=""><b>Siga a Mamãe</b><button id="mazeClose" aria-label="Fechar">×</button></div>
   <div class="diffsel"><button data-diff="facil">Fácil</button><button data-diff="medio">Médio</button><button data-diff="dificil">Difícil</button></div>
   <canvas id="mazeCanvas" aria-label="Labirinto: leve o Ignacio até a mamãe"></canvas>
-  <div class="dpad"><button data-dir="up" aria-label="Cima">▲</button><button data-dir="left" aria-label="Esquerda">◀</button><button data-dir="down" aria-label="Baixo">▼</button><button data-dir="right" aria-label="Direita">▶</button></div>
+  
 </div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
@@ -871,7 +871,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "T2G6JwaMjbOYVVAmzdQTNg==", "iv": "1ayXhhh0wH/ccXov", "ct": "g4Ov+9XHGB2HMbdLvwG3PAEq"};
+const ENC = {"salt": "Xt0EWDW7OZxcVnZK6nMYLA==", "iv": "X6hBWAIko4NBPgMk", "ct": "4ESjKV0vuh727mCUoUqym+Xk"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1755,7 +1755,7 @@ function mzIntro(){
   mzDraw(); const {ctx,W,H}=MZ; ctx.fillStyle="rgba(30,6,14,.6)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
   ctx.fillStyle="#f0c46a"; ctx.font="700 30px Cormorant Garamond, Georgia, serif"; ctx.fillText("Siga a Mamãe",W/2,H*0.25); ctx.fillStyle="#fff"; ctx.font="700 16px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Nível: "+MZ_LV[mzDiff].name,W/2,H*0.31);
   ctx.fillStyle="#fff"; ctx.font="600 15px Atkinson Hyperlegible, sans-serif";
-  ["Leve o Ignacio até a Mariana 👩","Fuja do banho 🛁 e da roupinha 🧥","Pegue os petiscos pelo caminho","Use as setas ou deslize o dedo"].forEach((l,i)=>ctx.fillText(l,W/2,H*0.38+i*24));
+  ["Leve o Ignacio até a Mariana 👩","Fuja do banho 🛁 e da roupinha 🧥","Pegue os petiscos pelo caminho","Toque no lado da tela para onde quer ir"].forEach((l,i)=>ctx.fillText(l,W/2,H*0.38+i*24));
   ctx.fillStyle="#f0c46a"; ctx.font="700 18px Atkinson Hyperlegible, sans-serif"; ctx.fillText(MZ.lives>0?"Toque para começar":"Toque para jogar de novo",W/2,H*0.66);
   if (MZ.best){ ctx.fillStyle="#fff"; ctx.font="14px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Recorde: "+MZ.best,W/2,H*0.72); }
 }
@@ -1818,6 +1818,12 @@ function mzDraw(){
     ctx.fillStyle="#fff"; ctx.font="700 10px Atkinson Hyperlegible, sans-serif"; ctx.textAlign="center"; ctx.fillText("Mamãe",cx,cy-r-5); }
   M.foes.forEach(f=>emo(f,f.emo));
   const [IX,IY]=pos(M.ig); if (!(M.inv>0 && Math.floor(M.t/6)%2)) { if (gImg&&gImg.complete) ctx.drawImage(gImg,IX-cell*0.08,IY-cell*0.22,cell*1.16,cell*1.24); else emo(M.ig,"🐶"); }
+  // setinhas das zonas de toque
+  { const arrows={up:[W/2,oy+14,0],down:[W/2,H-12,Math.PI],left:[12,oy+(H-oy)/2,-Math.PI/2],right:[W-12,oy+(H-oy)/2,Math.PI/2]};
+    for (const [k,[x,y,a]] of Object.entries(arrows)){ const lit = M.tapHint && M.tapHint.d===k && M.tapHint.t>0;
+      ctx.save(); ctx.translate(x,y); ctx.rotate(a); ctx.fillStyle = lit ? "rgba(240,196,106,.95)" : "rgba(240,196,106,.35)";
+      ctx.beginPath(); ctx.moveTo(0,-9); ctx.lineTo(9,6); ctx.lineTo(-9,6); ctx.closePath(); ctx.fill(); ctx.restore(); }
+    if (M.tapHint && M.tapHint.t>0) M.tapHint.t--; }
   // placar
   ctx.textAlign="left"; ctx.fillStyle="#f0c46a"; ctx.font="700 16px JetBrains Mono, monospace"; ctx.fillText(String(M.score).padStart(5,"0"),8,22);
   ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 14px Atkinson Hyperlegible, sans-serif"; ctx.fillText(MZ_LV[mzDiff].name+" · Fase "+M.level,W/2,22);
@@ -1830,10 +1836,10 @@ document.addEventListener("click", e=>{
   const df=e.target.closest("[data-diff]"); if (df){ mzDiff=df.dataset.diff; store.set("guia-maze-diff",mzDiff); MZ.run=false; cancelAnimationFrame(MZ.raf); mzNewGame(); return; }
   const b=e.target.closest("[data-dir]"); if (b){ mzSteer(b.dataset.dir); }
 }, true);
-let mzTouch=null;
-document.addEventListener("pointerdown", e=>{ if (e.target.id==="mazeCanvas"){ e.preventDefault(); mzTouch=[e.clientX,e.clientY]; if(!MZ.run) mzStart(); } });
-document.addEventListener("pointerup", e=>{ if (mzTouch && e.target.id==="mazeCanvas"){ const dx=e.clientX-mzTouch[0], dy=e.clientY-mzTouch[1];
-  if (Math.max(Math.abs(dx),Math.abs(dy))>20) mzSteer(Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up")); mzTouch=null; } });
+document.addEventListener("pointerdown", e=>{ if (e.target.id!=="mazeCanvas") return; e.preventDefault();
+  if (!MZ.run){ mzStart(); return; }
+  const r=e.target.getBoundingClientRect(); const nx=(e.clientX-r.left)/r.width-0.5, ny=(e.clientY-r.top)/r.height-0.5;
+  const d = Math.abs(nx)>Math.abs(ny) ? (nx>0?"right":"left") : (ny>0?"down":"up"); mzSteer(d); MZ.tapHint={d,t:12}; });
 document.addEventListener("keydown", e=>{ if ($("#mazeSheet").hidden) return; const m={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"}[e.code]; if(m){ e.preventDefault(); mzSteer(m); } });
 
 /* ================= INÍCIO ================= */
