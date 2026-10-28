@@ -355,6 +355,15 @@ body.chat-open #chatFab{display:none}
 .gameHead b{font-family:var(--f-display);font-size:22px}
 #gameClose{margin-left:auto;font:inherit;font-size:30px;background:none;border:0;color:#f0c46a;cursor:pointer;line-height:1}
 #gameCanvas{flex:1;width:100%;border-radius:16px;touch-action:none;display:block;border:2px solid #f0c46a}
+
+#mazeSheet{position:fixed;inset:0;z-index:70;background:#14050b;display:flex;justify-content:center}
+#mazeSheet[hidden]{display:none!important}
+#mazeCanvas{flex:1;width:100%;border-radius:16px;touch-action:none;display:block;border:2px solid #f0c46a;min-height:0}
+.dpad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,52px);gap:6px;justify-content:center;padding-top:10px}
+.dpad button{font:inherit;font-size:22px;border:0;border-radius:14px;background:#f0c46a;color:#2a0912;cursor:pointer;touch-action:manipulation;box-shadow:0 3px 0 #9a6a10}
+.dpad button:active{transform:translateY(2px);box-shadow:0 1px 0 #9a6a10}
+.dpad [data-dir=up]{grid-column:2;grid-row:1} .dpad [data-dir=left]{grid-column:1;grid-row:2} .dpad [data-dir=down]{grid-column:2;grid-row:2} .dpad [data-dir=right]{grid-column:3;grid-row:2}
+#mazeClose{margin-left:auto;font:inherit;font-size:30px;background:none;border:0;color:#f0c46a;cursor:pointer;line-height:1}
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -413,6 +422,11 @@ body.chat-open #chatFab{display:none}
 <div id="gameSheet" hidden><div class="gameBox">
   <div class="gameHead"><img class="igimg" src="" alt=""><b>Ignacio no Mercado de Natal</b><button id="gameClose" aria-label="Fechar">×</button></div>
   <canvas id="gameCanvas" aria-label="Jogo: toque para o Ignacio pular"></canvas>
+</div></div>
+<div id="mazeSheet" hidden><div class="gameBox">
+  <div class="gameHead"><img class="igimg" src="" alt=""><b>Siga a Mamãe</b><button id="mazeClose" aria-label="Fechar">×</button></div>
+  <canvas id="mazeCanvas" aria-label="Labirinto: leve o Ignacio até a mamãe"></canvas>
+  <div class="dpad"><button data-dir="up" aria-label="Cima">▲</button><button data-dir="left" aria-label="Esquerda">◀</button><button data-dir="down" aria-label="Baixo">▼</button><button data-dir="right" aria-label="Direita">▶</button></div>
 </div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
@@ -720,12 +734,12 @@ const MALA_ADULTO = [
     ["casaco","Casaco quente e impermeável, com capuz","Viaje vestindo: não pesa na mala.",1.5,"v"],
     ["botas","Botas impermeáveis com sola antiderrapante","Viaje calçando. Amaciar antes da viagem.",1.4,"v"],
     ["gorro","Gorro, cachecol e luvas que funcionam na tela do celular","",0.4,"v"],
-    ["termica","2 conjuntos de segunda pele (blusa e calça térmicas)","Leve e esquenta muito.",0.6,"d"],
+    ["termica","3 conjuntos de segunda pele (blusa e calça térmicas)","Leve e esquenta muito. Dá para usar dois dias seguidos.",0.9,"d"],
     ["sueter","3 suéteres ou blusas de fleece","Use camadas: dentro de lojas e museus faz calor.",1.5,"d"],
-    ["calca","2 calças na mala (a terceira no corpo), uma forrada","",1.2,"d"],
-    ["camisetas","5 camisetas de manga longa","",1.0,"d"],
-    ["intimas","Roupa íntima para 7 dias","Lavar uma vez no meio da viagem, em Dresden.",0.6,"d"],
-    ["meias","7 pares de meias grossas","",0.7,"d"],
+    ["calca","2 calças na mala (a terceira no corpo), uma forrada","Calças e suéteres podem repetir vários dias.",1.2,"d"],
+    ["camisetas","8 camisetas de manga longa","Por baixo do suéter quase não aparecem: dá para repetir algumas.",1.6,"d"],
+    ["intimas","Roupa íntima para 14 dias","Sem lavar roupa na viagem: são 13 noites mais o dia da volta.",1.2,"d"],
+    ["meias","14 pares de meias (10 grossas e 4 finas)","Meia não dá para repetir; as finas servem para dentro do hotel e dos voos.",1.3,"d"],
     ["tenis","Um calçado confortável extra","Para revezar se a bota molhar.",0.9,"d"]]],
   ["Ocasiões especiais",[
     ["ceia","Roupa para a ceia de Natal (24/12)","",0.8,"d"],
@@ -853,7 +867,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "QfCa14ItuP78rWdhCbMvkw==", "iv": "kYLxAnb7gCxEWXZ3", "ct": "tEYEJdgci+FP46h6xiukReQ5"};
+const ENC = {"salt": "6oRLaZC+pL4oAI3OhLzXxg==", "iv": "hzj+z+ySpjUimb/Y", "ct": "sVafXYs2dsDHUORrgq3F4w0K"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1438,12 +1452,13 @@ const TILES = [
   ["kit","k-frases",IC.book,"Frases","Alemão de bolso"],
   ["kit","k-cont",IC.map,"Emergência","Contatos e seguro"],
   ["kit","k-clima",IC.moon,"Clima","Frio e neve"],
-  ["game",null,IC.star,"Jogo do Ignacio","Para o voo e o trem"],
+  ["game",null,IC.star,"Jogo do Ignacio","Corrida no mercado de Natal"],
+  ["maze",null,IC.map,"Siga a Mamãe","Labirinto: fuja do banho!"],
   ["chat",null,IC.paw,"Pergunte ao Ignacio","Tire dúvidas da viagem"]
 ];
 function tilesHtml(){
-  return `<div class="tiles">${TILES.map(([t,sub,ic,lab,desc],i)=>`<button class="tile${t==="chat"||t==="game"?" tile-chat":""}" data-go="${t}" data-sub="${sub||""}" style="--tc:${["var(--MUC)","var(--DRS)","var(--BER)","var(--NUR)","var(--PRG)"][i%5]}">
-    <span class="tic">${t==="chat"?`<img src="${IG_IMG}" alt="">`:ic}</span><b>${lab}</b><small>${desc}</small></button>`).join("")}</div>`;
+  return `<div class="tiles">${TILES.map(([t,sub,ic,lab,desc],i)=>`<button class="tile${t==="chat"||t==="game"||t==="maze"?" tile-chat":""}" data-go="${t}" data-sub="${sub||""}" style="--tc:${["var(--MUC)","var(--DRS)","var(--BER)","var(--NUR)","var(--PRG)"][i%5]}">
+    <span class="tic">${t==="chat"||t==="game"||t==="maze"?`<img src="${IG_IMG}" alt="">`:ic}</span><b>${lab}</b><small>${desc}</small></button>`).join("")}</div>`;
 }
 function go(tab, sub){
   if (tab==="chat"){ openChat(); return; }
@@ -1691,6 +1706,118 @@ function gameDraw(){
 document.addEventListener("pointerdown", e=>{ if (e.target.id==="gameCanvas"){ e.preventDefault(); gameTap(); } });
 document.addEventListener("keydown", e=>{ if (!$("#gameSheet").hidden && (e.code==="Space"||e.code==="ArrowUp")){ e.preventDefault(); gameTap(); } });
 document.addEventListener("click", e=>{ if (e.target.closest("#gameClose")) closeGame(); if (e.target.closest("[data-go='game']")) { e.stopImmediatePropagation(); openGame(); } }, true);
+
+
+/* ================= JOGO: SIGA A MAMÃE ================= */
+const MZ = {run:false, raf:0};
+const DIRS = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+function openMaze(){ if(!gImg){ gImg=new Image(); gImg.src=IG_IMG; } $("#mazeSheet").hidden=false; document.body.classList.add("chat-open"); mzNewGame(); }
+function closeMaze(){ $("#mazeSheet").hidden=true; document.body.classList.remove("chat-open"); MZ.run=false; cancelAnimationFrame(MZ.raf); }
+function mzGen(C,R){
+  const g=Array.from({length:R},()=>Array(C).fill(1));
+  const st=[[1,1]]; g[1][1]=0;
+  while(st.length){ const [x,y]=st[st.length-1];
+    const n=[[2,0],[-2,0],[0,2],[0,-2]].map(([dx,dy])=>[x+dx,y+dy,x+dx/2,y+dy/2]).filter(([nx,ny])=>nx>0&&ny>0&&nx<C-1&&ny<R-1&&g[ny][nx]===1);
+    if(!n.length){ st.pop(); continue; }
+    const [nx,ny,wx,wy]=n[Math.floor(Math.random()*n.length)]; g[wy][wx]=0; g[ny][nx]=0; st.push([nx,ny]); }
+  // abrir paredes extras para ter caminhos alternativos
+  for(let i=0;i<Math.floor(C*R/9);i++){ const x=1+Math.floor(Math.random()*(C-2)), y=1+Math.floor(Math.random()*(R-2));
+    if (g[y][x]===1 && ((g[y][x-1]===0&&g[y][x+1]===0)||(g[y-1][x]===0&&g[y+1][x]===0))) g[y][x]=0; }
+  return g;
+}
+function mzNewGame(){ Object.assign(MZ,{level:1,score:0,lives:3,best:store.get("guia-maze-best",0)}); mzLevel(); mzIntro(); }
+function mzLevel(){
+  const cv=$("#mazeCanvas"); const d=devicePixelRatio||1; const W=cv.clientWidth, H=cv.clientHeight; cv.width=W*d; cv.height=H*d;
+  const ctx=cv.getContext("2d"); ctx.setTransform(d,0,0,d,0,0);
+  const C=11, R=Math.max(13, Math.min(19, 2*Math.floor((H/(W/C))/2)+1));
+  const cell=Math.min(W/C,(H-34)/R); const ox=(W-cell*C)/2, oy=34+((H-34)-cell*R)/2;
+  const g=mzGen(C,R); const open=[]; for(let y=0;y<R;y++) for(let x=0;x<C;x++) if(!g[y][x]) open.push([x,y]);
+  const far=(a)=>open.reduce((b,c)=>Math.abs(c[0]-a[0])+Math.abs(c[1]-a[1])>Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1])?c:b);
+  const ig={x:1,y:R-2}; const m=far([ig.x,ig.y]);
+  const dots=new Set(open.filter(([x,y])=>Math.random()<0.45).map(([x,y])=>x+","+y));
+  const sp=Math.max(7, 11-MZ.level);
+  Object.assign(MZ,{cv,ctx,W,H,C,R,cell,ox,oy,g,dots,t:0,inv:90,msg:"",msgT:0,
+    ig:{x:ig.x,y:ig.y,px:ig.x,py:ig.y,dir:null,want:null,p:1,step:7},
+    mom:{x:m[0],y:m[1],px:m[0],py:m[1],dir:null,p:1,step:16},
+    foes:[{k:"banho",emo:"🛁",x:C-2,y:1,px:C-2,py:1,p:1,step:sp+4,home:[C-2,1]},{k:"roupa",emo:"🧥",x:1,y:1,px:1,py:1,p:1,step:sp+6,home:[1,1]}]});
+}
+function mzIntro(){
+  mzDraw(); const {ctx,W,H}=MZ; ctx.fillStyle="rgba(30,6,14,.6)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
+  ctx.fillStyle="#f0c46a"; ctx.font="700 30px Cormorant Garamond, Georgia, serif"; ctx.fillText("Siga a Mamãe",W/2,H*0.28);
+  ctx.fillStyle="#fff"; ctx.font="600 15px Atkinson Hyperlegible, sans-serif";
+  ["Leve o Ignacio até a Mariana 👩","Fuja do banho 🛁 e da roupinha 🧥","Pegue os petiscos pelo caminho","Use as setas ou deslize o dedo"].forEach((l,i)=>ctx.fillText(l,W/2,H*0.38+i*24));
+  ctx.fillStyle="#f0c46a"; ctx.font="700 18px Atkinson Hyperlegible, sans-serif"; ctx.fillText(MZ.lives>0?"Toque para começar":"Toque para jogar de novo",W/2,H*0.66);
+  if (MZ.best){ ctx.fillStyle="#fff"; ctx.font="14px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Recorde: "+MZ.best,W/2,H*0.72); }
+}
+function mzStart(){ if (MZ.run) return; if (MZ.lives<=0){ mzNewGame(); } MZ.run=true; MZ.raf=requestAnimationFrame(mzLoop); }
+function mzSteer(dir){ if (!MZ.run) mzStart(); MZ.ig.want=dir; }
+const free=(x,y)=>MZ.g[y]&&MZ.g[y][x]===0;
+function bfsNext(from,to){
+  const key=(x,y)=>x+","+y, q=[[from.x,from.y]], prev={[key(from.x,from.y)]:null};
+  while(q.length){ const [x,y]=q.shift(); if(x===to.x&&y===to.y) break;
+    for(const [dx,dy] of Object.values(DIRS)){ const nx=x+dx, ny=y+dy, k=key(nx,ny); if(free(nx,ny)&&!(k in prev)){ prev[k]=[x,y]; q.push([nx,ny]); } } }
+  let cur=[to.x,to.y], k=key(...cur); if(!(k in prev)) return null;
+  while(prev[k] && !(prev[k][0]===from.x&&prev[k][1]===from.y)){ cur=prev[k]; k=key(...cur); }
+  return cur;
+}
+function moveEnt(e, nx, ny){ e.px=e.x; e.py=e.y; e.x=nx; e.y=ny; e.p=0; }
+function mzLoop(){
+  const M=MZ; if(!M.run) return; M.t++; if(M.inv>0) M.inv--; if(M.msgT>0) M.msgT--;
+  // Ignacio
+  const I=M.ig; I.p=Math.min(1,I.p+1/I.step);
+  if (I.p>=1){ let d=I.want&&free(I.x+DIRS[I.want][0],I.y+DIRS[I.want][1])?I.want:I.dir;
+    if (d && free(I.x+DIRS[d][0],I.y+DIRS[d][1])){ I.dir=d; moveEnt(I,I.x+DIRS[d][0],I.y+DIRS[d][1]); }
+    const k=I.x+","+I.y; if(M.dots.has(k)){ M.dots.delete(k); M.score+=5; } }
+  // Mariana passeia pelo labirinto
+  const Mo=M.mom; Mo.p=Math.min(1,Mo.p+1/Mo.step);
+  if (Mo.p>=1){ const opts=Object.entries(DIRS).filter(([n,[dx,dy]])=>free(Mo.x+dx,Mo.y+dy));
+    const back={up:"down",down:"up",left:"right",right:"left"}[Mo.dir]; const fw=opts.filter(([n])=>n!==back);
+    const pick=(fw.length?fw:opts)[Math.floor(Math.random()*(fw.length?fw:opts).length)]; if(pick){ Mo.dir=pick[0]; moveEnt(Mo,Mo.x+pick[1][0],Mo.y+pick[1][1]); } }
+  // perseguidores
+  for (const f of M.foes){ f.p=Math.min(1,f.p+1/f.step);
+    if (f.p>=1){ let target=I; if (f.k==="roupa" && (M.t%400)<120) target={x:M.mom.x,y:M.mom.y};
+      const n=bfsNext(f,target); if(n) moveEnt(f,n[0],n[1]); } }
+  // colisões
+  const near=(a,b)=>{ const ax=a.px+(a.x-a.px)*a.p, ay=a.py+(a.y-a.py)*a.p, bx=b.px+(b.x-b.px)*b.p, by=b.py+(b.y-b.py)*b.p; return Math.hypot(ax-bx,ay-by)<0.6; };
+  if (near(I,Mo)){ M.score+=100+M.level*20; M.level++; M.msg="Achou a mamãe! Fase "+M.level; M.msgT=90; const s=M.score,l=M.lives,lv=M.level; mzLevel(); Object.assign(M,{score:s,lives:l,level:lv,msg:"Achou a mamãe! Fase "+lv,msgT:90}); }
+  else if (M.inv<=0) for (const f of M.foes){ if (near(I,f)){ M.lives--; M.msg=f.k==="banho"?"Banho não!":"Roupinha não!"; M.msgT=80; M.inv=100;
+      Object.assign(I,{x:1,y:M.R-2,px:1,py:M.R-2,p:1,dir:null,want:null}); M.foes.forEach(o=>Object.assign(o,{x:o.home[0],y:o.home[1],px:o.home[0],py:o.home[1],p:1})); break; } }
+  mzDraw();
+  if (M.lives<=0){ M.run=false; if(M.score>M.best){ M.best=M.score; store.set("guia-maze-best",M.score); }
+    const {ctx,W,H}=M; ctx.fillStyle="rgba(30,6,14,.65)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
+    ctx.fillStyle="#f0c46a"; ctx.font="700 28px Cormorant Garamond, Georgia, serif"; ctx.fillText("Pegaram o Ignacio!",W/2,H*0.36);
+    ctx.fillStyle="#fff"; ctx.font="700 20px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Pontos: "+M.score+" · Fase "+M.level,W/2,H*0.46);
+    ctx.font="15px Atkinson Hyperlegible, sans-serif"; ctx.fillText(M.score>=M.best?"Novo recorde!":"Recorde: "+M.best,W/2,H*0.52);
+    ctx.fillStyle="#f0c46a"; ctx.font="700 17px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Toque para jogar de novo",W/2,H*0.62); return; }
+  M.raf=requestAnimationFrame(mzLoop);
+}
+function mzDraw(){
+  const M=MZ, {ctx,W,H,C,R,cell,ox,oy,g}=M; ctx.fillStyle="#1d0710"; ctx.fillRect(0,0,W,H);
+  for(let y=0;y<R;y++) for(let x=0;x<C;x++){ const X=ox+x*cell, Y=oy+y*cell;
+    if (g[y][x]){ ctx.fillStyle="#7a1530"; ctx.beginPath(); ctx.roundRect?ctx.roundRect(X+1,Y+1,cell-2,cell-2,6):ctx.rect(X+1,Y+1,cell-2,cell-2); ctx.fill();
+      ctx.strokeStyle="rgba(240,196,106,.45)"; ctx.lineWidth=1.2; ctx.stroke(); }
+    else { ctx.fillStyle="#fff6ea"; ctx.fillRect(X,Y,cell,cell); if (M.dots.has(x+","+y)){ ctx.fillStyle="#b5562a"; ctx.beginPath(); ctx.arc(X+cell/2,Y+cell/2,cell*0.12,0,7); ctx.fill(); } } }
+  const pos=e=>[ox+(e.px+(e.x-e.px)*e.p)*cell, oy+(e.py+(e.y-e.py)*e.p)*cell];
+  const emo=(e,ch)=>{ const [X,Y]=pos(e); ctx.font=Math.floor(cell*0.82)+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,X+cell/2,Y+cell/2+1); ctx.textBaseline="alphabetic"; };
+  emo(M.mom,"👩"); { const [X,Y]=pos(M.mom); ctx.fillStyle="#7a1530"; ctx.font="700 10px Atkinson Hyperlegible, sans-serif"; ctx.textAlign="center"; ctx.fillText("Mamãe",X+cell/2,Y-1); }
+  M.foes.forEach(f=>emo(f,f.emo));
+  const [IX,IY]=pos(M.ig); if (!(M.inv>0 && Math.floor(M.t/6)%2)) { if (gImg&&gImg.complete) ctx.drawImage(gImg,IX-cell*0.08,IY-cell*0.22,cell*1.16,cell*1.24); else emo(M.ig,"🐶"); }
+  // placar
+  ctx.textAlign="left"; ctx.fillStyle="#f0c46a"; ctx.font="700 16px JetBrains Mono, monospace"; ctx.fillText(String(M.score).padStart(5,"0"),8,22);
+  ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 14px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Fase "+M.level,W/2,22);
+  ctx.textAlign="right"; ctx.font="16px serif"; ctx.fillText("🐾".repeat(Math.max(0,M.lives)),W-8,22);
+  if (M.msgT>0){ ctx.textAlign="center"; ctx.fillStyle="rgba(30,6,14,.75)"; ctx.fillRect(0,H/2-26,W,48); ctx.fillStyle="#f0c46a"; ctx.font="700 24px Cormorant Garamond, Georgia, serif"; ctx.fillText(M.msg,W/2,H/2+6); }
+}
+document.addEventListener("click", e=>{
+  if (e.target.closest("[data-go='maze']")){ e.stopImmediatePropagation(); openMaze(); return; }
+  if (e.target.closest("#mazeClose")) { closeMaze(); return; }
+  const b=e.target.closest("[data-dir]"); if (b){ mzSteer(b.dataset.dir); }
+}, true);
+let mzTouch=null;
+document.addEventListener("pointerdown", e=>{ if (e.target.id==="mazeCanvas"){ e.preventDefault(); mzTouch=[e.clientX,e.clientY]; if(!MZ.run) mzStart(); } });
+document.addEventListener("pointerup", e=>{ if (mzTouch && e.target.id==="mazeCanvas"){ const dx=e.clientX-mzTouch[0], dy=e.clientY-mzTouch[1];
+  if (Math.max(Math.abs(dx),Math.abs(dy))>20) mzSteer(Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up")); mzTouch=null; } });
+document.addEventListener("keydown", e=>{ if ($("#mazeSheet").hidden) return; const m={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"}[e.code]; if(m){ e.preventDefault(); mzSteer(m); } });
 
 /* ================= INÍCIO ================= */
 document.querySelectorAll(".igimg").forEach(i=>i.src=IG_IMG);
