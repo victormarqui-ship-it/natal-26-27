@@ -346,6 +346,15 @@ body.chat-open #chatFab{display:none}
 #chatFab{padding:3px;gap:0}
 #chatFab span{display:none}
 #chatFab img{width:54px}
+
+#gameSheet{position:fixed;inset:0;z-index:70;background:#14050b;display:flex;justify-content:center}
+#gameSheet[hidden]{display:none!important}
+.gameBox{width:100%;max-width:700px;display:flex;flex-direction:column;padding:calc(8px + env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.gameHead{display:flex;align-items:center;gap:8px;color:#f0c46a;padding:4px 4px 8px}
+.gameHead img{width:36px;height:auto}
+.gameHead b{font-family:var(--f-display);font-size:22px}
+#gameClose{margin-left:auto;font:inherit;font-size:30px;background:none;border:0;color:#f0c46a;cursor:pointer;line-height:1}
+#gameCanvas{flex:1;width:100%;border-radius:16px;touch-action:none;display:block;border:2px solid #f0c46a}
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -400,6 +409,10 @@ body.chat-open #chatFab{display:none}
   <div id="chatLog"></div>
   <div class="sugs"><button data-ask="Que horas sai o trem para Dresden?">Trem para Dresden</button><button data-ask="O que fazemos no dia 24?">Dia 24</button><button data-ask="Vai nevar em Munique?">Vai nevar?</button><button data-ask="Como chego do aeroporto ao hotel em Munique?">Aeroporto → hotel</button><button data-ask="O que a Ana Maria precisa levar na mala?">Mala da Ana Maria</button><button data-ask="Onde o Ignacio pode entrar?">Sobre o Ignacio</button></div>
   <form id="chatForm" class="chatForm"><input type="text" id="chatIn" placeholder="Escreva sua pergunta…" autocomplete="off"><button class="btn primary" id="chatSend" type="submit">Enviar</button></form>
+</div></div>
+<div id="gameSheet" hidden><div class="gameBox">
+  <div class="gameHead"><img class="igimg" src="" alt=""><b>Ignacio no Mercado de Natal</b><button id="gameClose" aria-label="Fechar">×</button></div>
+  <canvas id="gameCanvas" aria-label="Jogo: toque para o Ignacio pular"></canvas>
 </div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
@@ -840,7 +853,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "OGwocetK35Y+XyMAxofkOw==", "iv": "wDjL4gVs3a9PZwu8", "ct": "qrdSpe6kTOKS/fTHbpABqQwh"};
+const ENC = {"salt": "QfCa14ItuP78rWdhCbMvkw==", "iv": "kYLxAnb7gCxEWXZ3", "ct": "tEYEJdgci+FP46h6xiukReQ5"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1425,14 +1438,16 @@ const TILES = [
   ["kit","k-frases",IC.book,"Frases","Alemão de bolso"],
   ["kit","k-cont",IC.map,"Emergência","Contatos e seguro"],
   ["kit","k-clima",IC.moon,"Clima","Frio e neve"],
+  ["game",null,IC.star,"Jogo do Ignacio","Para o voo e o trem"],
   ["chat",null,IC.paw,"Pergunte ao Ignacio","Tire dúvidas da viagem"]
 ];
 function tilesHtml(){
-  return `<div class="tiles">${TILES.map(([t,sub,ic,lab,desc],i)=>`<button class="tile${t==="chat"?" tile-chat":""}" data-go="${t}" data-sub="${sub||""}" style="--tc:${["var(--MUC)","var(--DRS)","var(--BER)","var(--NUR)","var(--PRG)"][i%5]}">
+  return `<div class="tiles">${TILES.map(([t,sub,ic,lab,desc],i)=>`<button class="tile${t==="chat"||t==="game"?" tile-chat":""}" data-go="${t}" data-sub="${sub||""}" style="--tc:${["var(--MUC)","var(--DRS)","var(--BER)","var(--NUR)","var(--PRG)"][i%5]}">
     <span class="tic">${t==="chat"?`<img src="${IG_IMG}" alt="">`:ic}</span><b>${lab}</b><small>${desc}</small></button>`).join("")}</div>`;
 }
 function go(tab, sub){
   if (tab==="chat"){ openChat(); return; }
+  if (tab==="game"){ openGame(); return; }
   if (tab==="reservas" && sub) resTab=sub;
   if (tab==="guia" && sub) guiaTab=sub;
   if (tab==="familia" && sub) famTab=sub;
@@ -1579,6 +1594,103 @@ document.addEventListener("click", e=>{
 });
 document.addEventListener("submit", e=>{ if (e.target.id==="chatForm"){ e.preventDefault(); e.stopImmediatePropagation(); const i=$("#chatIn"); const v=i.value; i.value=""; askIgnacio(v); } }, true);
 (async()=>{ try{ if (window.claude && window.claude.use) SAMPLE = await window.claude.use("sample"); }catch(e){ SAMPLE=null; } })();
+
+
+/* ================= JOGO: IGNACIO NO MERCADO DE NATAL ================= */
+const GAME = {run:false, raf:0};
+function openGame(){ $("#gameSheet").hidden=false; document.body.classList.add("chat-open"); gameReset(); gameDrawIntro(); }
+function closeGame(){ $("#gameSheet").hidden=true; document.body.classList.remove("chat-open"); GAME.run=false; cancelAnimationFrame(GAME.raf); }
+const G_CITIES = [["Munique","#c8283c",0],["Dresden","#2d5fae",400],["Praga","#7b3fa6",900],["Berlim","#1d7a59",1500]];
+let gImg = null;
+function gameReset(){
+  const cv=$("#gameCanvas"); const d=devicePixelRatio||1; const W=cv.clientWidth, H=cv.clientHeight;
+  cv.width=W*d; cv.height=H*d; const ctx=cv.getContext("2d"); ctx.setTransform(d,0,0,d,0,0);
+  if (!gImg){ gImg=new Image(); gImg.src=IG_IMG; }
+  Object.assign(GAME,{cv,ctx,W,H,ground:H-60,y:0,vy:0,jumps:0,t:0,speed:5,score:0,items:[],flakes:Array.from({length:40},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+0.6})),over:false,msg:"",best:store.get("guia-game-best",0),next:60});
+}
+function gameDrawIntro(){
+  gameDraw();
+  const {ctx,W,H}=GAME; ctx.fillStyle="rgba(30,6,14,.55)"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#f0c46a"; ctx.textAlign="center"; ctx.font="700 26px Cormorant Garamond, Georgia, serif";
+  ctx.fillText("Ignacio no Mercado de Natal",W/2,H*0.30);
+  ctx.fillStyle="#fff"; ctx.font="600 15px Atkinson Hyperlegible, sans-serif";
+  ["Toque para pular (dois toques = pulo duplo)","Pegue salsichas e biscoitos","Desvie dos obstáculos e do chocolate!"].forEach((l,i)=>ctx.fillText(l,W/2,H*0.40+i*24));
+  ctx.fillStyle="#f0c46a"; ctx.font="700 18px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Toque para começar",W/2,H*0.62);
+  if (GAME.best) { ctx.fillStyle="#fff"; ctx.font="14px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Recorde: "+GAME.best,W/2,H*0.68); }
+}
+function gameTap(){
+  if (!GAME.run){ if (GAME.over) gameReset(); GAME.run=true; GAME.raf=requestAnimationFrame(gameLoop); }
+  if (GAME.jumps<2){ GAME.vy = GAME.jumps ? -10.5 : -12.5; GAME.jumps++; }
+}
+function spawn(){
+  const r=Math.random(), g=GAME.ground;
+  if (r<0.45) GAME.items.push({k:["gift","tree","snow"][Math.floor(Math.random()*3)], x:GAME.W+20, y:g, w:30, h:34+Math.random()*12, bad:true});
+  else if (r<0.80) GAME.items.push({k:Math.random()<0.6?"saus":"cookie", x:GAME.W+20, y:g-40-Math.random()*90, w:26, h:18, good:true});
+  else GAME.items.push({k:"choc", x:GAME.W+20, y:g-30-Math.random()*90, w:26, h:18, choc:true});
+  GAME.next = Math.max(28, 75 - GAME.speed*4) + Math.random()*40;
+}
+function gameLoop(){
+  const G=GAME; if (!G.run) return;
+  G.t++; G.speed = 5 + Math.min(7, G.score/250); G.score += 0.15*G.speed/5;
+  G.vy += 0.6; G.y = Math.min(0, G.y + G.vy); if (G.y===0){ G.vy=0; G.jumps=0; }
+  if (--G.next<=0) spawn();
+  const px=60, py=G.ground+G.y, pr=28;
+  for (const it of G.items){ it.x -= G.speed;
+    const hit = px+pr-8 > it.x && px-pr+8 < it.x+it.w && py > it.y-it.h+6 && py-pr*2 < it.y;
+    if (hit && !it.done){
+      if (it.bad){ G.over=true; G.msg="Ops! O Ignacio tropeçou."; }
+      else if (it.choc){ G.over=true; G.msg="Chocolate faz mal para cachorro!"; }
+      else { it.done=true; G.score += it.k==="saus"?25:15; }
+    }
+  }
+  G.items = G.items.filter(i=>i.x>-60 && !i.done);
+  gameDraw();
+  if (G.over){ G.run=false; const sc=Math.floor(G.score); if (sc>G.best){ G.best=sc; store.set("guia-game-best",sc); }
+    const {ctx,W,H}=G; ctx.fillStyle="rgba(30,6,14,.6)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
+    ctx.fillStyle="#f0c46a"; ctx.font="700 28px Cormorant Garamond, Georgia, serif"; ctx.fillText(G.msg,W/2,H*0.36);
+    ctx.fillStyle="#fff"; ctx.font="700 20px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Pontos: "+sc,W/2,H*0.46);
+    ctx.font="15px Atkinson Hyperlegible, sans-serif"; ctx.fillText(sc>=G.best?"Novo recorde!":"Recorde: "+G.best,W/2,H*0.52);
+    ctx.fillStyle="#f0c46a"; ctx.font="700 17px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Toque para jogar de novo",W/2,H*0.62);
+    return; }
+  G.raf=requestAnimationFrame(gameLoop);
+}
+function gameDraw(){
+  const G=GAME, {ctx,W,H}=G; const city=[...G_CITIES].reverse().find(c=>G.score>=c[2]);
+  const sky=ctx.createLinearGradient(0,0,0,H); sky.addColorStop(0,"#14050b"); sky.addColorStop(1,"#4a1324"); ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
+  // prédios ao fundo, rolando devagar
+  const off=(G.t*G.speed*0.25)%80;
+  for(let x=-off; x<W+80; x+=80){ const h=60+((Math.floor((x+G.t)/80)*37)%50); ctx.fillStyle=city[1]; ctx.globalAlpha=.55; ctx.fillRect(x,G.ground-h,60,h);
+    ctx.beginPath(); ctx.moveTo(x-4,G.ground-h); ctx.lineTo(x+30,G.ground-h-22); ctx.lineTo(x+64,G.ground-h); ctx.fill(); ctx.globalAlpha=1;
+    ctx.fillStyle="#f0c46a"; ctx.fillRect(x+12,G.ground-h+14,8,10); ctx.fillRect(x+38,G.ground-h+14,8,10); }
+  // luzinhas
+  for(let x=10; x<W; x+=22){ ctx.fillStyle=["#f0c46a","#ff5470","#7fd6ff"][(x/22|0)%3]; ctx.globalAlpha=(Math.sin(G.t/8+x)+1.4)/2.4; ctx.beginPath(); ctx.arc(x,28+Math.sin(x/30)*6,3,0,7); ctx.fill(); }
+  ctx.globalAlpha=1;
+  // chão de neve
+  ctx.fillStyle="#fff6ea"; ctx.fillRect(0,G.ground,W,H-G.ground);
+  // neve caindo
+  ctx.fillStyle="#fff"; for(const f of G.flakes){ f.y+=0.6+f.r*0.3; f.x-=G.speed*0.15; if(f.y>H) f.y=-4; if(f.x<0) f.x=W; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,7); ctx.fill(); }
+  // itens
+  for(const it of G.items){ const x=it.x, y=it.y;
+    if (it.k==="gift"){ ctx.fillStyle="#c8283c"; ctx.fillRect(x,y-it.h,it.w,it.h); ctx.fillStyle="#f0c46a"; ctx.fillRect(x+it.w/2-3,y-it.h,6,it.h); ctx.fillRect(x,y-it.h*0.6,it.w,5); }
+    if (it.k==="tree"){ ctx.fillStyle="#1f6b45"; ctx.beginPath(); ctx.moveTo(x+it.w/2,y-it.h); ctx.lineTo(x-4,y-6); ctx.lineTo(x+it.w+4,y-6); ctx.fill(); ctx.fillStyle="#5a2a14"; ctx.fillRect(x+it.w/2-3,y-6,6,6); }
+    if (it.k==="snow"){ ctx.fillStyle="#fff"; ctx.strokeStyle="#c9b4a4"; ctx.beginPath(); ctx.arc(x+15,y-12,13,0,7); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.arc(x+15,y-32,9,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle="#e07a1f"; ctx.fillRect(x+15,y-33,7,3); }
+    if (it.k==="saus"){ ctx.fillStyle="#b5562a"; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x,y-it.h,it.w,it.h-6,6) : ctx.rect(x,y-it.h,it.w,it.h-6); ctx.fill(); ctx.fillStyle="#f0c46a"; ctx.fillRect(x+4,y-it.h+4,it.w-8,2); }
+    if (it.k==="cookie"){ ctx.fillStyle="#c98a3c"; ctx.beginPath(); ctx.arc(x+13,y-10,11,0,7); ctx.fill(); ctx.fillStyle="#fff"; ctx.fillRect(x+7,y-11,12,2); }
+    if (it.k==="choc"){ ctx.fillStyle="#3b1d12"; ctx.fillRect(x,y-it.h,it.w,it.h-2); ctx.strokeStyle="#6b3a26"; ctx.strokeRect(x+3,y-it.h+3,it.w-6,it.h-8); ctx.fillStyle="#ff5470"; ctx.font="700 11px sans-serif"; ctx.textAlign="center"; ctx.fillText("✕",x+it.w/2,y-it.h-4); }
+  }
+  // Ignacio: corpo + cabeça com gorro
+  const px=60, py=G.ground+G.y; const leg = G.y===0 ? Math.sin(G.t/3)*5 : 3;
+  ctx.fillStyle="#6b3e26"; ctx.beginPath(); ctx.ellipse(px-8,py-18,26,14,0,0,7); ctx.fill();
+  ctx.fillRect(px-26+leg,py-10,6,10); ctx.fillRect(px+6-leg,py-10,6,10);
+  ctx.save(); ctx.translate(px-34,py-24); ctx.rotate(-0.6+Math.sin(G.t/4)*0.4); ctx.fillRect(0,-2,12,4); ctx.restore();
+  if (gImg && gImg.complete) ctx.drawImage(gImg, px-4, py-74, 60, 64);
+  // placar
+  ctx.textAlign="left"; ctx.fillStyle="#f0c46a"; ctx.font="700 18px JetBrains Mono, monospace"; ctx.fillText(String(Math.floor(G.score)).padStart(5,"0"),14,56);
+  ctx.textAlign="right"; ctx.fillStyle="#fff"; ctx.font="700 14px Atkinson Hyperlegible, sans-serif"; ctx.fillText(city[0],W-14,56);
+}
+document.addEventListener("pointerdown", e=>{ if (e.target.id==="gameCanvas"){ e.preventDefault(); gameTap(); } });
+document.addEventListener("keydown", e=>{ if (!$("#gameSheet").hidden && (e.code==="Space"||e.code==="ArrowUp")){ e.preventDefault(); gameTap(); } });
+document.addEventListener("click", e=>{ if (e.target.closest("#gameClose")) closeGame(); if (e.target.closest("[data-go='game']")) { e.stopImmediatePropagation(); openGame(); } }, true);
 
 /* ================= INÍCIO ================= */
 document.querySelectorAll(".igimg").forEach(i=>i.src=IG_IMG);
