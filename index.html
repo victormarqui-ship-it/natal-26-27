@@ -335,6 +335,17 @@ body.chat-open #chatFab{display:none}
 .chatForm input{flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1px solid #ead6cf;background:#fff;color:#2a0a14}
 @media (prefers-reduced-motion:no-preference){ .sheet{animation:up .28s cubic-bezier(.2,.9,.3,1)} @keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
   #chatFab img{animation:wag 3.5s ease-in-out infinite} }
+.statusbar{flex-direction:row!important;align-items:center;gap:14px;padding:12px 16px}
+.statusbar .big{font-size:52px}
+.statusbar b{font-size:17px}
+
+/* topo mais compacto para o painel aparecer logo */
+.hero h1{font-size:36px;margin:4px 0 2px}
+.hero{padding-top:14px!important}
+.skyline{max-height:150px}
+#chatFab{padding:3px;gap:0}
+#chatFab span{display:none}
+#chatFab img{width:54px}
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -829,7 +840,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "IKzVYxZvLAePwLWwNykkfw==", "iv": "8ZEZ6z28ddwQLnkp", "ct": "D7x/kuDOTqGhdDSuy4Dkgpz9MkLIJKTuPTmjRUAydQqXKFhVBBNcJyizD9xcPmgWpt81LPunkcfA0SY8/8um1HEQfnyxBRh80Vwl5zD0mYXsvSxaNcBPc7qSEP4s/KN/OkAbiDZkyqBdb++sMbi1FwnbouAwd8m/JW8gtBWv0ohu5zUpnBmtxnDXzcKfLwCu2zXrOUUywgWrTzyFzwqamAySFo1W//AbyRqatlRlcxqCQRsN5XrqBbIEJw5wAZFP+JIbd3i/AP618eH6uLDZIZtTwDg6B7mXCyBp5yFrOn2zK1Cp6+rWY9ALyV8zn51YGbCaa9XFbixks0VuP26B28jrc3lBbVteGEe1rZW5rQaA8+p83u4UYI4L4/KeJLHxiOwk/vawnyqXTjcY9kT2hSdTleklHdveeL9jruYygxvgJ96bLehuodkBxCup4Zzh/vNwyA0p4aMOeFdEfhy9TMVmjP3eVBgvFzWxgWFoILRyokwW4nRv3xySG1zy4i2rKcKL3Z6LdgVesvhgc8HgAT3IMTP7iguIrMRH2zYkZgq2d4bHwJAaNOcXEgMZogGbNGM10rSLdYl6VoQ4AAMqtPtbJ2CKTSv1MIFYowIFPefr6Z7lZhQeVcMw0g=="};
+const ENC = {"salt": "nZrm9OThI/DqQziSLKrhdw==", "iv": "Dcq78nxn9Q8FoV93", "ct": "hnDf5KP5LUW5VJFyMxNwHKsnwUUFeDBua4kgtm/UXDlMQkIPhScK1+4CEfmxaCmF4sWfZQohvUr60AOAtGIumS5OnSYGF1W0f7DhkclcutLg6EUZYJ0le+m94VMmbcs5nIMFil7yubMEd32x7Ly5AIJQalBupC1xib8/rk7eGqDvEww0preLe9Ul6n5cXGz9rDr4Xcx4JPfVi3jcRKr2qGU/RNJnSuV6rm/gFTtuboidg4hKTtlSY47nmUG1Sp9QaXYfjxqHygdFGnF2izlSVbIHehm/YR58/EFr8cQBf7iicNo/0fQiriAaFG1zX9fy4kIfS16FsE1b/30g22SakjtOEzNuYImP3Ld20n84yenrztICZHWHJ3ceuhhsKmrI6rCwUMqX7nPmtQl5O7OP2cioJHztkE+9BRdWZp5Z17yEO4IfmjNW5nhClIKPoi11RS0Z6SBvIVwXM98FLeQa/0vlmixwBsYW8jkglzPevVTDv0Yp4zkQUxV7k/QwchyPuF798LEsiEUOkcIepjdoj4PdWaLMafsiNRyf8h4wuOGO90Tce5qKsjVgSXBOc3xmuyb/sveIXzyQGdbUaqKRb3RvDsR1ynud+N607KfxEDIC3qKiHI1NvmkVXQ=="};
 let SECRETS = {}, UNLOCKED = false;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -995,23 +1006,23 @@ function renderCountdown(){
     `<div class="count"><div><b>${c.d}</b><span>dias</span></div><div><b>${pad(c.h)}</b><span>horas</span></div><div><b>${pad(c.m)}</b><span>min</span></div><div><b>${pad(c.s)}</b><span>seg</span></div></div>`;
 }
 function renderHoje(){
-  const el=$("#v-hoje"); let main="";
+  const el=$("#v-hoje"); let top="", detail="";
   if (TODAY < FIRST){
     const n=Math.round((parse(FIRST)-parse(TODAY))/864e5);
     skyline("MUC"); $("#hTitle").textContent="Natal na Alemanha"; $("#hSub").textContent="Victor, Mariana, Ana Maria e o guia Ignacio";
-    main = `<div class="card lit" style="flex-direction:row;align-items:center;gap:16px">
-        <div class="big">${n}</div><div><b style="font-size:18px">${n===1?"dia":"dias"} para a viagem</b><div class="small muted">Embarque ${fmtLong(FIRST)}, às 11:30, em Lisboa.</div></div></div>
-      <h2>O primeiro dia</h2>${dayCard(DAYS[0],0,false)}`;
+    top = `<div class="card lit statusbar"><div class="big">${n}</div><div><b>${n===1?"dia":"dias"} para a viagem</b><div class="small muted">Embarque ${fmtLong(FIRST)}, às 11:30, em Lisboa.</div></div></div>`;
+    detail = `<h2>O primeiro dia</h2>${dayCard(DAYS[0],0,false)}`;
   } else if (TODAY > LAST){
-    skyline("BER"); main=`<div class="card lit"><h3>Bem-vindos de volta</h3><p class="small muted" style="margin:0">O roteiro, as fotos e os gastos continuam aqui como lembrança.</p></div>`;
+    skyline("BER"); top=`<div class="card lit"><h3>Bem-vindos de volta</h3><p class="small muted" style="margin:0">O roteiro, as fotos e os gastos continuam aqui como lembrança.</p></div>`;
   } else {
     const day=DAYS[todayIdx]; skyline(day.wx); $("#hTitle").textContent=CITY[day.wx]; $("#hSub").textContent="Hoje em "+CITY[day.wx]+" · "+fmtLong(day.d);
-    main = dayCard(day,todayIdx,true) + (todayIdx<DAYS.length-1?`<h2>Amanhã</h2>${dayCard(DAYS[todayIdx+1],todayIdx+1,false)}`:"");
+    top = `<button class="card lit statusbar" data-go="dias" style="text-align:left;font:inherit;cursor:pointer;width:100%"><div class="big" style="font-size:44px">${todayIdx+1}</div><div><b>Hoje: ${esc(day.title)}</b><div class="small muted">Dia ${todayIdx+1} de ${DAYS.length} · toque para ver o programa</div></div></button>`;
+    detail = `<h2>Programa de hoje</h2>${dayCard(day,todayIdx,true)}` + (todayIdx<DAYS.length-1?`<h2>Amanhã</h2>${dayCard(DAYS[todayIdx+1],todayIdx+1,false)}`:"");
   }
-  const pend = DEFAULT_TODO.length;
-  el.innerHTML = `<div class="stack" style="margin-top:14px">${main}
-    <h2>O que você quer ver?</h2>
+  el.innerHTML = `<div class="stack" style="margin-top:14px">
     ${tilesHtml()}
+    ${top}
+    ${detail}
     <h2>Contagem para 2027</h2>
     <div class="card"><canvas id="fw" aria-hidden="true"></canvas><div class="small muted">Meia-noite em Berlim, 31/12</div><div id="nyc"></div></div>
   </div>`;
