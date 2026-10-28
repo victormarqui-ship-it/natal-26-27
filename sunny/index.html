@@ -1,0 +1,792 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffb21f"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="description" content="Monte sua viagem para Portugal e Itália: roteiro, mala, custos e divisão de gastos.">
+<title>Sunny Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: céu ensolarado em degradê atrás de tudo; cartões de vidro fosco por cima; rota em códigos de aeroporto
+   no topo (estilo painel de embarque); abas flutuantes de vidro. Uma fonte de produto (Geist) em pesos fortes. */
+:root{
+  --bg:#f3f5fa; --ink:#0b1220; --sub:#5c6679; --line:rgba(15,23,42,.08);
+  --glass:rgba(255,255,255,.72); --glass-2:rgba(255,255,255,.55); --glass-brd:rgba(255,255,255,.85);
+  --sun:#ffb21f; --coral:#ff6a48; --sky:#3d9dff; --mint:#14bf96; --violet:#7b5cff; --rose:#ff4f8b;
+  --sky-a:#ff9b63; --sky-b:#ffd15e; --sky-c:#86c8ff;
+  --shadow:0 18px 40px -22px rgba(20,30,60,.45);
+  --f:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fm:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#070b14; --ink:#eef2f8; --sub:#93a0b7; --line:rgba(255,255,255,.08);
+  --glass:rgba(20,27,44,.72); --glass-2:rgba(20,27,44,.5); --glass-brd:rgba(255,255,255,.09);
+  --sky-a:#2a1650; --sky-b:#5a2a5e; --sky-c:#10345e; --shadow:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070b14; --ink:#eef2f8; --sub:#93a0b7; --line:rgba(255,255,255,.08);
+  --glass:rgba(20,27,44,.72); --glass-2:rgba(20,27,44,.5); --glass-brd:rgba(255,255,255,.09);
+  --sky-a:#2a1650; --sky-b:#5a2a5e; --sky-c:#10345e; --shadow:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15.5px;line-height:1.45;letter-spacing:-.005em;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(110px + env(safe-area-inset-bottom,0px))}
+body{position:relative}
+body::before{content:"";position:absolute;inset:0 0 auto;height:620px;z-index:-1;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent);
+  background:radial-gradient(120% 90% at 80% 0%,var(--sky-b) 0%,transparent 55%),linear-gradient(165deg,var(--sky-a) 0%,var(--sky-b) 42%,var(--sky-c) 78%,var(--bg) 100%)}
+.wrap{max-width:640px;margin:0 auto}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.035em}
+.k{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--sub)}
+.mono{font-family:var(--fm);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.sub{color:var(--sub)} .sm{font-size:13.5px} .xs{font-size:12px}
+.col{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap} .sb{justify-content:space-between}
+.glass{background:var(--glass);border:1px solid var(--glass-brd);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border-radius:26px;box-shadow:var(--shadow)}
+.card{padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+button{font:inherit;color:inherit} a{color:var(--sky);font-weight:700;text-decoration:none}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+input[type=text],input[type=date],input[type=number],select{font:inherit;font-size:16px;color:var(--ink);background:var(--glass-2);border:1px solid var(--line);border-radius:16px;padding:13px 14px;width:100%;min-width:0;appearance:none;-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 4px color-mix(in srgb,var(--sky) 20%,transparent)}
+label.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+label.f > span{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.02em}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .g2 > *{min-width:0}
+/* marca */
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;letter-spacing:-.03em;color:#111}
+.brand .sun{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff5c4,#ffb21f 55%,#ff7a2f);box-shadow:0 0 0 4px rgba(255,255,255,.35),0 0 24px #ffb21f}
+:root[data-theme="dark"] .brand{color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand{color:#fff}}
+/* partida */
+.hero{padding-top:22px;display:flex;flex-direction:column;gap:12px}
+.hero h1{font-size:clamp(38px,11vw,60px);font-weight:800;line-height:.98;color:#0b1220;margin-top:18px}
+.hero p{font-size:17px;color:#2b3445;max-width:42ch;margin:0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero h1{color:#fff} :root:not([data-theme="light"]) .hero p{color:#d5dbea}}
+:root[data-theme="dark"] .hero h1{color:#fff} :root[data-theme="dark"] .hero p{color:#d5dbea}
+.countries{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctry{border:2px solid transparent;border-radius:22px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-height:96px;position:relative;overflow:hidden;color:#fff}
+.ctry b{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.ctry span{font-size:12.5px;opacity:.9}
+.ctry::after{content:"";position:absolute;right:12px;top:12px;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.8)}
+.ctry.on::after{background:#fff;box-shadow:inset 0 0 0 5px currentColor}
+.ctry.pt{background:linear-gradient(140deg,#0f8a6b,#21b38a 55%,#f2c14e)} .ctry.it{background:linear-gradient(140deg,#d8433b,#f07a3c 50%,#2f9d68)}
+.ctry:not(.on){filter:saturate(.35) brightness(.95);opacity:.75}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--glass-2);border-radius:99px;padding:9px 14px;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--glass-2);border:1px solid var(--line);border-radius:16px;padding:4px;gap:4px}
+.seg button{border:0;background:none;border-radius:12px;padding:10px 6px;font-weight:700;font-size:14px;cursor:pointer;color:var(--sub)}
+.seg button.on{background:var(--glass);color:var(--ink);box-shadow:0 4px 12px -6px rgba(0,0,0,.3)}
+.who{display:grid;grid-template-columns:1fr auto;gap:10px 12px;align-items:center}
+.who small{display:block;color:var(--sub);font-size:12px}
+.step{display:flex;align-items:center;gap:6px;background:var(--glass-2);border:1px solid var(--line);border-radius:14px;padding:3px}
+.step button{width:36px;height:36px;border:0;border-radius:11px;background:var(--glass);font-size:20px;font-weight:700;cursor:pointer}
+.step b{min-width:26px;text-align:center;font-size:17px}
+.kid{display:grid;grid-template-columns:1fr 110px 40px;gap:8px;align-items:center}
+.kid .x{border:0;background:var(--glass-2);border-radius:12px;height:44px;font-size:18px;cursor:pointer;color:var(--sub)}
+.addkid{border:1.5px dashed var(--line);background:none;border-radius:16px;padding:12px;font-weight:700;cursor:pointer;color:var(--sky)}
+.cta{border:0;border-radius:22px;padding:19px;font-size:18px;font-weight:800;letter-spacing:-.02em;cursor:pointer;color:#1a1200;
+  background:linear-gradient(120deg,#ffcf4a,#ffa024);box-shadow:0 16px 30px -14px rgba(255,140,0,.75),inset 0 1px 0 rgba(255,255,255,.6)}
+.link{border:0;background:none;color:var(--sky);font-weight:700;cursor:pointer;padding:6px 0}
+.err{background:color-mix(in srgb,var(--coral) 14%,transparent);color:var(--ink);border-radius:16px;padding:12px 14px;font-size:14px}
+.tripRow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;border:0}
+/* gerando */
+.gen{min-height:80vh;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.gen h1{font-size:40px;font-weight:800;color:#0b1220}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .gen h1{color:#fff}} :root[data-theme="dark"] .gen h1{color:#fff}
+.arc{width:100%;height:110px}
+.genl{list-style:none;margin:0;padding:16px;display:flex;flex-direction:column;gap:12px}
+.genl li{display:flex;gap:10px;align-items:center;font-weight:600;color:var(--sub)}
+.genl li i{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto}
+.genl li.ok{color:var(--ink)} .genl li.ok i{background:var(--mint);border-color:var(--mint)}
+/* app da viagem */
+.thead{padding-top:16px;display:flex;flex-direction:column;gap:6px;color:#0b1220}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .thead{color:#fff}} :root[data-theme="dark"] .thead{color:#fff}
+.thead h1{font-size:clamp(36px,10vw,54px);font-weight:800;line-height:1}
+.pillbtn{border:0;background:rgba(255,255,255,.4);backdrop-filter:blur(10px);border-radius:99px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;color:inherit}
+.board{padding:14px 16px;margin-top:10px}
+.iata{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.iata::-webkit-scrollbar{display:none}
+.iata b{font-family:var(--fm);font-size:22px;font-weight:700;letter-spacing:.02em}
+.iata .ln{flex:1 0 14px;height:2px;min-width:14px;background:repeating-linear-gradient(90deg,var(--sub) 0 5px,transparent 5px 9px);opacity:.6}
+.iata .c{display:flex;flex-direction:column;align-items:center;flex:0 0 auto}
+.iata .c small{font-size:10.5px;color:var(--sub);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kpi{padding:12px}
+.kpi b{display:block;font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.kpi span{font-size:11.5px;color:var(--sub);font-weight:700}
+.sec{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+.sec > h2{font-size:28px;font-weight:800}
+.next{width:100%;border:0;border-radius:26px;padding:18px;text-align:left;cursor:pointer;color:#fff;background:linear-gradient(130deg,#2a7cff,#7b5cff);box-shadow:0 18px 34px -18px rgba(60,80,255,.8);display:flex;flex-direction:column;gap:4px}
+.next .k{color:rgba(255,255,255,.75)} .next b{font-size:20px;letter-spacing:-.03em}
+.warn{padding:14px 16px;border-left:4px solid var(--coral)}
+.warn li{margin:4px 0}
+.posts{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:2px max(16px,env(safe-area-inset-left,0px)) 8px}
+.posts::-webkit-scrollbar{display:none}
+.post{flex:0 0 170px;height:210px;border-radius:24px;padding:14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.post b{font-size:24px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.post .mono{font-size:13px;opacity:.9}
+.post svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:70px;opacity:.35}
+.days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:2px max(16px,env(safe-area-inset-left,0px)) 6px}
+.days::-webkit-scrollbar{display:none}
+.dc{flex:0 0 56px;border-radius:18px;border:1px solid var(--glass-brd);background:var(--glass);backdrop-filter:blur(16px);padding:8px 0;text-align:center;cursor:pointer}
+.dc span{display:block;font-size:10.5px;font-weight:700;color:var(--sub);text-transform:uppercase}
+.dc b{display:block;font-size:22px;font-weight:800;letter-spacing:-.04em}
+.dc i{display:block;width:7px;height:7px;border-radius:50%;margin:2px auto 0;background:var(--cc)}
+.dc.on{background:var(--ink);color:var(--bg);border-color:var(--ink)} .dc.on span{color:var(--bg);opacity:.7}
+.dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.dh h3{font-size:26px;font-weight:800;line-height:1.05}
+.tag{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:99px;white-space:nowrap;background:color-mix(in srgb,var(--mint) 16%,transparent);color:var(--mint)}
+.tag.mv{background:color-mix(in srgb,var(--coral) 16%,transparent);color:var(--coral)}
+.tag.bt{background:color-mix(in srgb,var(--violet) 16%,transparent);color:var(--violet)}
+.wx{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:var(--glass-2)}
+.wx .t{font-size:26px;font-weight:800;letter-spacing:-.04em}
+.wx .bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:4px}
+.wx .bar i{display:block;height:100%;background:var(--sky)}
+.live{font-size:11px;font-weight:800;color:var(--mint);background:color-mix(in srgb,var(--mint) 15%,transparent);padding:3px 8px;border-radius:99px}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tl li{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.tl li:first-child{border-top:0}
+.tl .h{font-family:var(--fm);font-size:12.5px;color:var(--sub);font-weight:600;padding-top:2px}
+.tip{padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--sun) 18%,transparent);font-size:14px}
+.tip b{font-weight:800}
+.mode{display:flex;flex-direction:column;gap:10px}
+.now{padding:18px;border-radius:24px;color:#fff;background:linear-gradient(140deg,#0b1220,#24324e)}
+.now .h{font-family:var(--fm);color:var(--sun);font-size:20px;font-weight:700}
+.now b{display:block;font-size:19px;letter-spacing:-.02em;margin-top:4px}
+.steps{list-style:none;margin:0;padding:0}
+.steps li{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.steps li i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800;background:var(--glass-2)}
+.steps li.d{opacity:.5} .steps li.d i{background:var(--mint);color:#fff} .steps li.c i{background:var(--sun);color:#1a1200}
+.big{font-size:40px;font-weight:800;letter-spacing:-.05em;line-height:1}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar2{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:14px}
+.bar2 .tr{grid-column:1/-1;height:8px;border-radius:9px;background:var(--line);overflow:hidden;position:relative}
+.bar2 .tr i{position:absolute;inset:0 auto 0 0;border-radius:9px}
+.bar2 .tr i.p{background:color-mix(in srgb,var(--sky) 35%,transparent)} .bar2 .tr i.s{background:var(--sky)} .bar2 .tr i.o{background:var(--coral)}
+.exp{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-top:1px solid var(--line)}
+.exp:first-child{border-top:0}
+.exp .del{grid-column:2;justify-self:end;border:0;background:none;color:var(--sub);font-size:12px;cursor:pointer}
+.settle{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.settle:first-child{border-top:0}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;font-size:13px;flex:0 0 auto}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line);cursor:pointer}
+.chk:first-child{border-top:0}
+.chk input{width:22px;height:22px;accent-color:var(--mint);flex:0 0 auto;margin-top:1px}
+.chk input:checked + span{text-decoration:line-through;color:var(--sub)}
+.place{display:flex;flex-direction:column;gap:2px;padding:11px 0;border-top:1px solid var(--line)}
+.place:first-of-type{border-top:0}
+.place a{font-size:13px;align-self:flex-start}
+.msgs{display:flex;flex-direction:column;gap:8px}
+.msg{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.b{background:var(--glass);border:1px solid var(--glass-brd);border-bottom-left-radius:6px}
+.msg.m{align-self:flex-end;background:linear-gradient(130deg,#2a7cff,#7b5cff);color:#fff;border-bottom-right-radius:6px}
+.cbar{display:flex;gap:8px} .cbar button{border:0;border-radius:16px;padding:0 18px;font-weight:800;cursor:pointer;background:var(--ink);color:var(--bg)}
+.sugg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none} .sugg::-webkit-scrollbar{display:none}
+nav.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:20;width:calc(100% - 24px);max-width:540px;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:6px;border-radius:28px}
+nav.tabs button{border:0;background:none;border-radius:22px;padding:9px 0 7px;font-size:11px;font-weight:700;cursor:pointer;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:3px}
+nav.tabs svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs button.on{color:var(--ink);background:var(--glass-2);box-shadow:inset 0 0 0 1px var(--glass-brd)}
+@media (prefers-reduced-motion:no-preference){
+  .v > *{animation:up .5s cubic-bezier(.2,.8,.2,1) both} .v > *:nth-child(2){animation-delay:.04s} .v > *:nth-child(3){animation-delay:.08s} .v > *:nth-child(n+4){animation-delay:.12s}
+  @keyframes up{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  .brand .sun{animation:glow 3s ease-in-out infinite} @keyframes glow{50%{box-shadow:0 0 0 6px rgba(255,255,255,.25),0 0 34px #ffb21f}}
+  .plane{animation:fly 2.6s cubic-bezier(.45,0,.2,1) infinite} @keyframes fly{from{offset-distance:0%}to{offset-distance:100%}}
+}
+@media (max-width:370px){ .g2{grid-template-columns:1fr} .kid{grid-template-columns:1fr 96px 40px} }
+</style>
+
+<div class="wrap" id="app"></div>
+<nav class="tabs glass" id="tabs" hidden aria-label="Seções da viagem"></nav>
+<script>
+/* ================= CONHECIMENTO CURADO: PORTUGAL E ITÁLIA =================
+   Clima: médias mensais aproximadas (máx, mín, % de dias com chuva). Custos: estimativas em euros (nível médio). */
+const KB = {
+  lisboa:{lat:38.72,lon:-9.14,nome:"Lisboa",pais:"PT",min:3,peso:3.5,aero:"Aeroporto de Lisboa (LIS)",chegada:"Metrô (linha vermelha) ou táxi até o centro, cerca de 20 a 30 minutos.",hotel:130,
+    clima:{hi:[15,16,19,20,23,27,29,29,27,23,18,15],lo:[8,9,11,12,14,17,18,19,18,15,11,9],chuva:[35,33,25,30,20,7,3,3,13,27,33,37]},
+    ver:[
+      {n:"Torre de Belém e Mosteiro dos Jerónimos",d:"O coração da Lisboa dos descobrimentos.",t:["História","Arte e museus"],kid:1,calmo:1,res:"Mosteiro dos Jerónimos"},
+      {n:"Pastéis de Belém",d:"A casa original do pastel de nata, ao lado do mosteiro.",t:["Gastronomia"],kid:1,calmo:1},
+      {n:"Alfama e Castelo de São Jorge",d:"Ruelas medievais, fado e a melhor vista da cidade. Muitas ladeiras.",t:["História"],kid:1,calmo:0},
+      {n:"Oceanário de Lisboa",d:"Um dos maiores aquários da Europa, no Parque das Nações.",t:["Natureza","Com crianças"],kid:2,calmo:1},
+      {n:"Baixa, Rua Augusta e Praça do Comércio",d:"O centro plano e elegante, à beira do rio Tejo.",t:["História","Compras"],kid:1,calmo:1},
+      {n:"Miradouros e Bairro Alto ao pôr do sol",d:"Mirantes com vista do rio e ruas animadas à noite.",t:["Vida noturna"],kid:0,calmo:0},
+      {n:"Time Out Market",d:"Mercado com bancas dos melhores chefs da cidade.",t:["Gastronomia"],kid:1,calmo:1},
+      {n:"Museu Nacional do Azulejo",d:"Cinco séculos de azulejos portugueses.",t:["Arte e museus"],kid:0,calmo:1},
+      {n:"LX Factory",d:"Antiga fábrica com lojas, livraria e restaurantes.",t:["Compras"],kid:1,calmo:1}],
+    bate:[
+      {n:"Bate-volta a Sintra",d:"Palácio da Pena e Quinta da Regaleira, entre montanhas e florestas.",t:["História","Natureza"],kid:1,calmo:0,como:"Trem da estação do Rossio, cerca de 40 minutos.",res:"Palácio da Pena (entrada com horário)"},
+      {n:"Bate-volta a Cascais",d:"Vila à beira-mar com praias e passeio na orla.",t:["Praia","Natureza"],kid:2,calmo:1,como:"Trem do Cais do Sodré, cerca de 40 minutos."}],
+    comer:["Pastel de nata","Bacalhau à Brás","Bifana","Sardinhas assadas (no verão)","Ginjinha"],
+    dicas:["Calçada portuguesa escorrega quando chove: use sapatos com sola de borracha.","O elétrico 28 fica lotado e atrai batedores de carteira; vá cedo.","O cartão de transporte recarregável (Navegante ocasional) vale em metrô, ônibus e elétricos."]},
+  porto:{lat:41.15,lon:-8.61,nome:"Porto",pais:"PT",min:2,peso:2.5,aero:"Aeroporto do Porto (OPO)",chegada:"Metrô linha E até o centro, cerca de 30 minutos.",hotel:110,
+    clima:{hi:[14,15,17,18,20,23,25,25,24,21,17,14],lo:[5,6,8,9,12,14,16,16,14,12,8,6],chuva:[45,40,35,38,32,20,12,13,25,40,45,47]},
+    ver:[
+      {n:"Ribeira e Ponte Dom Luís I",d:"O cartão-postal do Porto, à beira do rio Douro.",t:["História"],kid:1,calmo:1},
+      {n:"Caves de vinho do Porto em Gaia",d:"Visita com degustação nas caves históricas.",t:["Vinho","Gastronomia"],kid:0,calmo:1},
+      {n:"Livraria Lello",d:"Uma das livrarias mais bonitas do mundo. Ingresso com horário.",t:["Arte e museus"],kid:1,calmo:1,res:"Livraria Lello"},
+      {n:"Estação de São Bento",d:"Saguão coberto por 20 mil azulejos.",t:["História","Arte e museus"],kid:1,calmo:1},
+      {n:"Torre dos Clérigos",d:"Vista de 360 graus da cidade. 240 degraus.",t:["História"],kid:1,calmo:0},
+      {n:"Jardins do Palácio de Cristal",d:"Jardim com pavões e vista do rio.",t:["Natureza","Com crianças"],kid:2,calmo:1},
+      {n:"Foz do Douro ao pôr do sol",d:"Onde o rio encontra o mar; passeio de elétrico histórico.",t:["Praia","Natureza"],kid:1,calmo:1}],
+    bate:[{n:"Bate-volta ao Vale do Douro",d:"Vinhedos em socalcos, quintas e passeio de barco.",t:["Vinho","Natureza"],kid:1,calmo:1,como:"Trem de São Bento até o Pinhão (cerca de 2h30) ou excursão de um dia."}],
+    comer:["Francesinha","Bolinhos de bacalhau","Tripas à moda do Porto","Vinho do Porto","Pastel de nata da Manteigaria"],
+    dicas:["A cidade tem ladeiras fortes: o funicular dos Guindais ajuda a subir da Ribeira.","Leve um casaco leve mesmo no verão: venta à noite perto do rio."]},
+  milao:{lat:45.46,lon:9.19,nome:"Milão",pais:"IT",min:2,peso:2,aero:"Aeroporto de Milão Malpensa (MXP)",chegada:"Trem Malpensa Express até o centro, cerca de 50 minutos.",hotel:150,
+    clima:{hi:[6,9,14,18,22,27,29,28,24,18,11,7],lo:[-1,0,4,8,12,16,18,18,14,10,5,0],chuva:[23,20,25,32,32,27,20,22,22,28,30,23]},
+    ver:[
+      {n:"Duomo e terraços do telhado",d:"A catedral gótica e a vista entre as agulhas de mármore.",t:["História","Arte e museus"],kid:1,calmo:1,res:"Terraços do Duomo"},
+      {n:"Galeria Vittorio Emanuele II",d:"Galeria do século 19 com lojas e cafés históricos.",t:["Compras","História"],kid:1,calmo:1},
+      {n:"A Última Ceia, de Leonardo da Vinci",d:"15 minutos diante da obra. Esgota com meses de antecedência.",t:["Arte e museus"],kid:0,calmo:1,res:"Última Ceia (Cenacolo Vinciano)"},
+      {n:"Castelo Sforzesco",d:"Fortaleza com museus e o parque Sempione.",t:["História","Com crianças"],kid:2,calmo:1},
+      {n:"Navigli e o aperitivo",d:"Canais com bares; o aperitivo milanês vem com petiscos.",t:["Vida noturna","Gastronomia"],kid:0,calmo:1},
+      {n:"Quadrilátero da moda",d:"As ruas das grandes grifes italianas.",t:["Compras"],kid:0,calmo:1}],
+    bate:[{n:"Bate-volta ao Lago de Como",d:"Vilas coloridas à beira do lago e passeio de barco.",t:["Natureza"],kid:1,calmo:1,como:"Trem até Varenna ou Como, cerca de 1 hora."}],
+    comer:["Risotto alla milanese","Cotoletta alla milanese","Panettone","Aperitivo com spritz"],
+    dicas:["O metrô de Milão é simples e rápido; compre o bilhete antes de entrar.","Muitas lojas fecham no meio do dia aos domingos."]},
+  veneza:{lat:45.44,lon:12.33,nome:"Veneza",pais:"IT",min:2,peso:2,aero:"Aeroporto de Veneza (VCE)",chegada:"Ônibus até Piazzale Roma ou barco Alilaguna até o centro, cerca de 30 a 60 minutos.",hotel:190,
+    clima:{hi:[7,9,13,17,22,26,28,28,24,18,12,8],lo:[1,2,5,9,13,17,19,19,15,11,6,2],chuva:[20,20,23,30,28,27,20,22,22,25,27,23]},
+    ver:[
+      {n:"Praça e Basílica de São Marcos",d:"O coração de Veneza, com mosaicos dourados.",t:["História","Arte e museus"],kid:1,calmo:1,res:"Basílica de São Marcos (entrada com horário)"},
+      {n:"Palácio Ducal e Ponte dos Suspiros",d:"O palácio dos doges e as antigas prisões.",t:["História"],kid:1,calmo:1},
+      {n:"Grande Canal de vaporetto",d:"A linha 1 percorre o canal inteiro. Ótimo para quem anda pouco.",t:["Natureza","Com crianças"],kid:2,calmo:1},
+      {n:"Ponte de Rialto e mercado de peixe",d:"O mercado funciona de manhã, exceto domingo.",t:["Gastronomia","História"],kid:1,calmo:1},
+      {n:"Passeio de gôndola",d:"Caro, mas inesquecível; o preço é por gôndola, não por pessoa.",t:["Com crianças"],kid:2,calmo:1},
+      {n:"Coleção Peggy Guggenheim",d:"Arte moderna num palácio à beira do canal.",t:["Arte e museus"],kid:0,calmo:1}],
+    bate:[{n:"Murano e Burano",d:"Vidro soprado em Murano e casas coloridas em Burano.",t:["Arte e museus","Compras"],kid:2,calmo:1,como:"Vaporetto a partir de Fondamente Nove, cerca de 45 minutos até Burano."}],
+    comer:["Cicchetti com spritz","Risotto al nero di seppia","Sarde in saor","Tiramisù"],
+    dicas:["Veneza cobra uma taxa de acesso para visitantes em dias de pico: confira se vale para as suas datas.","São mais de 400 pontes com degraus: malas pequenas e leves facilitam muito.","No outono e inverno pode haver acqua alta (maré alta); o hotel avisa."]},
+  cinqueterre:{lat:44.13,lon:9.68,nome:"Cinque Terre",pais:"IT",min:2,peso:1.8,aero:"Aeroporto de Pisa (PSA) ou de Gênova (GOA)",chegada:"Trem até La Spezia e depois trem regional até as vilas.",hotel:150,
+    clima:{hi:[13,14,16,18,22,26,29,29,26,21,17,14],lo:[5,5,7,9,13,16,19,19,16,13,9,6],chuva:[27,25,27,28,25,17,10,13,22,30,33,30]},
+    ver:[
+      {n:"Trem entre as cinco vilas",d:"Monterosso, Vernazza, Corniglia, Manarola e Riomaggiore, poucos minutos entre elas.",t:["Natureza","Com crianças"],kid:2,calmo:1},
+      {n:"Trilha Sentiero Azzurro",d:"A trilha clássica pela encosta. Alguns trechos fecham; confira antes.",t:["Natureza"],kid:0,calmo:0},
+      {n:"Vernazza e Manarola",d:"As vilas mais fotografadas, melhores no fim da tarde.",t:["História"],kid:1,calmo:0},
+      {n:"Praia de Monterosso",d:"A única praia de areia da região.",t:["Praia","Com crianças"],kid:2,calmo:1},
+      {n:"Barco entre as vilas",d:"Funciona na temporada, com a vista das vilas pelo mar.",t:["Natureza"],kid:2,calmo:1}],
+    bate:[],
+    comer:["Pesto genovês","Focaccia","Anchovas de Monterosso","Vinho Sciacchetrà"],
+    dicas:["O Cinque Terre Card inclui trens entre as vilas e as trilhas.","As vilas têm muitas escadas e ladeiras: difícil com carrinho de bebê ou para quem anda pouco.","Ficar em La Spezia costuma sair mais barato."]},
+  florenca:{lat:43.77,lon:11.25,nome:"Florença",pais:"IT",min:2,peso:3,aero:"Aeroporto de Florença (FLR) ou de Pisa (PSA)",chegada:"Bonde T2 do aeroporto de Florença ao centro, cerca de 20 minutos.",hotel:160,
+    clima:{hi:[11,13,16,20,24,29,32,32,27,21,15,11],lo:[2,3,5,8,12,15,18,18,15,11,6,3],chuva:[27,25,27,30,27,20,12,15,20,28,32,30]},
+    ver:[
+      {n:"Galeria Uffizi",d:"Botticelli, Leonardo e Michelangelo num só museu.",t:["Arte e museus"],kid:0,calmo:1,res:"Galeria Uffizi"},
+      {n:"Davi de Michelangelo na Accademia",d:"A estátua mais famosa do Renascimento.",t:["Arte e museus"],kid:1,calmo:1,res:"Galleria dell'Accademia"},
+      {n:"Duomo e a cúpula de Brunelleschi",d:"Subir a cúpula são 463 degraus, sem elevador.",t:["História","Arte e museus"],kid:1,calmo:0,res:"Cúpula do Duomo"},
+      {n:"Ponte Vecchio e Oltrarno",d:"A ponte das joalherias e o bairro dos artesãos.",t:["História","Compras"],kid:1,calmo:1},
+      {n:"Piazzale Michelangelo ao pôr do sol",d:"A vista clássica da cidade inteira.",t:["Natureza"],kid:1,calmo:1},
+      {n:"Mercado Central",d:"Andar de cima com comida toscana de todo tipo.",t:["Gastronomia"],kid:1,calmo:1},
+      {n:"Jardim de Boboli",d:"Jardins do Palácio Pitti, bons para as crianças correrem.",t:["Natureza","Com crianças"],kid:2,calmo:0}],
+    bate:[
+      {n:"Bate-volta a Siena e Chianti",d:"A praça em concha de Siena e vinícolas no caminho.",t:["Vinho","História"],kid:1,calmo:1,como:"Ônibus direto até Siena, cerca de 1h15, ou excursão pelo Chianti."},
+      {n:"Bate-volta a Pisa",d:"A torre inclinada e a Praça dos Milagres.",t:["História","Com crianças"],kid:2,calmo:1,como:"Trem regional, cerca de 1 hora."}],
+    comer:["Bistecca alla fiorentina","Lampredotto","Ribollita","Cantucci com vin santo"],
+    dicas:["Reserve Uffizi e Accademia com antecedência para não passar horas na fila.","O centro é zona de tráfego restrito: não alugue carro para a cidade."]},
+  amalfi:{lat:40.63,lon:14.6,nome:"Costa Amalfitana",pais:"IT",min:3,peso:2.5,aero:"Aeroporto de Nápoles (NAP)",chegada:"Ônibus ou transfer até Sorrento ou Salerno e depois balsa ou ônibus SITA até as vilas.",hotel:200,
+    clima:{hi:[13,14,16,19,23,27,30,30,27,23,18,14],lo:[5,5,7,9,13,17,19,20,17,13,9,6],chuva:[32,30,28,28,20,12,7,10,20,30,35,35]},
+    ver:[
+      {n:"Positano",d:"A vila em cascata sobre o mar. Muitas escadas.",t:["Praia","Compras"],kid:1,calmo:0},
+      {n:"Amalfi e a catedral",d:"A cidade que dá nome à costa, com a catedral de Santo André.",t:["História"],kid:1,calmo:1},
+      {n:"Ravello e Villa Rufolo",d:"Jardins no alto da montanha com vista para o mar.",t:["Natureza","Arte e museus"],kid:1,calmo:1},
+      {n:"Balsa entre as vilas",d:"A forma mais tranquila e bonita de se mover pela costa.",t:["Natureza","Com crianças"],kid:2,calmo:1},
+      {n:"Praias e passeio de barco",d:"Enseadas de águas claras; barcos saem de Positano e Amalfi.",t:["Praia","Com crianças"],kid:2,calmo:1},
+      {n:"Caminho dos Deuses",d:"Trilha de cerca de 3 horas pela encosta, com vistas incríveis.",t:["Natureza"],kid:0,calmo:0}],
+    bate:[
+      {n:"Bate-volta a Pompeia",d:"A cidade romana preservada pelas cinzas do Vesúvio.",t:["História","Com crianças"],kid:1,calmo:0,como:"Trem Circumvesuviana a partir de Sorrento ou Nápoles.",res:"Pompeia"},
+      {n:"Bate-volta a Capri",d:"Ilha com a Gruta Azul e mirantes.",t:["Natureza","Praia"],kid:1,calmo:1,como:"Balsa de Positano, Amalfi ou Sorrento."}],
+    comer:["Limoncello","Delizia al limone","Frutos do mar","Pizza napolitana em Nápoles"],
+    dicas:["A estrada é estreita e os ônibus lotam no verão: prefira a balsa.","A temporada vai de abril a outubro; no inverno muitos hotéis e balsas param."]},
+  roma:{lat:41.9,lon:12.5,nome:"Roma",pais:"IT",min:3,peso:3.5,aero:"Aeroporto de Roma Fiumicino (FCO)",chegada:"Trem Leonardo Express até a estação Termini, 32 minutos.",hotel:160,
+    clima:{hi:[12,13,16,19,24,28,31,31,27,22,16,13],lo:[3,4,6,9,13,16,19,19,16,12,7,4],chuva:[25,25,23,25,20,13,7,9,18,25,30,30]},
+    ver:[
+      {n:"Coliseu e Fórum Romano",d:"O coração da Roma antiga. A entrada tem horário marcado.",t:["História"],kid:2,calmo:0,res:"Coliseu e Fórum Romano"},
+      {n:"Museus do Vaticano e Capela Sistina",d:"Uma das maiores coleções de arte do mundo.",t:["Arte e museus","História"],kid:0,calmo:0,res:"Museus do Vaticano"},
+      {n:"Basílica de São Pedro",d:"Entrada gratuita; ombros e joelhos cobertos.",t:["História","Arte e museus"],kid:1,calmo:1},
+      {n:"Fontana di Trevi e Panteão",d:"Melhores cedo pela manhã ou à noite, com menos gente.",t:["História"],kid:1,calmo:1},
+      {n:"Trastevere à noite",d:"O bairro das trattorias e ruas de pedra.",t:["Gastronomia","Vida noturna"],kid:1,calmo:1},
+      {n:"Piazza Navona e Campo de' Fiori",d:"Praças barrocas e o mercado de manhã.",t:["História","Gastronomia"],kid:1,calmo:1},
+      {n:"Villa Borghese",d:"Parque enorme com bicicletas e a Galeria Borghese.",t:["Natureza","Com crianças","Arte e museus"],kid:2,calmo:1,res:"Galeria Borghese"}],
+    bate:[{n:"Bate-volta a Óstia Antiga",d:"A antiga cidade portuária de Roma, tranquila e bem preservada.",t:["História","Com crianças"],kid:2,calmo:1,como:"Trem urbano a partir da estação Porta San Paolo, cerca de 40 minutos."}],
+    comer:["Carbonara","Cacio e pepe","Supplì","Pizza al taglio","Gelato"],
+    dicas:["As fontes de rua (nasoni) têm água potável grátis: leve uma garrafinha.","Igrejas e o Vaticano exigem ombros e joelhos cobertos.","Cuidado com batedores de carteira no metrô e perto dos monumentos."]}
+};
+const ORDER = {PT:["lisboa","porto"], IT:["milao","veneza","cinqueterre","florenca","amalfi","roma"]};
+/* horas de trem entre cidades italianas (aproximadas) */
+const HRS = {"milao-veneza":2.5,"milao-cinqueterre":3,"milao-florenca":2,"milao-amalfi":5,"milao-roma":3.2,"veneza-cinqueterre":5,"veneza-florenca":2.1,"veneza-amalfi":6,"veneza-roma":3.8,
+  "cinqueterre-florenca":2.5,"cinqueterre-amalfi":6,"cinqueterre-roma":4,"florenca-amalfi":4.5,"florenca-roma":1.6,"amalfi-roma":3.5};
+const IATA = {lisboa:"LIS",porto:"OPO",milao:"MXP",veneza:"VCE",cinqueterre:"PSA",florenca:"FLR",amalfi:"NAP",roma:"FCO"};
+
+function addDays(iso,n){ const t=pd(iso); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10); }
+function nightsBetween(a,b){ return Math.round((pd(b)-pd(a))/864e5); }
+function suggestCities(paises, N){
+  const both = paises.includes("PT") && paises.includes("IT");
+  if (both){ if (N<=10) return ["lisboa","florenca","roma"]; if (N<=14) return ["lisboa","porto","veneza","florenca","roma"]; return ["lisboa","porto","veneza","florenca","amalfi","roma"]; }
+  if (paises.includes("PT")) return ["lisboa","porto"];
+  if (N<=8) return ["florenca","roma"]; if (N<=12) return ["veneza","florenca","roma"]; return ["milao","veneza","florenca","amalfi","roma"];
+}
+function leg(a,b){
+  const A=KB[a], B=KB[b];
+  if (A.pais!==B.pais) return {modo:"Voo",tempo:"cerca de 3 horas",texto:`Voo de ${A.aero.replace("Aeroporto ","")} para ${B.aero.replace("Aeroporto ","")}. Companhias de baixo custo cobram à parte pela mala despachada.`,preco:120,tipo:"voo"};
+  if (A.pais==="PT") return {modo:"Trem Alfa Pendular",tempo:"cerca de 3 horas",texto:"Trem da CP de Lisboa (Santa Apolónia ou Oriente) até Porto-Campanhã. Compre em cp.pt; crianças pequenas costumam viajar de graça e as maiores com desconto.",preco:35,tipo:"trem"};
+  const k=[a,b].sort((x,y)=>ORDER.IT.indexOf(x)-ORDER.IT.indexOf(y)).join("-"); const h=HRS[k]||3;
+  const especial = (a==="amalfi"||b==="amalfi") ? " Até a Costa Amalfitana: trem até Nápoles ou Salerno e depois balsa ou ônibus." : (a==="cinqueterre"||b==="cinqueterre") ? " Para as Cinque Terre, troca para trem regional em La Spezia." : "";
+  return {modo:"Trem de alta velocidade",tempo:`cerca de ${String(Math.round(h*2)/2).replace(".",",")} horas`,texto:`Trem Frecciarossa (Trenitalia) ou Italo. Compre com antecedência: o preço sobe perto da data.${especial}`,preco:45,tipo:"trem"};
+}
+function kidCats(idades){ return {bebe:idades.filter(a=>a<=3).length, crianca:idades.filter(a=>a>=4&&a<=11).length, teen:idades.filter(a=>a>=12).length}; }
+function buildTrip(f){
+  const N = nightsBetween(f.ida,f.volta);            // dias entre a saída do Brasil e a volta
+  const E = Math.max(1, N-1);                           // noites na Europa (a primeira é no avião)
+  const idades=f.idades||[], K=kidCats(idades), hasKids=idades.length>0, seniors=f.idosos>0, pet=!!f.pet;
+  let cities = (f.cidades&&f.cidades.length? f.cidades : suggestCities(f.paises,N)).slice();
+  cities = [...ORDER.PT.filter(c=>cities.includes(c)), ...ORDER.IT.filter(c=>cities.includes(c))];
+  // tira cidades se não houver noites suficientes
+  const prio=["lisboa","roma","florenca","porto","veneza","amalfi","milao","cinqueterre"];
+  while (cities.length>1 && cities.reduce((a,c)=>a+KB[c].min,0)>E){ const drop=[...cities].sort((x,y)=>prio.indexOf(y)-prio.indexOf(x))[0]; cities=cities.filter(c=>c!==drop); }
+  // reparte as noites
+  const nights={}; cities.forEach(c=>nights[c]=Math.min(KB[c].min,E)); let left=E-Object.values(nights).reduce((a,b)=>a+b,0);
+  while(left>0){ const c=cities.reduce((best,x)=>(KB[x].peso/(nights[x]+1))>(KB[best].peso/(nights[best]+1))?x:best,cities[0]); nights[c]++; left--; }
+  if (Object.values(nights).reduce((a,b)=>a+b,0)>E){ let over=Object.values(nights).reduce((a,b)=>a+b,0)-E; for(const c of [...cities].reverse()){ while(over>0&&nights[c]>1){nights[c]--;over--;} } }
+  const ritmoN = {Tranquilo:2, Equilibrado:3, Intenso:4}[f.ritmo]||3;
+  const score = (it)=> (it.t||[]).filter(x=>f.inter.includes(x)).length*2 + (hasKids?(it.kid||0):0) + (seniors||K.bebe? (it.calmo?1:-2):0) + (f.ritmo==="Tranquilo"&&!it.calmo?-1:0);
+  const months=new Set(); const dias=[]; const reservas=new Set();
+  const climaOf=(c,iso)=>{ const m=pd(iso).getUTCMonth(); months.add(m); const k=KB[c].clima; return {max:k.hi[m],min:k.lo[m],chance:k.chuva[m]}; };
+  const first=cities[0], last=cities[cities.length-1];
+  // dia 0: embarque no Brasil
+  dias.push({data:f.ida,cidade:"Brasil",titulo:"Embarque para a Europa",tipo:"deslocamento",clima:null,
+    itens:[["Tarde",`Chegar ao aeroporto de ${f.origem} com 3 horas de antecedência`],["Noite",`Voo noturno para ${KB[first].nome}`]],
+    dica:"Leve na mala de mão remédios, uma muda de roupa e os documentos.",
+    passos:[["Antes de sair","Passaportes, seguro viagem impresso e comprovantes de hospedagem e de volta"],["3h antes","Chegar ao aeroporto e despachar as malas"],["Embarque","Voo noturno: durma o que puder para chegar descansado"],["Chegada","Imigração na Europa com passaporte, seguro e comprovantes à mão"]]});
+  let d=addDays(f.ida,1), foodI=0;
+  cities.forEach((c,ci)=>{
+    const C=KB[c]; const pool=[...C.ver].sort((a,b)=>score(b)-score(a)); const bates=[...C.bate].sort((a,b)=>score(b)-score(a));
+    const n=nights[c]; const full=n-1; let usedBate=0; const maxBate = full>=3?Math.min(bates.length,Math.floor(full/2)):full>=2&&bates.length?1:0;
+    // dia de chegada
+    const prev=ci>0?cities[ci-1]:null; const L=prev?leg(prev,c):null;
+    const arrItems = prev ? [["Manhã",`Check-out em ${KB[prev].nome}`],[L.modo,`${KB[prev].nome} → ${C.nome}, ${L.tempo}`],["Tarde",`Check-in e primeira volta: ${pool[0]?pool[0].n:"centro histórico"}`],["Noite",`Jantar: prove ${C.comer[foodI++%C.comer.length]}`]]
+      : [["Manhã",`Chegada em ${C.aero}`],["Manhã",C.chegada],["Tarde","Check-in e descanso do voo"],["Noite",`Passeio leve e jantar: prove ${C.comer[foodI++%C.comer.length]}`]];
+    if (!prev && pool[0]) arrItems[2]=["Tarde",`Check-in, descanso e uma volta leve: ${pool[0].n}`];
+    if (pool[0] && (pool[0].res)) reservas.add(pool[0].res);
+    const firstUsed = pool.shift();
+    const steps = prev ? [["Manhã",`Check-out e ir para ${L.tipo==="voo"?KB[prev].aero:"a estação de trem"}`],[L.modo,L.texto],["Chegada",L.tipo==="voo"?C.chegada:`Chegada em ${C.nome}; siga até o hotel de táxi ou a pé`],["Tarde","Check-in no hotel"]]
+      : [["Desembarque",`Imigração em ${C.aero}`],["Transporte",C.chegada],["Hotel","Se o quarto ainda não estiver pronto, deixe as malas na recepção"],["Tarde","Descanse um pouco para vencer o fuso horário"]];
+    dias.push({data:d,cidade:C.nome,titulo:prev?`${KB[prev].nome} → ${C.nome}`:`Chegada a ${C.nome}`,tipo:"deslocamento",clima:climaOf(c,d),itens:arrItems,dica:C.dicas[0],passos:steps});
+    d=addDays(d,1);
+    for(let k=0;k<full;k++){
+      if (usedBate<maxBate && (k===1||k===3||k===5) && bates[usedBate]){ const b=bates[usedBate++]; if(b.res) reservas.add(b.res);
+        dias.push({data:d,cidade:C.nome,titulo:b.n,tipo:"bate-volta",clima:climaOf(c,d),itens:[["Manhã",b.como],["Dia",b.d],["Noite",`Volta para ${C.nome} e jantar: ${C.comer[foodI++%C.comer.length]}`]],dica:C.dicas[(k+1)%C.dicas.length]}); d=addDays(d,1); continue; }
+      const its=[]; const slots=["Manhã","Tarde","Fim de tarde"];
+      for(let s=0;s<Math.min(ritmoN-1,3);s++){ const it=pool.shift(); if(!it) break; if(it.res) reservas.add(it.res); its.push([slots[s],`${it.n}. ${it.d}`]); }
+      if (!its.length) its.push(["Dia",(seniors||K.bebe)?"Dia livre e tranquilo para descansar e passear sem pressa pelo bairro":"Dia livre para explorar os bairros e voltar ao que mais gostaram"]);
+      its.push(["Noite",`Jantar: prove ${C.comer[foodI++%C.comer.length]}`]);
+      dias.push({data:d,cidade:C.nome,titulo:its[0][1].split(".")[0],tipo:"livre",clima:climaOf(c,d),itens:its,dica:C.dicas[(k+1)%C.dicas.length]}); d=addDays(d,1);
+    }
+  });
+  // último dia: volta
+  const LC=KB[last];
+  dias.push({data:f.volta,cidade:LC.nome,titulo:"Volta para o Brasil",tipo:"deslocamento",clima:climaOf(last,f.volta),
+    itens:[["Manhã","Check-out e últimas compras"],["Tarde",`Ir para ${LC.aero}`],["Noite",`Voo de volta para ${f.origem}`]],dica:"Chegue ao aeroporto 3 horas antes: voos para o Brasil têm controle de passaporte na saída.",
+    passos:[["Manhã","Check-out; o hotel guarda as malas se o voo for mais tarde"],["Transporte",LC.chegada.replace("até o centro","do centro até o aeroporto").replace("até a estação Termini","da estação Termini até o aeroporto")],["3h antes","Despachar malas e passar pelo controle de passaporte"],["Embarque",`Voo para ${f.origem}`]]});
+  // viajantes
+  const viajantes=[]; for(let i=0;i<f.adultos;i++) viajantes.push({nome:`Adulto ${i+1}`,tipo:"adulto"});
+  for(let i=0;i<f.idosos;i++) viajantes.push({nome:`Avó/avô ${i+1}`,tipo:"idoso"});
+  idades.forEach((a,i)=>viajantes.push({nome:`${a<=3?"Bebê":a<=11?"Criança":"Adolescente"} (${a===0?"menos de 1 ano":a+(a===1?" ano":" anos")})`,tipo:"crianca",idade:a}));
+  if (pet) viajantes.push({nome:f.pet,tipo:"pet"});
+  // mala
+  const mm=[...months]; const frio=mm.some(m=>[10,11,0,1,2].includes(m)), calor=mm.some(m=>[5,6,7,8].includes(m));
+  const todos=["Passaporte (válido por 3 meses após a volta)","Seguro viagem impresso","Adaptador de tomada (Brasil tipo N → Europa tipo C/F; na Itália também tipo L)","Bateria portátil","Sapatos confortáveis e já amaciados: anda-se muito em calçada de pedra","Lenço ou xale para cobrir ombros em igrejas","Garrafinha de água reutilizável"];
+  if (frio) todos.push("Casaco quente e impermeável","Gorro, luvas e cachecol","Segunda pele térmica");
+  if (calor) todos.push("Protetor solar e chapéu","Roupas leves","Roupa de banho");
+  if (!frio && !calor) todos.push("Casaco leve e um corta-vento","Guarda-chuva compacto","Roupas em camadas");
+  const por=[];
+  for(let i=0;i<f.adultos;i++) por.push({quem:`Adulto ${i+1}`,itens:["Cartão de crédito internacional e um pouco de euros","Cópia digital dos documentos no celular"]});
+  for(let i=0;i<f.idosos;i++) por.push({quem:`Avó/avô ${i+1}`,itens:["Remédios de uso contínuo para toda a viagem, na mala de mão","Receita médica dos remédios (de preferência com o nome do princípio ativo)","Sapato com sola antiderrapante","Almofada de pescoço para o voo"]});
+  idades.forEach(a=>{ const quem=`${a<=3?"Bebê":a<=11?"Criança":"Adolescente"} (${a})`;
+    if (a<=3) por.push({quem,itens:["Carrinho leve e dobrável, mais um canguru para escadas e ladeiras","Fraldas e lenços para os primeiros dias","Mamadeira e comida para o voo (líquidos de bebê são permitidos)","Remédio para febre receitado pelo pediatra","Brinquedo e manta conhecidos"]});
+    else if (a<=11) por.push({quem,itens:["Fones e jogos para o voo e os trens","Lanchinhos","Garrafinha","Um caderno para colar ingressos e desenhar a viagem","Documento de identidade dentro da mochila"]});
+    else por.push({quem,itens:["Fones e carregador","Documento sempre com ele","Roupa confortável para andar muito"]}); });
+  if (pet) por.push({quem:f.pet,itens:["Microchip, vacina antirrábica e exame de sorologia antirrábica feito pelo menos 3 meses antes","Certificado Veterinário Internacional (CVI) emitido no Brasil","Transportadora aprovada pela companhia aérea","Comida e potes para os primeiros dias"]});
+  // avisos
+  const avisos=["Passaporte válido por pelo menos 3 meses depois da data de volta.","Seguro viagem com cobertura mínima de 30 mil euros: é exigido para entrar no espaço Schengen.","A autorização de viagem europeia (ETIAS) está prevista para começar a ser exigida: confirme se já vale na data da viagem.","Tenha à mão os comprovantes de hospedagem, da passagem de volta e de recursos para a viagem."];
+  if (hasKids) avisos.push("Menores de 18 anos que viajam sem os dois pais precisam de autorização de viagem dos responsáveis (formulário com firma reconhecida ou autorização no passaporte).");
+  if (K.bebe) avisos.push("Bebês de até 2 anos costumam voar no colo pagando uma pequena parte da tarifa; confirme o berço do avião com a companhia.");
+  if (pet) avisos.push("Para o pet entrar na União Europeia vindo do Brasil, o exame de sorologia antirrábica precisa ser feito pelo menos 3 meses antes da viagem.");
+  if (reservas.size) avisos.push("Reserve com antecedência: "+[...reservas].join(", ")+".");
+  if (cities.includes("veneza")) avisos.push("Veneza: confira se a taxa de acesso para visitantes vale para as suas datas.");
+  if (cities.includes("amalfi") && mm.some(m=>[10,11,0,1,2].includes(m))) avisos.push("Costa Amalfitana fora de temporada: muitas balsas e hotéis param entre novembro e março.");
+  // guia
+  const guia=cities.map(c=>({cidade:KB[c].nome,ver:[...KB[c].ver,...KB[c].bate].sort((a,b)=>score(b)-score(a)).map(v=>[v.n,v.d]),comer:KB[c].comer}));
+  // orçamento
+  const tier={Econômico:0.65,Médio:1,Conforto:1.8}[f.orc]||1;
+  const adultsAll=f.adultos+f.idosos+K.teen, kidsPay=K.crianca;
+  const rooms=Math.max(1,Math.ceil((f.adultos+f.idosos)/2)) + (K.teen>1?1:0);
+  let hosp=0, alim=0, pas=0, transp=0;
+  cities.forEach((c,ci)=>{ const n=nights[c]; hosp+=KB[c].hotel*n*rooms*tier; const food=KB[c].pais==="PT"?40:55; alim+=n*(adultsAll+kidsPay*0.6)*food*tier; pas+=n*(adultsAll+kidsPay*0.5)*20;
+    if(ci>0){ const L=leg(cities[ci-1],c); const p=L.preco; transp += p*(adultsAll + kidsPay*(L.tipo==="voo"?0.9:0.5) + K.bebe*(L.tipo==="voo"?0.1:0)); } });
+  transp += 2*15*(adultsAll+kidsPay); // traslados de aeroporto
+  const R=v=>Math.round(v/10)*10;
+  const orcamento={moeda:"EUR",itens:[["Hospedagem",R(hosp)],["Trens, voos internos e traslados",R(transp)],["Alimentação",R(alim)],["Passeios e ingressos",R(pas)],["Compras e extras",R((hosp+alim)*0.1)]],observacao:`Estimativa de nível ${f.orc.toLowerCase()} para ${viajantes.filter(v=>v.tipo!=="pet").length} pessoas, ${rooms} ${rooms>1?"quartos":"quarto"}. Não inclui as passagens de ida e volta do Brasil.`};
+  const frases=[];
+  if (cities.some(c=>KB[c].pais==="PT")) frases.push(["Pequeno-almoço","Café da manhã (em Portugal)"],["Casa de banho","Banheiro"],["Comboio / autocarro","Trem / ônibus"],["Uma bica, por favor","Um cafezinho, por favor"]);
+  if (cities.some(c=>KB[c].pais==="IT")) frases.push(["Buongiorno! / Grazie!","Bom dia! / Obrigado!"],["Il conto, per favore.","A conta, por favor."],["Quanto costa?","Quanto custa?"],["Dov'è la stazione?","Onde fica a estação?"],["Un tavolo per "+(f.adultos+f.idosos+idades.length)+", per favore.","Uma mesa para "+(f.adultos+f.idosos+idades.length)+", por favor."]);
+  const paisesNomes=[...new Set(cities.map(c=>KB[c].pais))].map(p=>p==="PT"?"Portugal":"Itália");
+  const titulo = paisesNomes.length>1 ? "Portugal e Itália" : cities.length>1 ? `${KB[cities[0]].nome} a ${KB[last].nome}` : KB[cities[0]].nome;
+  const resumo = cities.map(c=>KB[c].nome).join(", ")+` em ${N} dias`+(hasKids?", com crianças":"")+(seniors?", com os avós":"")+".";
+  return {id:"t"+Date.now(),cityIds:cities,titulo,resumo,ida:f.ida,volta:f.volta,viajantes,cidades:cities.map(c=>({nome:KB[c].nome,noites:nights[c]})),avisos,dias,mala:{todos,por_pessoa:por},guia,orcamento,frases,fonte:"curado"};
+}
+function localGuide(q){
+  const T=S.trip; const n=q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  const has=(...w)=>w.some(x=>n.includes(x));
+  const m=n.match(/\bdia\s*(\d{1,2})\b/);
+  if (m){ const dd=T.dias.find(x=>pd(x.data).getUTCDate()===+m[1]); if(dd) return `${wd(dd.data)}, ${fmtD(dd.data)} — ${dd.titulo} (${dd.cidade}):\n`+dd.itens.map(([h,t])=>`• ${h}: ${t}`).join("\n"); }
+  const cityHit=T.cidades.find(c=>n.includes(c.nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")));
+  if (has("trem","voo","como ir","como chego","deslocamento","transporte")){ const mv=T.dias.filter(x=>x.tipo==="deslocamento"&&x.passos); return mv.map(x=>`${fmtD(x.data)} — ${x.titulo}:\n`+x.passos.map(([h,t])=>`• ${h}: ${t}`).join("\n")).join("\n\n"); }
+  if (has("mala","levar","roupa")) return "Para todos: "+T.mala.todos.join("; ")+".\n\nA lista de cada pessoa está na aba Mala.";
+  if (has("documento","passaporte","seguro","visto","etias","autorizacao")) return T.avisos.join("\n");
+  if (has("quanto","custa","orcamento","gasto","preco")){ const tot=T.orcamento.itens.reduce((a,i)=>a+i[1],0); return `Estimativa total: cerca de ${tot.toLocaleString("pt-BR")} euros, fora as passagens do Brasil.\n`+T.orcamento.itens.map(([c,v])=>`• ${c}: ${v.toLocaleString("pt-BR")} €`).join("\n"); }
+  if (has("comer","comida","prato","restaurante")) return T.guia.map(g=>`${g.cidade}: ${g.comer.join(", ")}`).join("\n");
+  if (cityHit){ const g=T.guia.find(x=>x.cidade===cityHit.nome); return `${cityHit.nome} (${cityHit.noites} noites). Não percam: `+g.ver.slice(0,4).map(v=>v[0]).join("; ")+".\nPara provar: "+g.comer.join(", ")+"."; }
+  if (has("crianca","bebe","filho")) return "Com crianças: o roteiro prioriza passeios tranquilos e para a idade delas, como "+T.guia.flatMap(g=>g.ver.slice(0,1).map(v=>v[0])).join(", ")+". Veja na aba Mala os itens de cada criança e, em Início, os documentos para menores.";
+  return "Posso ajudar com: o programa de um dia (ex.: 'o que fazemos no dia 12?'), trens e voos, mala, documentos, orçamento, comidas ou uma cidade específica.";
+}
+
+/* ===== Sunny Trip — interface ===== */
+const MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const WD=["dom","seg","ter","qua","qui","sex","sáb"];
+const pd=iso=>{const [y,m,d]=iso.split("-").map(Number);return new Date(Date.UTC(y,m-1,d));};
+const fmtD=iso=>{const t=pd(iso);return t.getUTCDate()+" "+MES[t.getUTCMonth()];};
+const wd=iso=>WD[pd(iso).getUTCDay()];
+const todayISO=()=>{const t=new Date();return new Date(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())).toISOString().slice(0,10);};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=(v,cur="EUR")=>(cur==="EUR"?"€ ":"R$ ")+Math.round(v).toLocaleString("pt-BR");
+const money2=(v,cur="EUR")=>(cur==="EUR"?"€ ":"R$ ")+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const ORIGENS=[["São Paulo","GRU"],["Rio de Janeiro","GIG"],["Belo Horizonte","CNF"],["Brasília","BSB"],["Recife","REC"],["Fortaleza","FOR"],["Salvador","SSA"],["Porto Alegre","POA"],["Curitiba","CWB"],["Florianópolis","FLN"]];
+const INTER=["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"];
+const CAT=["Hospedagem","Trens, voos internos e traslados","Alimentação","Passeios e ingressos","Compras e extras"];
+const CATS={"Hospedagem":"Hospedagem","Trens, voos internos e traslados":"Transporte","Alimentação":"Comida","Passeios e ingressos":"Passeios","Compras e extras":"Extras"};
+const CCOL={lisboa:["#f2542d","#ff9f1c"],porto:["#2a62d9","#59b8ff"],milao:["#3b3f58","#9aa6c7"],veneza:["#0e9aa7","#8be0d4"],cinqueterre:["#ff5f7e","#ffc36b"],florenca:["#c2552b","#f2a65a"],amalfi:["#1677ff","#5ce1e6"],roma:["#b8322a","#ff9e57"]};
+const AVC=["#2a7cff","#ff6a48","#14bf96","#7b5cff","#ff4f8b","#ffb21f","#0e9aa7","#8a5a2b"];
+const FX_FALLBACK=6.3;
+const cityIdByName=n=>Object.keys(KB).find(k=>KB[k].nome===n);
+const cityColor=n=>{const id=cityIdByName(n);return id?CCOL[id][0]:"#8a94a8";};
+
+/* ---------- estado ---------- */
+const LS="sunnytrip.v1";
+const S={trips:[],cur:null,trip:null,tab:"inicio",day:0,view:"form",theme:"auto",wx:{},fx:null,chat:[],
+  form:{paises:["PT","IT"],cidades:[],ida:"",volta:"",origem:"São Paulo",adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"]},err:""};
+function load(){try{const j=JSON.parse(localStorage.getItem(LS)||"null"); if(j){S.trips=j.trips||[];S.theme=j.theme||"auto";S.fx=j.fx||null;S.wx=j.wx||{}; if(j.form) S.form=Object.assign(S.form,j.form);}}catch(e){}}
+function save(){try{localStorage.setItem(LS,JSON.stringify({trips:S.trips,theme:S.theme,fx:S.fx,wx:S.wx,form:S.form}));}catch(e){}}
+function applyTheme(){ if(S.theme==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",S.theme); }
+
+/* ---------- formulário ---------- */
+function citiesFor(paises){ return [...(paises.includes("PT")?ORDER.PT:[]),...(paises.includes("IT")?ORDER.IT:[])]; }
+function stepper(key,val,min){ return `<div class="step"><button data-dec="${key}" aria-label="Menos" ${val<=min?"disabled":""}>−</button><b class="mono">${val}</b><button data-inc="${key}" aria-label="Mais">+</button></div>`; }
+function ageSel(i,a){ let o=""; for(let k=0;k<=17;k++) o+=`<option value="${k}" ${k===a?"selected":""}>${k===0?"menos de 1 ano":k+(k===1?" ano":" anos")}</option>`; return `<select data-age="${i}" aria-label="Idade da criança ${i+1}">${o}</select>`; }
+const catOf=a=>a<=3?"Bebê":a<=11?"Criança":"Adolescente";
+const catNote=a=>a<=1?"voa no colo, paga pouco":a<=3?"carrinho e trocador":a<=11?"meia-entrada em muitos museus":"conta como adulto em trens e voos";
+
+function viewForm(){
+  const F=S.form; const N=F.ida&&F.volta?nightsBetween(F.ida,F.volta):0;
+  const avail=citiesFor(F.paises); const rec=N>0&&F.paises.length?suggestCities(F.paises,N):[];
+  return `<div class="v col" style="gap:14px">
+  <header class="hero">
+    <div class="row sb"><span class="brand"><span class="sun"></span>Sunny Trip</span><button class="pillbtn" data-theme-t>${S.theme==="dark"?"Escuro":S.theme==="light"?"Claro":"Automático"}</button></div>
+    <h1>Sua viagem, pronta em um minuto.</h1>
+    <p>Escolha o destino, as datas e quem vai. O Sunny Trip monta o roteiro dia a dia, a mala de cada um e a planilha de custos para dividir entre todos.</p>
+  </header>
+  ${S.trips.length?`<section class="glass" style="overflow:hidden"><div class="k" style="padding:14px 16px 0">Suas viagens</div>${S.trips.map((t,i)=>`<button class="tripRow" data-open="${i}" style="background:none;color:inherit"><span><b>${esc(t.titulo)}</b><br><span class="sub sm">${fmtD(t.ida)} – ${fmtD(t.volta)} · ${t.cidades.map(c=>esc(c.nome)).join(", ")}</span></span><span aria-hidden="true">→</span></button>`).join("")}</section>`:""}
+  <section class="glass card">
+    <div class="k">Para onde</div>
+    <div class="countries">
+      <button class="ctry pt ${F.paises.includes("PT")?"on":""}" data-ctry="PT" aria-pressed="${F.paises.includes("PT")}"><b>Portugal</b><span>Lisboa e Porto</span></button>
+      <button class="ctry it ${F.paises.includes("IT")?"on":""}" data-ctry="IT" aria-pressed="${F.paises.includes("IT")}"><b>Itália</b><span>De Milão a Roma</span></button>
+    </div>
+    ${avail.length?`<div class="row sb"><span class="sub sm">${F.cidades.length?"Cidades escolhidas":"Cidades: deixamos sugeridas, ou escolha as suas"}</span>${F.cidades.length?`<button class="link sm" data-clearc>Usar sugestão</button>`:""}</div>
+    <div class="chips">${avail.map(c=>{const on=F.cidades.length?F.cidades.includes(c):rec.includes(c);return `<button class="chip ${on?"on":""}" data-city="${c}" aria-pressed="${on}">${KB[c].nome}</button>`;}).join("")}</div>`:`<p class="sub sm" style="margin:0">Escolha pelo menos um país.</p>`}
+  </section>
+  <section class="glass card">
+    <div class="k">Quando</div>
+    <div class="g2">
+      <label class="f"><span>Saída do Brasil</span><input type="date" data-f="ida" value="${F.ida}" min="${todayISO()}"></label>
+      <label class="f"><span>Voo de volta</span><input type="date" data-f="volta" value="${F.volta}" min="${F.ida||todayISO()}"></label>
+    </div>
+    <label class="f"><span>Saindo de</span><select data-f="origem">${ORIGENS.map(([n,c])=>`<option value="${n}" ${F.origem===n?"selected":""}>${n} (${c})</option>`).join("")}</select></label>
+    ${N>0?`<p class="sm" style="margin:0"><b class="mono">${N}</b> <span class="sub">dias, ${Math.max(1,N-1)} noites na Europa (a primeira é no avião)</span></p>`:""}
+  </section>
+  <section class="glass card">
+    <div class="k">Quem vai</div>
+    <div class="who">
+      <div><b>Adultos</b><small>18 a 59 anos</small></div>${stepper("adultos",F.adultos,0)}
+      <div><b>Idosos</b><small>60 anos ou mais: roteiro com menos ladeiras</small></div>${stepper("idosos",F.idosos,0)}
+    </div>
+    ${F.idades.map((a,i)=>`<div class="kid"><div><b>${catOf(a)} ${i+1}</b><small class="sub xs" style="display:block">${catNote(a)}</small></div>${ageSel(i,a)}<button class="x" data-rmkid="${i}" aria-label="Remover criança ${i+1}">×</button></div>`).join("")}
+    <button class="addkid" data-addkid>+ Adicionar criança</button>
+    <label class="row" style="cursor:pointer"><input type="checkbox" data-pet ${F.pet?"checked":""} style="width:20px;height:20px;accent-color:var(--sky)"><span><b>Vai levar um pet</b></span></label>
+    ${F.pet?`<label class="f"><span>Nome do pet</span><input type="text" data-f="petNome" value="${esc(F.petNome)}" placeholder="Ex.: Thor"></label>`:""}
+  </section>
+  <section class="glass card">
+    <div class="k">Estilo</div>
+    <span class="sub sm">Ritmo</span>
+    <div class="seg">${["Tranquilo","Equilibrado","Intenso"].map(r=>`<button class="${F.ritmo===r?"on":""}" data-ritmo="${r}">${r}</button>`).join("")}</div>
+    <span class="sub sm">Orçamento</span>
+    <div class="seg">${["Econômico","Médio","Conforto"].map(r=>`<button class="${F.orc===r?"on":""}" data-orc="${r}">${r}</button>`).join("")}</div>
+    <span class="sub sm">Interesses</span>
+    <div class="chips">${INTER.map(x=>`<button class="chip ${F.inter.includes(x)?"on":""}" data-inter="${x}" aria-pressed="${F.inter.includes(x)}">${x}</button>`).join("")}</div>
+  </section>
+  ${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:""}
+  <button class="cta" data-go>Montar minha viagem</button>
+  <button class="link" data-example style="align-self:center">Ou veja um exemplo pronto</button>
+  </div>`;
+}
+function validate(F){
+  if(!F.paises.length) return "Escolha Portugal, Itália ou os dois.";
+  if(!F.ida||!F.volta) return "Preencha a data de saída do Brasil e a do voo de volta.";
+  const N=nightsBetween(F.ida,F.volta);
+  if(N<4) return "A viagem precisa ter pelo menos 4 dias entre a saída e a volta.";
+  if(N>35) return "Por enquanto o Sunny Trip monta viagens de até 35 dias.";
+  if(F.adultos+F.idosos<1) return "Inclua pelo menos um adulto ou idoso.";
+  if(F.pet&&!F.petNome.trim()) return "Escreva o nome do pet.";
+  return "";
+}
+function generate(F){
+  const origem=ORIGENS.find(o=>o[0]===F.origem)||ORIGENS[0];
+  const f={ida:F.ida,volta:F.volta,origem:`${origem[0]} (${origem[1]})`,paises:F.paises,cidades:F.cidades.filter(c=>citiesFor(F.paises).includes(c)),adultos:F.adultos,idosos:F.idosos,idades:F.idades,pet:F.pet?F.petNome.trim():false,ritmo:F.ritmo,orc:F.orc,inter:F.inter};
+  const T=buildTrip(f); T.orig=origem[1]; T.gastos=[]; T.checks={};
+  T.viajantes.forEach((v,i)=>{v.rot=v.nome; v.cor=AVC[i%AVC.length];});
+  T.mala.por_pessoa.forEach((p,i)=>p.vi=i);
+  return T;
+}
+function viewGen(T){
+  const codes=[T.orig,...T.cityIds.map(c=>IATA[c]),T.orig];
+  return `<div class="gen v">
+    <span class="brand"><span class="sun"></span>Sunny Trip</span>
+    <h1>Montando sua viagem…</h1>
+    <svg class="arc" viewBox="0 0 320 110" aria-hidden="true"><path id="arcp" d="M10 95 Q160 -25 310 95" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6" opacity=".35"/>
+      <g class="plane" style="offset-path:path('M10 95 Q160 -25 310 95');offset-rotate:auto"><path d="M-9 0 L9 0 M2 0 L-3 -7 M2 0 L-3 7 M-8 0 L-11 -4 M-8 0 L-11 4" stroke="#ff6a48" stroke-width="3" stroke-linecap="round"/></g></svg>
+    <div class="iata mono" style="justify-content:center;font-size:15px;font-weight:700">${codes.join(" · ")}</div>
+    <ul class="genl glass" id="genl">${["Escolhendo as cidades e as noites","Montando o roteiro dia a dia","Calculando o orçamento","Separando a mala de cada um","Checando documentos e reservas"].map(t=>`<li><i></i>${t}</li>`).join("")}</ul>
+  </div>`;
+}
+function startGen(T){
+  S.view="gen"; render(T);
+  const lis=[...document.querySelectorAll("#genl li")]; let i=0;
+  const tick=()=>{ if(i<lis.length){lis[i++].classList.add("ok"); setTimeout(tick,330);} else { S.trips.unshift(T); openTrip(0); } };
+  setTimeout(tick,300);
+}
+function exampleForm(){
+  const y=new Date().getUTCFullYear()+1;
+  return {paises:["PT","IT"],cidades:[],ida:`${y}-05-08`,volta:`${y}-05-22`,origem:"São Paulo",adultos:2,idosos:1,idades:[8,2],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia","Com crianças"]};
+}
+
+/* ---------- viagem ---------- */
+function openTrip(i){ S.cur=i; S.trip=S.trips[i]; S.view="trip"; S.tab="inicio"; S.chat=[];
+  const t=todayISO(); const k=S.trip.dias.findIndex(d=>d.data>=t); S.day=k<0?0:k; save(); render(); fetchLive(); }
+const people=()=>S.trip.viajantes.map((v,i)=>({...v,i})).filter(v=>v.tipo!=="pet");
+const payers=()=>people().filter(v=>v.tipo!=="crianca"||v.idade>=12);
+const fx=()=>S.fx&&S.fx.rate?S.fx.rate:FX_FALLBACK;
+const toEUR=g=>g.moeda==="EUR"?g.valor:g.valor/fx();
+
+function header(){
+  const T=S.trip; const N=nightsBetween(T.ida,T.volta); const until=nightsBetween(todayISO(),T.ida);
+  const codes=[[T.orig,"Brasil"],...T.cityIds.map(c=>[IATA[c],KB[c].nome]),[T.orig,"Brasil"]];
+  return `<header class="thead">
+    <div class="row sb"><button class="pillbtn" data-home>← Viagens</button><button class="pillbtn" data-theme-t>${S.theme==="dark"?"Escuro":S.theme==="light"?"Claro":"Automático"}</button></div>
+    <span class="k" style="color:inherit;opacity:.75;margin-top:10px">${fmtD(T.ida)} – ${fmtD(T.volta)} · ${until>0?`faltam ${until} dias`:until===0?"é hoje!":nightsBetween(todayISO(),T.volta)>=0?"em viagem":"viagem concluída"}</span>
+    <h1>${esc(T.titulo)}</h1>
+  </header>
+  <div class="glass board">
+    <div class="iata">${codes.map((c,i)=>`${i?'<span class="ln"></span>':""}<span class="c"><b>${c[0]}</b><small>${esc(c[1])}</small></span>`).join("")}</div>
+  </div>`;
+}
+function tabInicio(){
+  const T=S.trip; const N=nightsBetween(T.ida,T.volta); const P=people().length;
+  const t=todayISO(); const next=T.dias.find(d=>d.tipo==="deslocamento"&&d.data>=t);
+  const tot=T.orcamento.itens.reduce((a,i)=>a+i[1],0);
+  return `<div class="kpis"><div class="glass kpi"><b class="mono">${N}</b><span>dias</span></div><div class="glass kpi"><b class="mono">${T.cidades.length}</b><span>cidades</span></div><div class="glass kpi"><b class="mono">${P}</b><span>pessoas</span></div></div>
+  ${next?`<button class="next" data-goday="${T.dias.indexOf(next)}" style="margin-top:12px"><span class="k">Próximo deslocamento · ${wd(next.data)}, ${fmtD(next.data)}</span><b>${esc(next.titulo)}</b><span class="sm">Ver o passo a passo →</span></button>`:""}
+  <section class="sec"><h2>Cidades</h2>
+    <div class="posts">${T.cityIds.map((c,i)=>{const C=KB[c],col=CCOL[c],m=pd(T.ida).getUTCMonth();return `<div class="post" style="background:linear-gradient(150deg,${col[0]},${col[1]})">
+      <span class="mono">${IATA[c]} · ${C.pais==="PT"?"Portugal":"Itália"}</span>
+      <div><b>${C.nome}</b><div class="sm" style="margin-top:6px;opacity:.95">${T.cidades[i].noites} ${T.cidades[i].noites>1?"noites":"noite"} · ${C.clima.lo[m]}° a ${C.clima.hi[m]}°</div></div>
+      <svg viewBox="0 0 170 70" preserveAspectRatio="none"><path d="M0 50 Q30 30 60 45 T120 40 T170 35 V70 H0Z" fill="#fff"/><path d="M0 60 Q40 48 85 58 T170 52 V70 H0Z" fill="#fff"/></svg></div>`;}).join("")}</div>
+  </section>
+  <section class="sec"><h2>Antes de ir</h2>
+    <div class="glass warn" style="border-radius:22px"><ul style="margin:0;padding-left:18px">${T.avisos.map(a=>`<li class="sm">${esc(a)}</li>`).join("")}</ul></div>
+  </section>
+  <section class="sec"><h2>Quem vai</h2>
+    <div class="glass card"><span class="sub sm">Toque no nome para trocar. Os nomes aparecem na divisão de custos e na mala.</span>
+    ${T.viajantes.map((v,i)=>`<div class="row" style="flex-wrap:nowrap"><span class="av" style="background:${v.cor}">${esc((v.nome||"?").trim()[0]||"?").toUpperCase()}</span><input type="text" data-vname="${i}" value="${esc(v.nome)}" aria-label="Nome de ${esc(v.rot)}"></div>`).join("")}</div>
+  </section>
+  <section class="sec"><h2>Orçamento</h2>
+    <button class="glass card" data-tab="custos" style="text-align:left;cursor:pointer"><span class="k">Estimativa na Europa</span><span class="big mono">${money(tot)}</span><span class="sub sm">cerca de ${money(tot*fx(),"BRL")} · fora as passagens do Brasil. Abrir custos →</span></button>
+  </section>`;
+}
+function wxFor(d){
+  const id=cityIdByName(d.cidade); const live=id&&S.wx[id]&&S.wx[id].d&&S.wx[id].d[d.data];
+  if(live) return {...live,live:true};
+  return d.clima?{...d.clima,live:false}:null;
+}
+function tabRoteiro(){
+  const T=S.trip; const d=T.dias[S.day]; const cc=cityColor(d.cidade); const w=wxFor(d);
+  const tl=d.tipo==="deslocamento"?"mv":d.tipo==="bate-volta"?"bt":"";
+  return `<section class="sec" style="margin-top:12px">
+    <div class="days" role="tablist">${T.dias.map((x,i)=>`<button class="dc ${i===S.day?"on":""}" data-day="${i}" style="--cc:${cityColor(x.cidade)}" role="tab" aria-selected="${i===S.day}"><span>${wd(x.data)}</span><b class="mono">${pd(x.data).getUTCDate()}</b><i></i></button>`).join("")}</div>
+    <article class="glass card">
+      <div class="dh"><div><span class="k" style="color:${cc}">Dia ${S.day+1} · ${esc(d.cidade)} · ${wd(d.data)}, ${fmtD(d.data)}</span><h3 style="margin-top:4px">${esc(d.titulo)}</h3></div>
+      <span class="tag ${tl}">${d.tipo==="deslocamento"?"Deslocamento":d.tipo==="bate-volta"?"Bate-volta":"Na cidade"}</span></div>
+      ${w?`<div class="wx"><span class="t mono">${Math.round(w.max)}°</span><div style="flex:1"><div class="row sb"><span class="sm">mín. ${Math.round(w.min)}° · chuva ${Math.round(w.chance)}%</span>${w.live?`<span class="live">PREVISÃO</span>`:`<span class="sub xs">média do mês</span>`}</div><div class="bar"><i style="width:${Math.min(100,w.chance)}%"></i></div></div></div>`:""}
+      <ul class="tl">${d.itens.map(([h,t])=>`<li><span class="h">${esc(h)}</span><span>${esc(t)}</span></li>`).join("")}</ul>
+      ${d.dica?`<div class="tip"><b>Dica:</b> ${esc(d.dica)}</div>`:""}
+    </article>
+    ${d.passos?`<article class="glass card"><span class="k">Passo a passo</span><div class="now"><span class="h">${esc(d.passos[0][0])}</span><b>${esc(d.passos[0][1])}</b></div>
+      <ol class="steps">${d.passos.map(([h,t],i)=>`<li><i>${i+1}</i><span><b class="sm">${esc(h)}</b><br><span class="sm sub">${esc(t)}</span></span></li>`).join("")}</ol></article>`:""}
+    <div class="row sb"><button class="pillbtn" style="background:var(--glass)" data-day="${Math.max(0,S.day-1)}" ${S.day===0?"disabled":""}>← Anterior</button><button class="pillbtn" style="background:var(--glass)" data-day="${Math.min(T.dias.length-1,S.day+1)}" ${S.day===T.dias.length-1?"disabled":""}>Próximo →</button></div>
+  </section>`;
+}
+function settle(){
+  const T=S.trip; const bal={}; people().forEach(p=>bal[p.i]=0);
+  T.gastos.forEach(g=>{ const v=toEUR(g); if(!g.entre.length) return; bal[g.pagou]=(bal[g.pagou]||0)+v; const s=v/g.entre.length; g.entre.forEach(i=>bal[i]=(bal[i]||0)-s); });
+  const deb=[],cre=[]; Object.entries(bal).forEach(([i,v])=>{ if(v<-0.005) deb.push([+i,-v]); else if(v>0.005) cre.push([+i,v]); });
+  deb.sort((a,b)=>b[1]-a[1]); cre.sort((a,b)=>b[1]-a[1]); const out=[];
+  let a=0,b=0; while(a<deb.length&&b<cre.length){ const x=Math.min(deb[a][1],cre[b][1]); out.push([deb[a][0],cre[b][0],x]); deb[a][1]-=x; cre[b][1]-=x; if(deb[a][1]<0.005)a++; if(cre[b][1]<0.005)b++; }
+  return {bal,out};
+}
+let GF=null;
+function tabCustos(){
+  const T=S.trip; const plan=T.orcamento.itens; const tot=plan.reduce((a,i)=>a+i[1],0);
+  const spent={}; CAT.forEach(c=>spent[c]=0); T.gastos.forEach(g=>spent[g.cat]=(spent[g.cat]||0)+toEUR(g));
+  const st=Object.values(spent).reduce((a,b)=>a+b,0);
+  const P=people(), PY=payers();
+  if(!GF) GF={desc:"",valor:"",moeda:"EUR",cat:CAT[2],pagou:PY[0]?PY[0].i:P[0].i,entre:PY.map(p=>p.i)};
+  const {bal,out}=settle(); const nm=i=>esc(T.viajantes[i].nome);
+  const fxl=S.fx&&S.fx.rate?`Câmbio do dia ${S.fx.date?fmtD(S.fx.date):""}: € 1 = R$ ${S.fx.rate.toLocaleString("pt-BR",{maximumFractionDigits:2})}`:`Câmbio aproximado: € 1 = R$ ${FX_FALLBACK.toLocaleString("pt-BR")} (atualiza quando há internet)`;
+  return `<section class="sec" style="margin-top:12px">
+    <div class="glass card">
+      <span class="k">Gasto até agora</span>
+      <div class="row" style="align-items:baseline;gap:8px"><span class="big mono">${money(st)}</span><span class="sub mono">de ${money(tot)}</span></div>
+      <div class="bar2"><div class="tr" style="height:12px"><i class="${st>tot?"o":"s"}" style="width:${Math.min(100,tot?st/tot*100:0)}%"></i></div></div>
+      <span class="sub sm">${money(st*fx(),"BRL")} de ${money(tot*fx(),"BRL")} · ${fxl}</span>
+    </div>
+    <div class="glass card"><span class="k">Planejado × gasto</span><div class="bars">
+      ${plan.map(([c,v])=>{const s=spent[c]||0;return `<div class="bar2"><span>${CATS[c]||c}</span><span class="mono sm">${money(s)} <span class="sub">/ ${money(v)}</span></span><div class="tr"><i class="p" style="width:100%"></i><i class="${s>v?"o":"s"}" style="width:${Math.min(100,v?s/v*100:0)}%"></i></div></div>`;}).join("")}
+    </div><span class="sub xs">${esc(T.orcamento.observacao)}</span></div>
+    <h2 style="font-size:28px;font-weight:800;margin-top:6px">Novo gasto</h2>
+    <form class="glass card" data-addg>
+      <label class="f"><span>O que foi</span><input type="text" name="desc" value="${esc(GF.desc)}" placeholder="Ex.: jantar em Roma" required></label>
+      <div class="g2"><label class="f"><span>Valor</span><input type="number" name="valor" inputmode="decimal" step="0.01" min="0.01" value="${esc(GF.valor)}" placeholder="0,00" required></label>
+      <label class="f"><span>Moeda</span><select name="moeda"><option value="EUR" ${GF.moeda==="EUR"?"selected":""}>Euro (€)</option><option value="BRL" ${GF.moeda==="BRL"?"selected":""}>Real (R$)</option></select></label></div>
+      <div class="g2"><label class="f"><span>Categoria</span><select name="cat">${CAT.map(c=>`<option value="${c}" ${GF.cat===c?"selected":""}>${CATS[c]}</option>`).join("")}</select></label>
+      <label class="f"><span>Quem pagou</span><select name="pagou">${P.map(p=>`<option value="${p.i}" ${GF.pagou===p.i?"selected":""}>${esc(p.nome)}</option>`).join("")}</select></label></div>
+      <span class="sub sm">Dividir entre</span>
+      <div class="chips">${P.map(p=>`<button type="button" class="chip ${GF.entre.includes(p.i)?"on":""}" data-entre="${p.i}" aria-pressed="${GF.entre.includes(p.i)}">${esc(p.nome)}</button>`).join("")}</div>
+      <button class="cta" type="submit" style="padding:15px;font-size:16px">Adicionar gasto</button>
+    </form>
+    ${T.gastos.length?`<h2 style="font-size:28px;font-weight:800;margin-top:6px">Acertos</h2>
+    <div class="glass card">${out.length?out.map(([d,c,v])=>`<div class="settle"><span class="av" style="background:${T.viajantes[d].cor}">${nm(d).trim()[0]?.toUpperCase()||"?"}</span><span style="flex:1"><b>${nm(d)}</b> <span class="sub">paga para</span> <b>${nm(c)}</b></span><span class="mono" style="font-weight:700">${money2(v)}</span></div>`).join(""):`<p class="sub" style="margin:0">Tudo certo: ninguém deve nada.</p>`}
+      <span class="sub xs">O menor número de transferências para deixar todos quites, em euros.</span></div>
+    <h2 style="font-size:28px;font-weight:800;margin-top:6px">Gastos</h2>
+    <div class="glass card">${T.gastos.slice().reverse().map(g=>`<div class="exp"><span><b>${esc(g.desc)}</b><br><span class="sub sm">${CATS[g.cat]} · ${nm(g.pagou)} pagou · ${g.entre.length} ${g.entre.length>1?"pessoas":"pessoa"}</span></span><span class="mono" style="font-weight:700;text-align:right">${money2(g.valor,g.moeda)}${g.moeda==="BRL"?`<br><span class="sub xs">${money2(toEUR(g))}</span>`:""}</span><button class="del" data-delg="${g.id}">Apagar</button></div>`).join("")}</div>`
+    :`<p class="sub sm" style="margin:0;text-align:center">Lance cada gasto aqui e o app calcula quem deve quanto para quem.</p>`}
+  </section>`;
+}
+function tabMala(){
+  const T=S.trip; const ck=T.checks||{};
+  const item=(k,t)=>`<label class="chk"><input type="checkbox" data-ck="${esc(k)}" ${ck[k]?"checked":""}><span>${esc(t)}</span></label>`;
+  return `<section class="sec" style="margin-top:12px">
+    <div class="glass card"><span class="k">Para todos</span><div>${T.mala.todos.map((t,i)=>item("t"+i,t)).join("")}</div></div>
+    ${T.mala.por_pessoa.map((p,pi)=>{const v=T.viajantes[p.vi];return `<div class="glass card"><div class="row"><span class="av" style="background:${v?v.cor:"#999"}">${esc((v?v.nome:p.quem).trim()[0]||"?").toUpperCase()}</span><div><b>${esc(v?v.nome:p.quem)}</b>${v&&v.nome!==v.rot?`<br><span class="sub xs">${esc(v.rot)}</span>`:""}</div></div><div>${p.itens.map((t,i)=>item(`p${pi}-${i}`,t)).join("")}</div></div>`;}).join("")}
+  </section>`;
+}
+function tabGuia(){
+  const T=S.trip; const sug=["O que fazemos no dia "+pd(T.dias[Math.min(3,T.dias.length-1)].data).getUTCDate()+"?","Como vamos de uma cidade para outra?","Quais documentos precisamos?","Quanto vamos gastar?","O que comer?"];
+  return `<section class="sec" style="margin-top:12px">
+    <div class="glass card"><span class="k">Pergunte sobre a viagem</span>
+      <div class="msgs" id="msgs">${S.chat.length?S.chat.map(m=>`<div class="msg ${m.r}">${esc(m.t)}</div>`).join(""):`<div class="msg b">Oi! Pergunte sobre um dia, os trens, a mala, documentos, custos ou uma cidade.</div>`}</div>
+      <div class="sugg">${sug.map(s=>`<button class="chip" data-ask="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+      <form class="cbar" data-chat><input type="text" name="q" placeholder="Escreva sua pergunta" aria-label="Pergunta" autocomplete="off"><button type="submit">Enviar</button></form>
+    </div>
+    ${T.guia.map(g=>`<div class="glass card"><div class="row sb"><h3 style="font-size:24px;font-weight:800">${esc(g.cidade)}</h3><span class="sub xs mono">${IATA[cityIdByName(g.cidade)]||""}</span></div>
+      <div>${g.ver.map(([n,d])=>`<div class="place"><b>${esc(n)}</b><span class="sub sm">${esc(d)}</span><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(n+", "+g.cidade)}" target="_blank" rel="noopener">Ver no mapa ↗</a></div>`).join("")}</div>
+      <div class="tip"><b>Para provar:</b> ${g.comer.map(esc).join(", ")}</div></div>`).join("")}
+    <div class="glass card"><span class="k">Frases úteis</span>${T.frases.map(([a,b])=>`<div class="place"><b>${esc(a)}</b><span class="sub sm">${esc(b)}</span></div>`).join("")}</div>
+  </section>`;
+}
+const ICONS={inicio:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',roteiro:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',custos:'<path d="M4 7h16v12H4z"/><path d="M4 7l2-3h12l2 3M15 13h2"/>',mala:'<rect x="4" y="7" width="16" height="13" rx="3"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M4 12h16"/>',guia:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'};
+const TABN={inicio:"Início",roteiro:"Roteiro",custos:"Custos",mala:"Mala",guia:"Guia"};
+function viewTrip(){
+  const body={inicio:tabInicio,roteiro:tabRoteiro,custos:tabCustos,mala:tabMala,guia:tabGuia}[S.tab]();
+  return `<div class="v">${header()}${body}</div>`;
+}
+function render(T){
+  applyTheme();
+  const app=document.getElementById("app"), tabs=document.getElementById("tabs");
+  if(S.view==="form"){ app.innerHTML=viewForm(); tabs.hidden=true; }
+  else if(S.view==="gen"){ app.innerHTML=viewGen(T); tabs.hidden=true; }
+  else { app.innerHTML=viewTrip(); tabs.hidden=false;
+    tabs.innerHTML=Object.keys(TABN).map(k=>`<button class="${S.tab===k?"on":""}" data-tab="${k}" aria-current="${S.tab===k?"page":"false"}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>${TABN[k]}</button>`).join("");
+    if(S.tab==="roteiro"){ const on=app.querySelector(".dc.on"); if(on) on.scrollIntoView({inline:"center",block:"nearest"}); }
+    if(S.tab==="guia"){ const m=document.getElementById("msgs"); if(m) m.lastElementChild?.scrollIntoView({block:"nearest"}); }
+  }
+}
+function persistTrip(){ if(S.cur!=null) S.trips[S.cur]=S.trip; save(); }
+
+/* ---------- dados ao vivo (funcionam quando o app está publicado na web aberta) ---------- */
+async function fetchLive(){
+  const T=S.trip; if(!T) return; let changed=false;
+  try{ if(!S.fx||!S.fx.at||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR&to=BRL"); if(r.ok){const j=await r.json(); if(j.rates&&j.rates.BRL){S.fx={rate:j.rates.BRL,date:j.date,at:Date.now()};changed=true;}} } }catch(e){}
+  const t=todayISO(), lim=addDays(t,15);
+  if(T.volta>=t && T.ida<=lim){
+    for(const id of T.cityIds){ const c=KB[id]; const w=S.wx[id];
+      if(w&&w.at&&Date.now()-w.at<3*36e5) continue;
+      try{ const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=16&timezone=auto`);
+        if(r.ok){ const j=await r.json(); const d={}; (j.daily.time||[]).forEach((x,i)=>d[x]={max:j.daily.temperature_2m_max[i],min:j.daily.temperature_2m_min[i],chance:j.daily.precipitation_probability_max[i]??0}); S.wx[id]={at:Date.now(),d}; changed=true; } }catch(e){}
+    }
+  }
+  if(changed){ save(); if(S.view==="trip"&&(S.tab==="roteiro"||S.tab==="custos"||S.tab==="inicio")) render(); }
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button,[data-tab]"); if(!b) return; const D=b.dataset, F=S.form;
+  if("themeT" in D){ S.theme=S.theme==="auto"?"dark":S.theme==="dark"?"light":"auto"; save(); render(); return; }
+  if(D.ctry){ F.paises=F.paises.includes(D.ctry)?F.paises.filter(x=>x!==D.ctry):[...F.paises,D.ctry]; F.cidades=F.cidades.filter(c=>citiesFor(F.paises).includes(c)); save(); render(); return; }
+  if(D.city){ const N=F.ida&&F.volta?nightsBetween(F.ida,F.volta):0; if(!F.cidades.length) F.cidades=N>0?suggestCities(F.paises,N):[]; F.cidades=F.cidades.includes(D.city)?F.cidades.filter(x=>x!==D.city):[...F.cidades,D.city]; save(); render(); return; }
+  if("clearc" in D){ F.cidades=[]; save(); render(); return; }
+  if(D.inc){ F[D.inc]=Math.min(9,F[D.inc]+1); save(); render(); return; }
+  if(D.dec){ F[D.dec]=Math.max(0,F[D.dec]-1); save(); render(); return; }
+  if("addkid" in D){ if(F.idades.length<8) F.idades.push(8); save(); render(); return; }
+  if(D.rmkid){ F.idades.splice(+D.rmkid,1); save(); render(); return; }
+  if(D.ritmo){ F.ritmo=D.ritmo; save(); render(); return; }
+  if(D.orc){ F.orc=D.orc; save(); render(); return; }
+  if(D.inter){ F.inter=F.inter.includes(D.inter)?F.inter.filter(x=>x!==D.inter):[...F.inter,D.inter]; save(); render(); return; }
+  if("go" in D){ S.err=validate(F); if(S.err){ render(); document.querySelector(".err")?.scrollIntoView({block:"center",behavior:"smooth"}); return; } save(); startGen(generate(F)); return; }
+  if("example" in D){ S.err=""; startGen(generate(exampleForm())); return; }
+  if(D.open){ openTrip(+D.open); window.scrollTo(0,0); return; }
+  if("home" in D){ S.view="form"; S.trip=null; S.cur=null; GF=null; render(); window.scrollTo(0,0); return; }
+  if(D.tab){ S.tab=D.tab; GF=null; render(); window.scrollTo({top:0}); return; }
+  if(D.goday){ S.day=+D.goday; S.tab="roteiro"; render(); window.scrollTo({top:0}); return; }
+  if(D.day!=null){ S.day=+D.day; render(); return; }
+  if(D.entre!=null){ const i=+D.entre; GF.entre=GF.entre.includes(i)?GF.entre.filter(x=>x!==i):[...GF.entre,i]; keepForm(); render(); return; }
+  if(D.delg){ S.trip.gastos=S.trip.gastos.filter(g=>g.id!==D.delg); persistTrip(); render(); return; }
+  if(D.ask){ ask(D.ask); return; }
+});
+function keepForm(){ const f=document.querySelector("form[data-addg]"); if(!f) return; GF.desc=f.desc.value; GF.valor=f.valor.value; GF.moeda=f.moeda.value; GF.cat=f.cat.value; GF.pagou=+f.pagou.value; }
+document.addEventListener("change",e=>{
+  const t=e.target, D=t.dataset, F=S.form;
+  if(D.f){ F[D.f]=t.value; if(D.f==="ida"&&F.volta&&F.volta<=F.ida) F.volta=""; save(); if(D.f!=="petNome") render(); return; }
+  if(D.age!=null){ F.idades[+D.age]=+t.value; save(); render(); return; }
+  if("pet" in D){ F.pet=t.checked; save(); render(); return; }
+  if(D.vname!=null){ const v=t.value.trim(); S.trip.viajantes[+D.vname].nome=v||S.trip.viajantes[+D.vname].rot; persistTrip(); render(); return; }
+  if(D.ck){ S.trip.checks[D.ck]=t.checked; persistTrip(); return; }
+});
+document.addEventListener("input",e=>{ if(e.target.dataset.f==="petNome"){ S.form.petNome=e.target.value; save(); } });
+document.addEventListener("submit",e=>{
+  const f=e.target; e.preventDefault();
+  if("addg" in f.dataset){ keepForm(); const v=parseFloat(String(GF.valor).replace(",","."));
+    if(!GF.desc.trim()||!(v>0)||!GF.entre.length){ alertIn(f,"Preencha o que foi, o valor e escolha com quem dividir."); return; }
+    S.trip.gastos.push({id:"g"+Date.now(),desc:GF.desc.trim(),valor:v,moeda:GF.moeda,cat:GF.cat,pagou:GF.pagou,entre:GF.entre.slice()});
+    GF.desc="";GF.valor=""; persistTrip(); render(); return; }
+  if("chat" in f.dataset){ const q=f.q.value.trim(); if(q) ask(q); }
+});
+function alertIn(f,msg){ let el=f.querySelector(".err"); if(!el){el=document.createElement("div");el.className="err";el.setAttribute("role","alert");f.insertBefore(el,f.lastElementChild);} el.textContent=msg; }
+function ask(q){ S.chat.push({r:"m",t:q}); let a; try{a=localGuide(q);}catch(e){a="Não consegui responder agora. Tente perguntar de outro jeito.";} S.chat.push({r:"b",t:a}); render(); document.querySelector(".cbar input")?.focus(); }
+
+load(); render();
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></html>
