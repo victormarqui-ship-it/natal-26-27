@@ -463,35 +463,35 @@ const TRAJETOS = [
 ];
 
 const HOTELS = {
-  MUC:{name:"Hampton by Hilton Munich City Center East", addr:"Hermann-Weinhauser-Straße 71, 81673 München", phone:"+49 89 43777750", res:"§hmuc§", dates:"20/12 → 26/12 · 6 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet aceito (até 25 kg), taxa única de €25.", petOk:true, extra:"Reserva no nome da Mariana (Hilton Honors §hh§). Cancelamento grátis até 15/12, 23h59."},
-  DRS:{name:"Holiday Inn Express Dresden Zentrum", addr:"Prager Straße 13, 01069 Dresden", phone:"+49 351 31261760", res:"§hdrs§", dates:"26/12 → 30/12 · 4 noites", inout:"Check-in 15h · check-out 11h", pet:"A confirmação não fala do pet. Confirmar com o hotel antes da viagem.", petOk:false, extra:"Reserva pela Nuitee, já paga, não reembolsável. Taxa de €16,61 a pagar no hotel. Suporte: vip.cs@nuitee.com · +34 900 752 513."},
-  BER:{name:"Hampton by Hilton Berlin City West", addr:"Uhlandstraße 188-189, 10623 Berlin", phone:"+49 30 4050270", res:"§hber§", dates:"30/12 → 02/01 · 3 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet confirmado por e-mail em 27/10, taxa única de €25.", petOk:true, extra:"O hotel guarda as malas antes do check-in e depois do check-out (info@hampton.berlin). Reserva no nome da Mariana."}
+  MUC:{name:"Hampton by Hilton Munich City Center East", addr:"Hermann-Weinhauser-Straße 71, 81673 München", phone:"+49 89 43777750", res:"93896181", dates:"20/12 → 26/12 · 6 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet aceito (até 25 kg), taxa única de €25.", petOk:true, extra:"Reserva no nome da Mariana (Hilton Honors 614959662). Cancelamento grátis até 15/12, 23h59."},
+  DRS:{name:"Holiday Inn Express Dresden Zentrum", addr:"Prager Straße 13, 01069 Dresden", phone:"+49 351 31261760", res:"15180294", dates:"26/12 → 30/12 · 4 noites", inout:"Check-in 15h · check-out 11h", pet:"A confirmação não fala do pet. Confirmar com o hotel antes da viagem.", petOk:false, extra:"Reserva pela Nuitee, já paga, não reembolsável. Taxa de €16,61 a pagar no hotel. Suporte: vip.cs@nuitee.com · +34 900 752 513."},
+  BER:{name:"Hampton by Hilton Berlin City West", addr:"Uhlandstraße 188-189, 10623 Berlin", phone:"+49 30 4050270", res:"96001685", dates:"30/12 → 02/01 · 3 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet confirmado por e-mail em 27/10, taxa única de €25.", petOk:true, extra:"O hotel guarda as malas antes do check-in e depois do check-out (info@hampton.berlin). Reserva no nome da Mariana."}
 };
 
 const FLIGHTS = [
-  {date:"Domingo, 20/12", airline:"KLM", code:"§klm§", legs:[
+  {date:"Domingo, 20/12", airline:"KLM", code:"Z6EQZM", legs:[
     {no:"KL1580", from:"Lisboa", dep:"11:30", to:"Amsterdã", arr:"15:30"},
     {no:"KL1857", from:"Amsterdã", dep:"17:50", to:"Munique", arr:"19:15"}],
    seats:"Ana Maria 06A · Mariana 06B · Victor 06C, nos dois voos",
    bag:"Por pessoa: 1 mala de 23 kg, mais mala de mão e acessório até 12 kg somados.",
-   tickets:[["Victor","§kv§"],["Mariana","§km§"],["Ana Maria","§ka§"]],
+   tickets:[["Victor","0742143174059"],["Mariana","0742143174060"],["Ana Maria","0742143174061"]],
    warn:"Os bilhetes não mostram reserva de pet na cabine. Confirmar com a KLM."},
-  {date:"Sábado, 02/01/2027", airline:"TAP", code:"§tap§", legs:[
+  {date:"Sábado, 02/01/2027", airline:"TAP", code:"Z6DOCE", legs:[
     {no:"TP531", from:"Berlim · Terminal 1", dep:"12:50", to:"Lisboa · Terminal 1", arr:"15:40"}],
    seats:"O check-in fecha às 12:05",
    bag:"Por pessoa: 1 mala de 23 kg e 1 mala de mão de 10 kg.",
-   tickets:[["Victor","§tv§"],["Mariana","§tm§"],["Ana Maria","§ta§"]],
+   tickets:[["Victor","047 2527165431"],["Mariana","047 2527165430"],["Ana Maria","047 2527165432"]],
    ok:"Pet na cabine confirmado no bilhete da Mariana. O check-in do Ignacio é no balcão da TAP."}
 ];
 
 const TRAINS = [
-  {date:"Terça, 22/12", train:"ICE 1600", from:"Munique Central", dep:"10:30", to:"Nuremberg Central", arr:"11:33", cls:"2ª classe", tc:"§t1c§", ord:"§t1o§"},
-  {date:"Terça, 22/12", train:"ICE 723", from:"Nuremberg Central", dep:"19:01", to:"Munique Central", arr:"20:06", cls:"2ª classe", tc:"§t1c§", ord:"§t1o§"},
-  {date:"Sábado, 26/12", train:"ICE 1102", from:"Munique Central", dep:"07:25", to:"Erfurt Central", arr:"09:44", cls:"1ª classe", tc:"§t2c§", ord:"§t2o§", note:"Troca de trem em Erfurt com só 6 minutos."},
-  {date:"Sábado, 26/12", train:"ICE 1555", from:"Erfurt Central", dep:"09:50", to:"Dresden Central", arr:"11:42", cls:"1ª classe", tc:"§t2c§", ord:"§t2o§"},
-  {date:"Segunda, 28/12", train:"RJ 251", from:"Dresden Central", dep:"08:10", to:"Praga-Holešovice", arr:"10:21", cls:"1ª classe", tc:"§t3c§", ord:"§t3o§", note:"Chega na estação Holešovice, não na estação central de Praga."},
-  {date:"Segunda, 28/12", train:"EC 458", from:"Praga Central", dep:"18:31", to:"Dresden Central", arr:"20:57", cls:"1ª classe", tc:"§t4c§", ord:"§t3o§", note:"A volta sai da estação central de Praga."},
-  {date:"Quarta, 30/12", train:"IC 2272", from:"Dresden Central", dep:"07:32", to:"Berlim Central", arr:"09:32", cls:"1ª classe", tc:"§t5c§", ord:"§t5o§"}
+  {date:"Terça, 22/12", train:"ICE 1600", from:"Munique Central", dep:"10:30", to:"Nuremberg Central", arr:"11:33", cls:"2ª classe", tc:"MZ1TT9DV", ord:"714293547094"},
+  {date:"Terça, 22/12", train:"ICE 723", from:"Nuremberg Central", dep:"19:01", to:"Munique Central", arr:"20:06", cls:"2ª classe", tc:"MZ1TT9DV", ord:"714293547094"},
+  {date:"Sábado, 26/12", train:"ICE 1102", from:"Munique Central", dep:"07:25", to:"Erfurt Central", arr:"09:44", cls:"1ª classe", tc:"9CF9MUT7", ord:"190669367693", note:"Troca de trem em Erfurt com só 6 minutos."},
+  {date:"Sábado, 26/12", train:"ICE 1555", from:"Erfurt Central", dep:"09:50", to:"Dresden Central", arr:"11:42", cls:"1ª classe", tc:"9CF9MUT7", ord:"190669367693"},
+  {date:"Segunda, 28/12", train:"RJ 251", from:"Dresden Central", dep:"08:10", to:"Praga-Holešovice", arr:"10:21", cls:"1ª classe", tc:"DPUUEEJC", ord:"591604368318", note:"Chega na estação Holešovice, não na estação central de Praga."},
+  {date:"Segunda, 28/12", train:"EC 458", from:"Praga Central", dep:"18:31", to:"Dresden Central", arr:"20:57", cls:"1ª classe", tc:"6DPJ9ANU", ord:"591604368318", note:"A volta sai da estação central de Praga."},
+  {date:"Quarta, 30/12", train:"IC 2272", from:"Dresden Central", dep:"07:32", to:"Berlim Central", arr:"09:32", cls:"1ª classe", tc:"6FPPPGLC", ord:"219656765560"}
 ];
 
 /* city = onde dormem; wx = onde passam o dia (clima) */
@@ -650,7 +650,7 @@ const TASTES = [
 ];
 
 const DEFAULT_TODO = [
-  ["Confirmar o pet na cabine nos voos KLM (§klm§).","klm"],
+  ["Confirmar o pet na cabine nos voos KLM (Z6EQZM).","klm"],
   ["Confirmar com o hotel de Dresden que o Ignacio é aceito e qual é a taxa.","drs"],
   ["Decidir sobre o hotel de Munique antes de 15/12 (fim do cancelamento grátis).","muc"],
   ["Reservar a ceia de Natal em Munique (24/12).","ceia"],
@@ -668,7 +668,7 @@ const CONTACTS = [
   ["Emergência na Europa (Alemanha e República Tcheca)","112"],
   ["Seguro da Ana Maria (Intermac) · WhatsApp","+1 786 786 1194"],
   ["Seguro · e-mail","asistencias@intermacinsurance.com"],
-  ["Seguro · bilhete nº","§seg§"],
+  ["Seguro · bilhete nº","1146460"],
   ["TAP Miles&Go","0800 888 2066"],
   ["Hotel em Munique","+49 89 43777750"],
   ["Hotel em Dresden","+49 351 31261760"],
@@ -748,7 +748,7 @@ const MALA_EXTRA = {
     ["a-termica","Um conjunto extra de segunda pele","Quem vem do calor sente mais frio nos primeiros dias.",0.3,"d"],
     ["a-luvas","Luvas grossas e um gorro que cubra as orelhas","",0.2,"d"],
     ["a-sola","Botas com sola de borracha antiderrapante","Calçadas podem ter gelo de manhã.",0,"v"]]],["Para ela",[
-    ["a-seguro","Seguro viagem impresso (bilhete §seg§) e o contato da seguradora","Vale de 27/11/2026 a 22/01/2027.",0.05,"m"],
+    ["a-seguro","Seguro viagem impresso (bilhete 1146460) e o contato da seguradora","Vale de 27/11/2026 a 22/01/2027.",0.05,"m"],
     ["a-passaporte","Passaporte","",0.1,"m"],
     ["a-casaco","Se não tiver roupa de neve, comprar ou pegar emprestado em Portugal antes de 20/12","Casaco, botas e luvas fazem toda a diferença.",0,"v"],
     ["a-bolsa","Bolsa pequena com zíper, usada na frente do corpo","Mercados lotados atraem batedores de carteira.",0.3,"v"]]]]
@@ -840,8 +840,8 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "nZrm9OThI/DqQziSLKrhdw==", "iv": "Dcq78nxn9Q8FoV93", "ct": "hnDf5KP5LUW5VJFyMxNwHKsnwUUFeDBua4kgtm/UXDlMQkIPhScK1+4CEfmxaCmF4sWfZQohvUr60AOAtGIumS5OnSYGF1W0f7DhkclcutLg6EUZYJ0le+m94VMmbcs5nIMFil7yubMEd32x7Ly5AIJQalBupC1xib8/rk7eGqDvEww0preLe9Ul6n5cXGz9rDr4Xcx4JPfVi3jcRKr2qGU/RNJnSuV6rm/gFTtuboidg4hKTtlSY47nmUG1Sp9QaXYfjxqHygdFGnF2izlSVbIHehm/YR58/EFr8cQBf7iicNo/0fQiriAaFG1zX9fy4kIfS16FsE1b/30g22SakjtOEzNuYImP3Ld20n84yenrztICZHWHJ3ceuhhsKmrI6rCwUMqX7nPmtQl5O7OP2cioJHztkE+9BRdWZp5Z17yEO4IfmjNW5nhClIKPoi11RS0Z6SBvIVwXM98FLeQa/0vlmixwBsYW8jkglzPevVTDv0Yp4zkQUxV7k/QwchyPuF798LEsiEUOkcIepjdoj4PdWaLMafsiNRyf8h4wuOGO90Tce5qKsjVgSXBOc3xmuyb/sveIXzyQGdbUaqKRb3RvDsR1ynud+N607KfxEDIC3qKiHI1NvmkVXQ=="};
-let SECRETS = {}, UNLOCKED = false;
+const ENC = {"salt": "OGwocetK35Y+XyMAxofkOw==", "iv": "wDjL4gVs3a9PZwu8", "ct": "qrdSpe6kTOKS/fTHbpABqQwh"};
+let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
   try{
@@ -854,7 +854,7 @@ async function unlock(pw, silent){
   }catch(e){ if(!silent){ const m=document.getElementById("pwMsg"); if(m) m.textContent="Senha incorreta. Tente de novo."; } return false; }
 }
 function lockCard(){
-  if (UNLOCKED) return `<div class="note ok">Códigos das reservas desbloqueados neste celular.</div>`;
+  if (UNLOCKED) return ``;
   return `<form class="card lit" id="pwForm"><span class="eyebrow" style="color:var(--gold)">Códigos protegidos</span>
     <div class="small">Localizadores e números dos bilhetes ficam protegidos. Digite a senha da família uma vez e eles aparecem neste celular.</div>
     <div class="row" style="flex-wrap:nowrap"><input type="password" id="pwIn" placeholder="Senha da família" autocomplete="current-password" style="flex:1"><button class="btn primary" type="submit">Desbloquear</button></div>
