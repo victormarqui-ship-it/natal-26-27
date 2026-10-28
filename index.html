@@ -364,6 +364,9 @@ body.chat-open #chatFab{display:none}
 .dpad button:active{transform:translateY(2px);box-shadow:0 1px 0 #9a6a10}
 .dpad [data-dir=up]{grid-column:2;grid-row:1} .dpad [data-dir=left]{grid-column:1;grid-row:2} .dpad [data-dir=down]{grid-column:2;grid-row:2} .dpad [data-dir=right]{grid-column:3;grid-row:2}
 #mazeClose{margin-left:auto;font:inherit;font-size:30px;background:none;border:0;color:#f0c46a;cursor:pointer;line-height:1}
+.diffsel{display:flex;gap:6px;justify-content:center;padding-bottom:8px}
+.diffsel button{font:inherit;font-size:14px;font-weight:700;padding:8px 18px;border-radius:99px;border:2px solid #f0c46a;background:transparent;color:#f0c46a;cursor:pointer}
+.diffsel button.on{background:#f0c46a;color:#2a0912}
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -425,6 +428,7 @@ body.chat-open #chatFab{display:none}
 </div></div>
 <div id="mazeSheet" hidden><div class="gameBox">
   <div class="gameHead"><img class="igimg" src="" alt=""><b>Siga a Mamãe</b><button id="mazeClose" aria-label="Fechar">×</button></div>
+  <div class="diffsel"><button data-diff="facil">Fácil</button><button data-diff="medio">Médio</button><button data-diff="dificil">Difícil</button></div>
   <canvas id="mazeCanvas" aria-label="Labirinto: leve o Ignacio até a mamãe"></canvas>
   <div class="dpad"><button data-dir="up" aria-label="Cima">▲</button><button data-dir="left" aria-label="Esquerda">◀</button><button data-dir="down" aria-label="Baixo">▼</button><button data-dir="right" aria-label="Direita">▶</button></div>
 </div></div>
@@ -867,7 +871,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "6oRLaZC+pL4oAI3OhLzXxg==", "iv": "hzj+z+ySpjUimb/Y", "ct": "sVafXYs2dsDHUORrgq3F4w0K"};
+const ENC = {"salt": "EiDvJK1XCFNLdJfNhVodIg==", "iv": "gcymGO9UGE7eM1jw", "ct": "BVpBeJ2sqH6LtZiSty4HaCRz"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1710,6 +1714,9 @@ document.addEventListener("click", e=>{ if (e.target.closest("#gameClose")) clos
 
 /* ================= JOGO: SIGA A MAMÃE ================= */
 const MZ = {run:false, raf:0};
+const MOM_IMG = ""; let momImg=null; if (MOM_IMG){ momImg=new Image(); momImg.src=MOM_IMG; }
+const MZ_LV = {facil:{name:"Fácil",ig:10,mom:28,foe:2.3,lives:5}, medio:{name:"Médio",ig:8,mom:21,foe:1.6,lives:4}, dificil:{name:"Difícil",ig:7,mom:16,foe:1,lives:3}};
+let mzDiff = store.get("guia-maze-diff","facil"); if(!MZ_LV[mzDiff]) mzDiff="facil";
 const DIRS = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
 function openMaze(){ if(!gImg){ gImg=new Image(); gImg.src=IG_IMG; } $("#mazeSheet").hidden=false; document.body.classList.add("chat-open"); mzNewGame(); }
 function closeMaze(){ $("#mazeSheet").hidden=true; document.body.classList.remove("chat-open"); MZ.run=false; cancelAnimationFrame(MZ.raf); }
@@ -1725,7 +1732,8 @@ function mzGen(C,R){
     if (g[y][x]===1 && ((g[y][x-1]===0&&g[y][x+1]===0)||(g[y-1][x]===0&&g[y+1][x]===0))) g[y][x]=0; }
   return g;
 }
-function mzNewGame(){ Object.assign(MZ,{level:1,score:0,lives:3,best:store.get("guia-maze-best",0)}); mzLevel(); mzIntro(); }
+function mzNewGame(){ const L=MZ_LV[mzDiff]; Object.assign(MZ,{level:1,score:0,lives:L.lives,best:store.get("guia-maze-best-"+mzDiff,0)}); mzLevel(); mzIntro(); mzDiffUI(); }
+function mzDiffUI(){ document.querySelectorAll("[data-diff]").forEach(b=>b.classList.toggle("on",b.dataset.diff===mzDiff)); }
 function mzLevel(){
   const cv=$("#mazeCanvas"); const d=devicePixelRatio||1; const W=cv.clientWidth, H=cv.clientHeight; cv.width=W*d; cv.height=H*d;
   const ctx=cv.getContext("2d"); ctx.setTransform(d,0,0,d,0,0);
@@ -1733,17 +1741,19 @@ function mzLevel(){
   const cell=Math.min(W/C,(H-34)/R); const ox=(W-cell*C)/2, oy=34+((H-34)-cell*R)/2;
   const g=mzGen(C,R); const open=[]; for(let y=0;y<R;y++) for(let x=0;x<C;x++) if(!g[y][x]) open.push([x,y]);
   const far=(a)=>open.reduce((b,c)=>Math.abs(c[0]-a[0])+Math.abs(c[1]-a[1])>Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1])?c:b);
-  const ig={x:1,y:R-2}; const m=far([ig.x,ig.y]);
+  const ig={x:1,y:R-2}; const homes=[[C-2,1],[1,1]], md=(a,b)=>Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1]);
+  const cand=open.filter(c=>md(c,[ig.x,ig.y])>=(C+R)/2 && homes.every(h=>md(c,h)>=5));
+  const m = cand.length ? cand[Math.floor(Math.random()*cand.length)] : far([ig.x,ig.y]);
   const dots=new Set(open.filter(([x,y])=>Math.random()<0.45).map(([x,y])=>x+","+y));
-  const sp=Math.max(7, 11-MZ.level);
+  const L=MZ_LV[mzDiff]; const sp=Math.round(Math.max(7, 11-MZ.level*(mzDiff==="dificil"?1:0.5))*L.foe);
   Object.assign(MZ,{cv,ctx,W,H,C,R,cell,ox,oy,g,dots,t:0,inv:90,msg:"",msgT:0,
-    ig:{x:ig.x,y:ig.y,px:ig.x,py:ig.y,dir:null,want:null,p:1,step:7},
-    mom:{x:m[0],y:m[1],px:m[0],py:m[1],dir:null,p:1,step:16},
+    ig:{x:ig.x,y:ig.y,px:ig.x,py:ig.y,dir:null,want:null,p:1,step:L.ig},
+    mom:{x:m[0],y:m[1],px:m[0],py:m[1],dir:null,p:1,step:L.mom},
     foes:[{k:"banho",emo:"🛁",x:C-2,y:1,px:C-2,py:1,p:1,step:sp+4,home:[C-2,1]},{k:"roupa",emo:"🧥",x:1,y:1,px:1,py:1,p:1,step:sp+6,home:[1,1]}]});
 }
 function mzIntro(){
   mzDraw(); const {ctx,W,H}=MZ; ctx.fillStyle="rgba(30,6,14,.6)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
-  ctx.fillStyle="#f0c46a"; ctx.font="700 30px Cormorant Garamond, Georgia, serif"; ctx.fillText("Siga a Mamãe",W/2,H*0.28);
+  ctx.fillStyle="#f0c46a"; ctx.font="700 30px Cormorant Garamond, Georgia, serif"; ctx.fillText("Siga a Mamãe",W/2,H*0.25); ctx.fillStyle="#fff"; ctx.font="700 16px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Nível: "+MZ_LV[mzDiff].name,W/2,H*0.31);
   ctx.fillStyle="#fff"; ctx.font="600 15px Atkinson Hyperlegible, sans-serif";
   ["Leve o Ignacio até a Mariana 👩","Fuja do banho 🛁 e da roupinha 🧥","Pegue os petiscos pelo caminho","Use as setas ou deslize o dedo"].forEach((l,i)=>ctx.fillText(l,W/2,H*0.38+i*24));
   ctx.fillStyle="#f0c46a"; ctx.font="700 18px Atkinson Hyperlegible, sans-serif"; ctx.fillText(MZ.lives>0?"Toque para começar":"Toque para jogar de novo",W/2,H*0.66);
@@ -1783,7 +1793,7 @@ function mzLoop(){
   else if (M.inv<=0) for (const f of M.foes){ if (near(I,f)){ M.lives--; M.msg=f.k==="banho"?"Banho não!":"Roupinha não!"; M.msgT=80; M.inv=100;
       Object.assign(I,{x:1,y:M.R-2,px:1,py:M.R-2,p:1,dir:null,want:null}); M.foes.forEach(o=>Object.assign(o,{x:o.home[0],y:o.home[1],px:o.home[0],py:o.home[1],p:1})); break; } }
   mzDraw();
-  if (M.lives<=0){ M.run=false; if(M.score>M.best){ M.best=M.score; store.set("guia-maze-best",M.score); }
+  if (M.lives<=0){ M.run=false; if(M.score>M.best){ M.best=M.score; store.set("guia-maze-best-"+mzDiff,M.score); }
     const {ctx,W,H}=M; ctx.fillStyle="rgba(30,6,14,.65)"; ctx.fillRect(0,0,W,H); ctx.textAlign="center";
     ctx.fillStyle="#f0c46a"; ctx.font="700 28px Cormorant Garamond, Georgia, serif"; ctx.fillText("Pegaram o Ignacio!",W/2,H*0.36);
     ctx.fillStyle="#fff"; ctx.font="700 20px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Pontos: "+M.score+" · Fase "+M.level,W/2,H*0.46);
@@ -1799,18 +1809,25 @@ function mzDraw(){
     else { ctx.fillStyle="#fff6ea"; ctx.fillRect(X,Y,cell,cell); if (M.dots.has(x+","+y)){ ctx.fillStyle="#b5562a"; ctx.beginPath(); ctx.arc(X+cell/2,Y+cell/2,cell*0.12,0,7); ctx.fill(); } } }
   const pos=e=>[ox+(e.px+(e.x-e.px)*e.p)*cell, oy+(e.py+(e.y-e.py)*e.p)*cell];
   const emo=(e,ch)=>{ const [X,Y]=pos(e); ctx.font=Math.floor(cell*0.82)+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,X+cell/2,Y+cell/2+1); ctx.textBaseline="alphabetic"; };
-  emo(M.mom,"👩"); { const [X,Y]=pos(M.mom); ctx.fillStyle="#7a1530"; ctx.font="700 10px Atkinson Hyperlegible, sans-serif"; ctx.textAlign="center"; ctx.fillText("Mamãe",X+cell/2,Y-1); }
+  { const [X,Y]=pos(M.mom); const cx=X+cell/2, cy=Y+cell/2, r=cell*0.72*(1+Math.sin(M.t/10)*0.04);
+    ctx.fillStyle="rgba(240,196,106,.35)"; ctx.beginPath(); ctx.arc(cx,cy,r+5,0,7); ctx.fill();
+    ctx.fillStyle="#f0c46a"; ctx.beginPath(); ctx.arc(cx,cy,r+2,0,7); ctx.fill();
+    if (momImg && momImg.complete && momImg.naturalWidth){ ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.clip(); ctx.drawImage(momImg,cx-r,cy-r,r*2,r*2); ctx.restore(); }
+    else { ctx.fillStyle="#fff6ea"; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.fill(); ctx.font=Math.floor(r*1.5)+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("👩",cx,cy+2); ctx.textBaseline="alphabetic"; }
+    ctx.fillStyle="#7a1530"; ctx.beginPath(); ctx.roundRect?ctx.roundRect(cx-24,cy-r-16,48,14,7):ctx.rect(cx-24,cy-r-16,48,14); ctx.fill();
+    ctx.fillStyle="#fff"; ctx.font="700 10px Atkinson Hyperlegible, sans-serif"; ctx.textAlign="center"; ctx.fillText("Mamãe",cx,cy-r-5); }
   M.foes.forEach(f=>emo(f,f.emo));
   const [IX,IY]=pos(M.ig); if (!(M.inv>0 && Math.floor(M.t/6)%2)) { if (gImg&&gImg.complete) ctx.drawImage(gImg,IX-cell*0.08,IY-cell*0.22,cell*1.16,cell*1.24); else emo(M.ig,"🐶"); }
   // placar
   ctx.textAlign="left"; ctx.fillStyle="#f0c46a"; ctx.font="700 16px JetBrains Mono, monospace"; ctx.fillText(String(M.score).padStart(5,"0"),8,22);
-  ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 14px Atkinson Hyperlegible, sans-serif"; ctx.fillText("Fase "+M.level,W/2,22);
+  ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 14px Atkinson Hyperlegible, sans-serif"; ctx.fillText(MZ_LV[mzDiff].name+" · Fase "+M.level,W/2,22);
   ctx.textAlign="right"; ctx.font="16px serif"; ctx.fillText("🐾".repeat(Math.max(0,M.lives)),W-8,22);
   if (M.msgT>0){ ctx.textAlign="center"; ctx.fillStyle="rgba(30,6,14,.75)"; ctx.fillRect(0,H/2-26,W,48); ctx.fillStyle="#f0c46a"; ctx.font="700 24px Cormorant Garamond, Georgia, serif"; ctx.fillText(M.msg,W/2,H/2+6); }
 }
 document.addEventListener("click", e=>{
   if (e.target.closest("[data-go='maze']")){ e.stopImmediatePropagation(); openMaze(); return; }
   if (e.target.closest("#mazeClose")) { closeMaze(); return; }
+  const df=e.target.closest("[data-diff]"); if (df){ mzDiff=df.dataset.diff; store.set("guia-maze-diff",mzDiff); MZ.run=false; cancelAnimationFrame(MZ.raf); mzNewGame(); return; }
   const b=e.target.closest("[data-dir]"); if (b){ mzSteer(b.dataset.dir); }
 }, true);
 let mzTouch=null;
