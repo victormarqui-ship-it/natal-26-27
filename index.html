@@ -1,0 +1,1283 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body><title>Guia Alemanha 26/27</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Alemanha 26/27">
+<meta name="theme-color" content="#3b0d1b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: uma noite de inverno num mercado de Natal. Céu de pinheiro escuro com neve, letreiros em gótico alemão,
+   cartões como barracas iluminadas a vela; abas fixas embaixo como num app. Tema escuro primeiro, claro = manhã com neve. */
+:root{
+  --bg:#3b0d1b; --bg2:#4a1424; --surface:#55192b; --surface2:#632134; --ink:#fbf1e6; --muted:#e0c4bf; --line:#76334a;
+  --gold:#e3b860; --gold-soft:rgba(227,184,96,.15); --berry:#f08a9c; --berry-soft:rgba(240,138,156,.15);
+  --snow:#fff6e6; --sky:#2a0812; --ok:#a8dcb4; --ok-soft:rgba(168,220,180,.14); --warn:#f4b36c; --warn-soft:rgba(244,179,108,.16);
+  --f-display:"Cormorant Garamond", Garamond, Georgia, serif;
+  --f-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --page:var(--bg); color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f4e6e0; --bg2:#ecd8d1; --surface:#ffffff; --surface2:#fbf1ec; --ink:#3b0d1b; --muted:#7a5560; --line:#ead6d6;
+  --gold:#94680f; --gold-soft:rgba(148,104,15,.10); --berry:#7d1a33; --berry-soft:rgba(125,26,51,.09);
+  --snow:#d9b98a; --sky:#f1dfe0; --ok:#2f7a4c; --ok-soft:rgba(47,122,76,.10); --warn:#a35a12; --warn-soft:rgba(163,90,18,.10);
+  color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f4e6e0; --bg2:#ecd8d1; --surface:#ffffff; --surface2:#fbf1ec; --ink:#3b0d1b; --muted:#7a5560; --line:#ead6d6;
+  --gold:#94680f; --gold-soft:rgba(148,104,15,.10); --berry:#7d1a33; --berry-soft:rgba(125,26,51,.09);
+  --snow:#d9b98a; --sky:#f1dfe0; --ok:#2f7a4c; --ok-soft:rgba(47,122,76,.10); --warn:#a35a12; --warn-soft:rgba(163,90,18,.10);
+  color-scheme:light}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 calc(92px + env(safe-area-inset-bottom,0px));min-height:100%}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:580px;margin:0 auto}
+/* cabeçalho */
+.hero{position:relative;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:22px max(16px,env(safe-area-inset-left,0px)) 0;
+  background:linear-gradient(180deg,var(--sky),var(--bg2) 85%,var(--bg));overflow:hidden}
+.hero .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:44px;line-height:1;margin:6px 0 4px;letter-spacing:.01em;text-wrap:balance}
+.hero .sub{color:var(--muted);font-size:14px}
+.skyline{display:block;width:100%;height:auto;margin-top:10px}
+.skyline .house{fill:var(--surface)}
+.skyline .mark{fill:var(--surface2);stroke:var(--line);stroke-width:1}
+.skyline .win{fill:var(--gold);opacity:.85}
+.skyline .ground{fill:var(--bg)}
+.lights{display:flex;justify-content:space-between;padding:0 6px;margin-top:-4px}
+.lights i{width:7px;height:9px;border-radius:50% 50% 45% 45%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.lights i:nth-child(3n){background:var(--berry);box-shadow:0 0 8px var(--berry)}
+.lights i:nth-child(3n+2){background:var(--ok);box-shadow:0 0 8px var(--ok)}
+@media (prefers-reduced-motion:no-preference){.lights i{animation:tw 2.4s ease-in-out infinite}.lights i:nth-child(2n){animation-delay:1.2s}@keyframes tw{50%{opacity:.35}}}
+/* tipografia */
+h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.1;margin:26px 0 10px;color:var(--gold);text-wrap:balance}
+h3{font-size:17px;margin:0;line-height:1.3}
+.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muted{color:var(--muted)} .small{font-size:14px} .tiny{font-size:12px}
+.mono{font-family:var(--f-mono);font-size:13.5px;font-variant-numeric:tabular-nums}
+a{color:var(--gold);font-weight:700}
+/* cartões */
+.stack{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card.lit{background:linear-gradient(160deg,var(--surface2),var(--surface));border-color:color-mix(in srgb,var(--gold) 35%,var(--line))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.pill.travel{background:var(--berry-soft);color:var(--berry)}
+.pill.free{background:var(--ok-soft);color:var(--ok)}
+.pill.gold{background:var(--gold-soft);color:var(--gold)}
+.note{font-size:14px;padding:10px 12px;border-radius:10px;background:var(--warn-soft);border-left:3px solid var(--warn)}
+.note.ok{background:var(--ok-soft);border-left-color:var(--ok)}
+.note.info{background:var(--gold-soft);border-left-color:var(--gold)}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+.tl li:first-child{border-top:0;padding-top:2px}
+.tl .t{font-family:var(--f-mono);font-size:13.5px;color:var(--gold);padding-top:2px}
+.tl .x{min-width:0}
+.btn,button.btn{font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.links a{font-size:14px;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface2)}
+/* tempo */
+.wx{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:var(--bg2)}
+.wx .temp{font-family:var(--f-mono);font-size:15px;white-space:nowrap}
+.wx .temp b{font-size:20px}
+.wx svg{width:30px;height:30px;flex:0 0 auto;stroke:var(--snow);fill:none;stroke-width:1.6;stroke-linecap:round}
+.snowbar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;flex:1;min-width:60px}
+.snowbar i{display:block;height:100%;background:var(--snow);border-radius:9px}
+/* calendário do Advento */
+.advent{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.door{font:inherit;position:relative;aspect-ratio:3/4;max-width:100%;border-radius:10px;border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line));
+  background:repeating-linear-gradient(135deg,var(--surface),var(--surface) 6px,var(--surface2) 6px,var(--surface2) 12px);color:var(--ink);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px}
+.door b{font-family:var(--f-display);font-size:24px;line-height:1;color:var(--gold)}
+.door span{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.door.open{background:var(--bg2);border-style:dashed}
+.door.open b{color:var(--muted)}
+.door.today{border:2px solid var(--berry);box-shadow:0 0 0 3px var(--berry-soft)}
+.door.sel{outline:2px solid var(--gold);outline-offset:2px}
+.door .bow{position:absolute;top:3px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--berry)}
+.door.open .bow{display:none}
+.citykey{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+/* bilhetes */
+.ticket{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ticket .top{padding:12px 16px 4px;display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ticket .legs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:6px 16px 12px}
+.ticket .legs .r{text-align:right}
+.ticket .time{font-family:var(--f-mono);font-size:24px;line-height:1.1}
+.ticket .place{font-size:13px;color:var(--muted)}
+.ticket .arrow{color:var(--gold);text-align:center;font-size:12px}
+.ticket .stub{position:relative;border-top:2px dashed var(--line);padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px 18px;background:var(--surface2)}
+.ticket .stub::before,.ticket .stub::after{content:"";position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:var(--bg)}
+.ticket .stub::before{left:-9px}.ticket .stub::after{right:-9px}
+.kv{display:flex;flex-direction:column;min-width:0}
+.kv small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.copy{font:inherit;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;text-align:left;display:inline-flex;gap:6px;align-items:baseline;word-break:break-all}
+.copy::after{content:"copiar";font-family:var(--f-body);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);word-break:normal}
+.copy.done::after{content:"copiado";color:var(--ok)}
+.seg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{font:inherit;flex:0 0 auto;font-size:14px;font-weight:700;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+/* guia */
+.item{padding:10px 0;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:3px}
+.item:first-of-type{border-top:0;padding-top:0}
+.item a{font-size:13px;align-self:flex-start}
+.route{list-style:none;margin:0;padding:0;counter-reset:r}
+.route li{counter-increment:r;display:grid;grid-template-columns:30px 1fr;gap:10px;padding:8px 0;position:relative}
+.route li::before{content:counter(r);width:26px;height:26px;border-radius:50%;background:var(--cc,var(--berry));color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+.route li:not(:last-child)::after{content:"";position:absolute;left:12.5px;top:36px;bottom:-6px;width:1px;background:var(--line)}
+.hist{border-left:3px solid var(--gold);padding-left:12px}
+.taste{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.taste .t{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.taste .t b{font-family:var(--f-display);font-size:20px;font-weight:500;color:var(--gold);line-height:1.1}
+/* família */
+.check{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.check:first-child{border-top:0}
+.check input{width:22px;height:22px;margin-top:1px;accent-color:var(--ok);flex:0 0 auto}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+.check .del{margin-left:auto;font:inherit;background:none;border:0;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:0 4px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form .full{grid-column:1/-1}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;min-width:0}
+input[type=text],input[type=number],select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+.spend{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 0;border-top:1px dashed var(--line)}
+.spend:first-child{border-top:0}
+.spend .v{font-family:var(--f-mono);text-align:right}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:86px 1fr auto;gap:10px;align-items:center;font-size:14px}
+.bar .track{height:10px;border-radius:9px;background:var(--bg2);overflow:hidden}
+.bar .track i{display:block;height:100%;background:var(--gold);border-radius:9px}
+.bar .n{font-family:var(--f-mono);font-size:13px;text-align:right;min-width:72px}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.album figure{margin:0;background:var(--surface2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.album img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:var(--bg2)}
+.album figcaption{padding:6px 8px;font-size:12px}
+.mode{font-size:13px;display:flex;gap:8px;align-items:center}
+.mode i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 auto}
+.mode.shared i{background:var(--ok)} .mode.local i{background:var(--warn)}
+/* contagem */
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.count div{background:var(--bg2);border-radius:12px;padding:10px 4px}
+.count b{display:block;font-family:var(--f-mono);font-size:26px;color:var(--gold);font-variant-numeric:tabular-nums}
+.count span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.big{font-family:var(--f-display);font-size:64px;line-height:.9;color:var(--berry)}
+.conv{display:grid;grid-template-columns:1fr;gap:8px}
+.conv .r{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:center;font-weight:700}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.phr{padding:9px 0;border-top:1px dashed var(--line);display:flex;flex-direction:column}
+.phr:first-child{border-top:0}
+.phr b{font-size:16px}
+/* abas */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+nav.tabs .in{max-width:580px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:12px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
+nav.tabs svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs a.on{color:var(--gold);background:var(--gold-soft)}
+@media (prefers-reduced-motion:no-preference){.view:not([hidden]){animation:in .2s ease-out}@keyframes in{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}}
+
+/* ===== animação ===== */
+.orns{position:absolute;top:0;right:max(16px,env(safe-area-inset-right,0px));display:flex;gap:14px;pointer-events:none}
+.orn{position:relative;width:2px;background:var(--gold);opacity:.8;transform-origin:top center}
+.orn::after{content:"";position:absolute;left:50%;bottom:-18px;width:20px;height:20px;margin-left:-10px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff8 0,transparent 30%),var(--c,var(--berry));box-shadow:0 0 12px var(--c,var(--berry))}
+.orn::before{content:"";position:absolute;left:50%;bottom:0;width:6px;height:5px;margin-left:-3px;background:var(--gold);border-radius:1px}
+.orn:nth-child(1){height:34px;--c:var(--gold)} .orn:nth-child(2){height:58px} .orn:nth-child(3){height:24px;--c:#c9a6ff}
+.shine{background:linear-gradient(100deg,var(--gold) 0%,var(--gold) 38%,#fff6d8 50%,var(--gold) 62%,var(--gold) 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.burst-dot{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:50}
+#fw{display:block;width:100%;height:120px;border-radius:12px;background:var(--bg2)}
+.card{transition:transform .2s ease, box-shadow .2s ease}
+@media (hover:hover){.card:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(0,0,0,.5)}}
+@media (prefers-reduced-motion:no-preference){
+  .orn{animation:swing 3.2s ease-in-out infinite} .orn:nth-child(2){animation-duration:4s;animation-delay:-1s} .orn:nth-child(3){animation-duration:2.7s;animation-delay:-.6s}
+  @keyframes swing{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-7deg)}}
+  .shine{animation:shine 5s linear infinite} @keyframes shine{from{background-position:120% 0}to{background-position:-130% 0}}
+  .view:not([hidden]) .stack > *, .view:not([hidden]) .card{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+  .view:not([hidden]) .stack > *:nth-child(2){animation-delay:.05s} .view:not([hidden]) .stack > *:nth-child(3){animation-delay:.1s}
+  .view:not([hidden]) .stack > *:nth-child(4){animation-delay:.15s} .view:not([hidden]) .stack > *:nth-child(n+5){animation-delay:.2s}
+  @keyframes rise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .door{transition:transform .25s ease}
+  .door:hover{transform:translateY(-3px) rotate(-1.5deg)}
+  .door.sel{animation:doorOpen .6s ease}
+  @keyframes doorOpen{0%{transform:perspective(300px) rotateY(0)}45%{transform:perspective(300px) rotateY(-75deg)}100%{transform:perspective(300px) rotateY(0)}}
+  .door.today{animation:glow 2s ease-in-out infinite}
+  @keyframes glow{50%{box-shadow:0 0 0 6px var(--berry-soft),0 0 18px var(--berry)}}
+  nav.tabs a.on svg{animation:pop .4s ease}
+  @keyframes pop{40%{transform:translateY(-4px) scale(1.15)}}
+  .big{animation:beat 2.4s ease-in-out infinite} @keyframes beat{50%{transform:scale(1.06)}}
+  .count b{transition:transform .2s} .count b.tick{transform:translateY(-3px)}
+}
+
+/* ===== contraste: cartões claros, topo e barra sempre bordô ===== */
+.card,.ticket,.taste .t{--ink:#2a0a14;--muted:#76525c;--line:#ead6cf;--surface:#fffaf3;--surface2:#fbefe6;--bg2:#f5e3da;--bg:#fffaf3;
+  --gold:#946512;--gold-soft:rgba(148,101,18,.12);--berry:#a3213f;--berry-soft:rgba(163,33,63,.10);--ok:#2f7a4c;--ok-soft:rgba(47,122,76,.12);
+  --warn:#a35a12;--warn-soft:rgba(163,90,18,.12);--snow:#5f86a8;background:var(--surface);color:var(--ink);border-color:var(--line)}
+.card.lit{background:linear-gradient(160deg,#fff3dc,#fffaf3 60%);border-color:#e9cf98}
+.ticket .stub::before,.ticket .stub::after{background:var(--page)}
+.hero{--ink:#fff3e4;--muted:#f0d2cb;--gold:#f0c46a;background:linear-gradient(180deg,#1d0710 0%,#3b0d1b 55%,#5a1629 100%)!important;color:var(--ink);border-bottom:3px solid #f0c46a}
+nav.tabs{background:#2a0912!important;border-top:2px solid #f0c46a;--muted:#e5c6bf;--gold:#f0c46a;--gold-soft:rgba(240,196,106,.18)}
+:root{--MUC:#c8283c;--NUR:#d9711c;--DRS:#2d5fae;--PRG:#7b3fa6;--BER:#1d7a59}
+.cityband{margin:-16px -16px 4px;padding:12px 16px 10px;border-radius:15px 15px 0 0;background:var(--cc);color:#fff;display:flex;align-items:center;gap:12px}
+.cityband svg{width:46px;height:46px;flex:0 0 auto;fill:none;stroke:#fff;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.cityband .cn{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
+.cityband .cd{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.cityband .pill{margin-left:auto;background:rgba(255,255,255,.2);color:#fff}
+.tl li{grid-template-columns:30px 54px 1fr}
+.tl .ic{width:28px;height:28px;border-radius:50%;background:var(--cc,var(--berry));display:grid;place-items:center}
+.tl .ic svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.secttl{display:flex;align-items:center;gap:10px}
+.secttl .sic{width:34px;height:34px;border-radius:10px;background:var(--cc,var(--berry));display:grid;place-items:center;flex:0 0 auto}
+.secttl .sic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.secttl b{font-family:var(--f-display);font-size:22px;color:var(--ink)}
+/* portinhas = presentes */
+.door{border:0!important;background:var(--cc)!important;color:#fff;overflow:hidden;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.door::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 42%,#f0c46a 42%,#f0c46a 58%,transparent 58%),linear-gradient(0deg,transparent 30%,#f0c46a 30%,#f0c46a 40%,transparent 40%);opacity:.9}
+.door b,.door span{position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.45);color:#fff!important}
+.door b{background:rgba(0,0,0,.28);border-radius:8px;padding:2px 5px}
+.door .bow{display:none}
+.door.open{filter:saturate(.55) brightness(.9)}
+.door.open::before{opacity:.35}
+.door.today{outline:3px solid #fff;outline-offset:1px}
+.door.sel{outline:3px solid #f0c46a;outline-offset:2px}
+.seg button.on{background:#f0c46a;border-color:#f0c46a;color:#2a0912}
+.taste .t{border-top:4px solid var(--berry)}
+.taste .t:nth-child(3n+2){border-top-color:var(--gold)} .taste .t:nth-child(3n){border-top-color:var(--ok)}
+.taste .t b{color:#7a1530}
+.pill.gold{background:#f0c46a;color:#2a0912}
+
+.skyline{margin-top:12px;border-radius:14px 14px 0 0;max-height:220px}
+@media (prefers-reduced-motion:no-preference){
+  .star{fill:#fff;animation:tw2 3s ease-in-out infinite} @keyframes tw2{50%{opacity:.2}}
+  .bulb{animation:tw3 1.6s ease-in-out infinite} @keyframes tw3{50%{opacity:.25}}
+  .tstar{transform-origin:0 70px;animation:tw4 2s ease-in-out infinite} @keyframes tw4{50%{opacity:.6}}
+}
+.star{fill:#fff}
+.view > h2:first-child{display:none}
+.view > h2:first-child + p{margin-top:16px!important}
+.lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
+</style>
+
+<canvas id="snow" aria-hidden="true"></canvas>
+<div class="wrap">
+  <header class="hero"><div class="orns" aria-hidden="true"><i class="orn"></i><i class="orn"></i><i class="orn"></i></div>
+    <div class="meta" id="hMeta">20 dez 2026 – 2 jan 2027</div>
+    <h1 id="hTitle" class="shine">Natal na Alemanha</h1>
+    <div class="sub" id="hSub">Victor, Mariana, Ana Maria e Ignacio</div>
+    <svg class="skyline" id="skyline" viewBox="0 0 360 160" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+    
+  </header>
+
+  <section class="view" id="v-hoje"></section>
+
+  <section class="view" id="v-dias" hidden>
+    <h2>Calendário da viagem</h2>
+    <p class="small muted" style="margin:-4px 0 12px">Uma portinha por dia. Ela se abre sozinha quando o dia chega, mas dá para espiar antes.</p>
+    <div class="advent" id="advent" role="list"></div>
+    <div class="citykey" style="margin-top:8px"><span>MUN Munique</span><span>NUR Nuremberg</span><span>DRE Dresden</span><span>PRA Praga</span><span>BER Berlim</span></div>
+    <div id="dayDetail" style="margin-top:14px"></div>
+  </section>
+
+  <section class="view" id="v-reservas" hidden>
+    <h2>Reservas</h2>
+    <div class="seg" id="resSeg"><button data-r="voos" class="on">Voos</button><button data-r="trens">Trens</button><button data-r="hoteis">Hotéis</button><button data-r="trajetos">Como chegar</button></div>
+    <div id="resBody" class="stack" style="margin-top:12px"></div>
+  </section>
+
+  <section class="view" id="v-guia" hidden>
+    <h2>Guia</h2>
+    <div class="seg" id="guiaSeg"></div>
+    <div id="guiaBody" class="stack" style="margin-top:12px"></div>
+  </section>
+
+  <section class="view" id="v-familia" hidden>
+    <h2>Família</h2>
+    <div class="mode" id="modeLine"><i></i><span>Conectando…</span></div>
+    <div class="seg" id="famSeg" style="margin-top:10px"><button data-f="lista" class="on">Lista</button><button data-f="mala">Mala</button><button data-f="gastos">Gastos</button></div>
+    <div id="famBody" class="stack" style="margin-top:12px"></div>
+  </section>
+
+  <section class="view" id="v-kit" hidden>
+    <h2>Kit de viagem</h2>
+    <div class="stack" id="kitBody"></div>
+  </section>
+</div>
+
+<nav class="tabs" aria-label="Seções">
+  <div class="in">
+    <a href="#hoje" data-tab="hoje"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/></svg>Hoje</a>
+    <a href="#dias" data-tab="dias"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 13h2M14 13h2M8 17h2"/></svg>Dias</a>
+    <a href="#reservas" data-tab="reservas"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/></svg>Reservas</a>
+    <a href="#guia" data-tab="guia"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Guia</a>
+    <a href="#familia" data-tab="familia"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.6-3.5 2.8-5.5 5.5-5.5s4.9 2 5.5 5.5M14 15.2c2.6-.6 5.6.6 6.5 4.8"/></svg>Família</a>
+    <a href="#kit" data-tab="kit"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg>Kit</a>
+  </div>
+</nav>
+
+<script>
+/* ================= DADOS ================= */
+const CITY = {MUC:"Munique", NUR:"Nuremberg", DRS:"Dresden", PRG:"Praga", BER:"Berlim"};
+const WD = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const WDL = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+const MES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+
+/* Clima típico de dezembro (médias históricas aproximadas) */
+const CLIMA = {
+  MUC:{hi:3, lo:-3, neve:30, sol:"8:00 – 16:25", q:"Munique"},
+  NUR:{hi:3, lo:-2, neve:25, sol:"8:05 – 16:20", q:"Nuremberg"},
+  DRS:{hi:3, lo:-2, neve:25, sol:"8:05 – 15:55", q:"Dresden"},
+  PRG:{hi:2, lo:-3, neve:25, sol:"7:55 – 16:00", q:"Praga"},
+  BER:{hi:3, lo:-1, neve:20, sol:"8:15 – 15:55", q:"Berlim"}
+};
+
+/* Previsão real por dia. Fica vazia até perto da viagem; uma tarefa agendada preenche.
+   Formato: "2026-12-20": {hi:2, lo:-4, neve:40, desc:"Nublado com neve fraca à tarde", atualizado:"2026-12-12"} */
+const FORECAST = {};
+
+/* Como chegar */
+const TRAJETOS = [
+  {quando:"Domingo, 20/12 · chegada", de:"Aeroporto de Munique", para:"Hotel em Munique", tempo:"cerca de 55 min", passos:[
+    ["Trem S8","Do aeroporto até a estação Ostbahnhof (cerca de 40 min). O trem sai do subsolo do aeroporto."],
+    ["Trem S2, S4 ou S6","Uma parada da Ostbahnhof até Berg am Laim."],
+    ["A pé","Da estação Berg am Laim até o hotel, no mesmo bairro. Conferir o caminho no mapa."]],
+    bilhete:"Comprem na máquina o bilhete de dia para grupo que inclui o aeroporto (Airport-City-Day-Ticket, até 5 pessoas). Costuma sair mais barato que 3 bilhetes simples.",
+    alt:"Táxi: cerca de 40 min, preço alto. Útil se o voo atrasar e ficar tarde.",
+    mapa:["Munich Airport","Hampton by Hilton Munich City Center East"]},
+  {quando:"Terça, 22/12 e sábado, 26/12", de:"Hotel em Munique", para:"Munique Central", tempo:"cerca de 20 min", passos:[
+    ["A pé","Até a estação Berg am Laim."],
+    ["Trem S2, S4 ou S6","Direto até Munique Central (Hauptbahnhof), sem trocas."]],
+    bilhete:"Bilhete simples na máquina da estação. No dia 26/12 o trem para Dresden sai às 7:25: saiam do hotel até 6:40.",
+    alt:"", mapa:["Hampton by Hilton Munich City Center East","München Hauptbahnhof"]},
+  {quando:"Sábado, 26/12 · chegada", de:"Dresden Central", para:"Hotel em Dresden", tempo:"cerca de 5 min a pé", passos:[
+    ["A pé","O hotel fica na rua de pedestres que começa na saída norte da estação central."]],
+    bilhete:"Não precisa de bilhete.", alt:"", mapa:["Dresden Hauptbahnhof","Holiday Inn Express Dresden Zentrum"]},
+  {quando:"Quarta, 30/12 · chegada", de:"Berlim Central", para:"Hotel em Berlim", tempo:"cerca de 20 min", passos:[
+    ["Trem urbano S3, S5, S7 ou S9","De Berlim Central até a estação Savignyplatz (4 paradas, sentido oeste)."],
+    ["A pé","Cerca de 350 m até o hotel. Também dá para descer em Zoologischer Garten."]],
+    bilhete:"Bilhete simples das zonas AB.", alt:"", mapa:["Berlin Hauptbahnhof","Hampton by Hilton Berlin City West"]},
+  {quando:"Sábado, 02/01 · volta", de:"Hotel em Berlim", para:"Aeroporto de Berlim (BER)", tempo:"cerca de 55 min a 1h", passos:[
+    ["A pé","Até a estação Savignyplatz (cerca de 350 m)."],
+    ["Trem urbano S3, S5, S7 ou S9","Até Berlim Central (4 paradas)."],
+    ["Expresso do aeroporto (FEX)","De Berlim Central até o aeroporto, a cada 15 minutos, em cerca de 25 min. A estação fica embaixo do terminal."]],
+    bilhete:"É preciso o bilhete das zonas ABC, porque o aeroporto fica na zona C. Comprem e validem antes de entrar no trem.",
+    alt:"Sem troca: o trem urbano S9 sai de Savignyplatz direto para o aeroporto, mais devagar (cerca de 55 min).",
+    mapa:["Hampton by Hilton Berlin City West","BER Airport Terminal 1"]}
+];
+
+const HOTELS = {
+  MUC:{name:"Hampton by Hilton Munich City Center East", addr:"Hermann-Weinhauser-Straße 71, 81673 München", phone:"+49 89 43777750", res:"§hmuc§", dates:"20/12 → 26/12 · 6 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet aceito (até 25 kg), taxa única de €25.", petOk:true, extra:"Reserva no nome da Mariana (Hilton Honors §hh§). Cancelamento grátis até 15/12, 23h59."},
+  DRS:{name:"Holiday Inn Express Dresden Zentrum", addr:"Prager Straße 13, 01069 Dresden", phone:"+49 351 31261760", res:"§hdrs§", dates:"26/12 → 30/12 · 4 noites", inout:"Check-in 15h · check-out 11h", pet:"A confirmação não fala do pet. Confirmar com o hotel antes da viagem.", petOk:false, extra:"Reserva pela Nuitee, já paga, não reembolsável. Taxa de €16,61 a pagar no hotel. Suporte: vip.cs@nuitee.com · +34 900 752 513."},
+  BER:{name:"Hampton by Hilton Berlin City West", addr:"Uhlandstraße 188-189, 10623 Berlin", phone:"+49 30 4050270", res:"§hber§", dates:"30/12 → 02/01 · 3 noites", inout:"Check-in 15h · check-out 12h", pet:"Pet confirmado por e-mail em 27/10, taxa única de €25.", petOk:true, extra:"O hotel guarda as malas antes do check-in e depois do check-out (info@hampton.berlin). Reserva no nome da Mariana."}
+};
+
+const FLIGHTS = [
+  {date:"Domingo, 20/12", airline:"KLM", code:"§klm§", legs:[
+    {no:"KL1580", from:"Lisboa", dep:"11:30", to:"Amsterdã", arr:"15:30"},
+    {no:"KL1857", from:"Amsterdã", dep:"17:50", to:"Munique", arr:"19:15"}],
+   seats:"Ana Maria 06A · Mariana 06B · Victor 06C, nos dois voos",
+   bag:"Por pessoa: 1 mala de 23 kg, mais mala de mão e acessório até 12 kg somados.",
+   tickets:[["Victor","§kv§"],["Mariana","§km§"],["Ana Maria","§ka§"]],
+   warn:"Os bilhetes não mostram reserva de pet na cabine. Confirmar com a KLM."},
+  {date:"Sábado, 02/01/2027", airline:"TAP", code:"§tap§", legs:[
+    {no:"TP531", from:"Berlim · Terminal 1", dep:"12:50", to:"Lisboa · Terminal 1", arr:"15:40"}],
+   seats:"O check-in fecha às 12:05",
+   bag:"Por pessoa: 1 mala de 23 kg e 1 mala de mão de 10 kg.",
+   tickets:[["Victor","§tv§"],["Mariana","§tm§"],["Ana Maria","§ta§"]],
+   ok:"Pet na cabine confirmado no bilhete da Mariana. O check-in do Ignacio é no balcão da TAP."}
+];
+
+const TRAINS = [
+  {date:"Terça, 22/12", train:"ICE 1600", from:"Munique Central", dep:"10:30", to:"Nuremberg Central", arr:"11:33", cls:"2ª classe", tc:"§t1c§", ord:"§t1o§"},
+  {date:"Terça, 22/12", train:"ICE 723", from:"Nuremberg Central", dep:"19:01", to:"Munique Central", arr:"20:06", cls:"2ª classe", tc:"§t1c§", ord:"§t1o§"},
+  {date:"Sábado, 26/12", train:"ICE 1102", from:"Munique Central", dep:"07:25", to:"Erfurt Central", arr:"09:44", cls:"1ª classe", tc:"§t2c§", ord:"§t2o§", note:"Troca de trem em Erfurt com só 6 minutos."},
+  {date:"Sábado, 26/12", train:"ICE 1555", from:"Erfurt Central", dep:"09:50", to:"Dresden Central", arr:"11:42", cls:"1ª classe", tc:"§t2c§", ord:"§t2o§"},
+  {date:"Segunda, 28/12", train:"RJ 251", from:"Dresden Central", dep:"08:10", to:"Praga-Holešovice", arr:"10:21", cls:"1ª classe", tc:"§t3c§", ord:"§t3o§", note:"Chega na estação Holešovice, não na estação central de Praga."},
+  {date:"Segunda, 28/12", train:"EC 458", from:"Praga Central", dep:"18:31", to:"Dresden Central", arr:"20:57", cls:"1ª classe", tc:"§t4c§", ord:"§t3o§", note:"A volta sai da estação central de Praga."},
+  {date:"Quarta, 30/12", train:"IC 2272", from:"Dresden Central", dep:"07:32", to:"Berlim Central", arr:"09:32", cls:"1ª classe", tc:"§t5c§", ord:"§t5o§"}
+];
+
+/* city = onde dormem; wx = onde passam o dia (clima) */
+const DAYS = [
+  {d:"2026-12-20", city:"MUC", wx:"MUC", title:"Chegada a Munique", kind:"travel", items:[
+    ["09:30","Chegar ao aeroporto de Lisboa."],["11:30","Voo KL1580 Lisboa → Amsterdã"],["17:50","Voo KL1857 Amsterdã → Munique"],
+    ["19:15","Chegada em Munique. Trem urbano ou táxi até o hotel."]], guide:"muc"},
+  {d:"2026-12-21", city:"MUC", wx:"MUC", title:"Mercados de Munique", kind:"free", items:[
+    ["Manhã","Roteiro a pé pelo centro: praça principal, catedral e palácio real."],
+    ["Tarde","Mercado de alimentos ao ar livre e a vila de Natal do palácio."],["Noite","Mercado de Natal da praça principal, todo iluminado."]], guide:"muc"},
+  {d:"2026-12-22", city:"MUC", wx:"NUR", title:"Bate-volta a Nuremberg", kind:"trip", items:[
+    ["10:30","Trem ICE 1600 Munique → Nuremberg (chega 11:33)"],
+    ["Dia","Roteiro a pé: Igreja de São Lourenço, mercado de Natal e Castelo Imperial."],
+    ["19:01","Trem ICE 723 Nuremberg → Munique (chega 20:06)"]], guide:"nur"},
+  {d:"2026-12-23", city:"MUC", wx:"MUC", title:"Munique com calma", kind:"free", items:[
+    ["Manhã","Passeio no Jardim Inglês com o Ignacio."],["Tarde","Mercado Medieval ou o festival de inverno Tollwood."]], guide:"muc"},
+  {d:"2026-12-24", city:"MUC", wx:"MUC", title:"Véspera de Natal", kind:"free", items:[
+    ["Manhã","Últimas compras. Mercados e lojas costumam fechar no começo da tarde."],
+    ["Noite","Ceia de Natal (orçamento até €130 por pessoa). Reservar com antecedência."]], guide:"muc"},
+  {d:"2026-12-25", city:"MUC", wx:"MUC", title:"Natal", kind:"free", items:[
+    ["Dia","Feriado: lojas fechadas. Igrejas e passeios ao ar livre."],["Noite","Arrumar as malas: o trem sai cedo amanhã."]], guide:"muc"},
+  {d:"2026-12-26", city:"DRS", wx:"DRS", title:"Munique → Dresden", kind:"travel", items:[
+    ["06:30","Check-out no hotel e ir para a estação central."],
+    ["07:25","Trem ICE 1102 Munique → Erfurt (chega 09:44)"],
+    ["09:50","Trem ICE 1555 Erfurt → Dresden (chega 11:42). Troca de trem com 6 minutos."],
+    ["12:00","Deixar as malas no hotel, perto da estação. Check-in a partir das 15h."],
+    ["Tarde","Primeira volta pelo centro histórico."]], guide:"drs"},
+  {d:"2026-12-27", city:"DRS", wx:"DRS", title:"Dresden barroca", kind:"free", items:[
+    ["Manhã","Museu de História Militar (combinar revezamento com o Ignacio)."],
+    ["Tarde","Roteiro a pé: Igreja de Nossa Senhora, mural dos príncipes, terraço sobre o rio, ópera e Palácio Zwinger."]], guide:"drs"},
+  {d:"2026-12-28", city:"DRS", wx:"PRG", title:"Bate-volta a Praga", kind:"trip", items:[
+    ["08:10","Trem RJ 251 Dresden → Praga (chega 10:21)"],
+    ["Dia","Roteiro a pé: Castelo, Ponte Carlos e Praça da Cidade Velha. A moeda é a coroa tcheca."],
+    ["18:31","Trem EC 458 Praga → Dresden (chega 20:57)"]], guide:"prg"},
+  {d:"2026-12-29", city:"DRS", wx:"DRS", title:"Dresden livre", kind:"free", items:[
+    ["Dia","Cidade Nova, passeio à beira do rio ou o que ficou faltando."],["Noite","Malas prontas: trem às 7:32."]], guide:"drs"},
+  {d:"2026-12-30", city:"BER", wx:"BER", title:"Dresden → Berlim", kind:"travel", items:[
+    ["06:50","Check-out e ir a pé até a estação central."],["07:32","Trem IC 2272 Dresden → Berlim (chega 09:32)"],
+    ["10:30","Deixar as malas no hotel. Check-in a partir das 15h."],
+    ["Tarde","Igreja Memorial e a grande avenida de compras, ao lado do hotel."]], guide:"ber"},
+  {d:"2026-12-31", city:"BER", wx:"BER", title:"Réveillon", kind:"free", items:[
+    ["Dia","Roteiro da 2ª Guerra: Portão de Brandemburgo, Memorial do Holocausto, Topografia do Terror e Checkpoint Charlie."],
+    ["Noite","Jantar de Réveillon (orçamento até €150 por pessoa). Muitos fogos na rua: o Ignacio fica mais seguro no hotel."]], guide:"ber"},
+  {d:"2027-01-01", city:"BER", wx:"BER", title:"Ano Novo", kind:"free", items:[
+    ["Dia","Feriado: lojas fechadas. Memorial do Muro e a galeria de arte no Muro."],["Noite","Malas prontas para a volta."]], guide:"ber"},
+  {d:"2027-01-02", city:"BER", wx:"BER", title:"Volta para Lisboa", kind:"travel", items:[
+    ["09:15","Check-out e seguir para o aeroporto (cerca de 1h)."],
+    ["10:30","Chegar ao aeroporto, Terminal 1. A Mariana faz o check-in do Ignacio no balcão da TAP."],
+    ["12:05","Fim do check-in"],["12:50","Voo TP531 Berlim → Lisboa (chega 15:40)"]], guide:"ber"}
+];
+
+/* GUIA: [nome exibido, descrição, busca no mapa] */
+const GUIDE = {
+  muc:{name:"Munique", hotel:"MUC",
+    intro:"A capital da Baviera tem mais de dez mercados de Natal. O centro inteiro se percorre a pé.",
+    markets:[
+      ["Mercado de Natal da praça principal","O maior e mais antigo, em frente à Prefeitura Nova. Barracas de enfeites de madeira e presépios.","Christkindlmarkt Marienplatz München"],
+      ["Vila de Natal do palácio real","No pátio do antigo palácio dos reis da Baviera. Menor e mais aconchegante.","Weihnachtsdorf Residenz München"],
+      ["Mercado Medieval","Ferreiros, hidromel e pão assado na pedra, com todo mundo fantasiado.","Mittelaltermarkt Wittelsbacherplatz München"],
+      ["Festival de inverno Tollwood","Tendas de comida do mundo inteiro e artesanato. Costuma ir até o Réveillon.","Tollwood Theresienwiese München"]],
+    see:[
+      ["Catedral de Munique","As duas torres com cúpulas arredondadas são o símbolo da cidade.","Frauenkirche München"],
+      ["Mercado de alimentos ao ar livre","Barracas de queijos, salsichas, pães e frutas no coração do centro.","Viktualienmarkt München"],
+      ["Jardim Inglês","Parque maior que o Central Park, ótimo para o Ignacio. Dá para ver surfistas numa onda do rio.","Eisbachwelle München"]],
+    history:[
+      ["Galeria dos Marechais","Em 1923, Hitler tentou um golpe que começou numa cervejaria e terminou em tiroteio aqui. O episódio virou mito da propaganda nazista.","Feldherrnhalle München"],
+      ["Centro de Documentação do Nazismo","Museu sobre Munique como berço do partido nazista, no terreno da antiga sede do partido.","NS-Dokumentationszentrum München"],
+      ["Centro reconstruído","Os bombardeios destruíram boa parte do centro. Muitas fachadas que parecem antigas foram refeitas depois de 1945.",""]],
+    walk:{name:"Centro de Munique", km:"cerca de 3 km", stops:[
+      ["Praça principal e Prefeitura Nova","Marienplatz München","O relógio com bonecos dança às 11h e às 12h."],["Catedral de Munique","Frauenkirche München",""],
+      ["Palácio real","Residenz München","Vila de Natal no pátio."],["Galeria dos Marechais","Feldherrnhalle München",""],
+      ["Jardim do palácio","Hofgarten München",""],["Mercado de alimentos","Viktualienmarkt München","Pausa para um vinho quente."]]},
+    eat:[["Salsicha branca","Servida com pretzel e mostarda doce. Pela tradição, se come antes do meio-dia."],
+      ["Joelho de porco assado","Com a pele crocante, prato típico das cervejarias."],
+      ["Cervejarias tradicionais","Augustiner e Hofbräuhaus são as mais famosas. Cães costumam ser bem-vindos."]]},
+  nur:{name:"Nuremberg", hotel:null,
+    intro:"Cidade medieval cercada por muralhas, famosa pelo mercado de Natal e pelo papel na história do nazismo e dos julgamentos.",
+    markets:[
+      ["Mercado de Natal de Nuremberg","Um dos mais famosos do mundo, na praça do mercado. A lembrança típica são bonequinhos feitos de ameixa seca.","Christkindlesmarkt Nürnberg"],
+      ["Mercado de Natal das crianças","Ao lado do principal, com carrossel antigo.","Kinderweihnacht Nürnberg"]],
+    see:[["Castelo Imperial","No alto da cidade, com vista para os telhados.","Kaiserburg Nürnberg"],
+      ["Fonte Bela","Fonte gótica dourada na praça. Diz a lenda que girar o anel de latão da grade dá sorte.","Schöner Brunnen Nürnberg"]],
+    history:[
+      ["Campo dos comícios nazistas","Arquibancadas e um congresso inacabado mostram a escala da propaganda do partido. Conferir se o centro de documentação está aberto (passou por reforma).","Dokumentationszentrum Reichsparteitagsgelände"],
+      ["Sala 600 do Tribunal","Sala onde líderes nazistas foram julgados em 1945 e 1946. O museu fica no Palácio da Justiça.","Memorium Nürnberger Prozesse"]],
+    walk:{name:"Nuremberg medieval", km:"cerca de 2,5 km", stops:[
+      ["Estação central","Nürnberg Hauptbahnhof",""],["Rua principal de pedestres","Königstraße Nürnberg",""],
+      ["Igreja de São Lourenço","St. Lorenz Nürnberg",""],["Praça do mercado de Natal","Hauptmarkt Nürnberg",""],
+      ["Casa de Albrecht Dürer","Albrecht-Dürer-Haus","Casa do pintor mais famoso da cidade."],["Castelo Imperial","Kaiserburg Nürnberg","Vista do pôr do sol."]]},
+    eat:[["Salsichinhas de Nuremberg","Três salsichas finas grelhadas dentro de um pãozinho."],["Biscoito de mel e especiarias","O mais famoso da Alemanha nasceu aqui. Ótimo presente."]]},
+  drs:{name:"Dresden", hotel:"DRS",
+    intro:"Chamada de 'Florença do Elba', foi destruída em fevereiro de 1945 e reconstruída pedra por pedra.",
+    markets:[
+      ["Mercado de Natal mais antigo da cidade","Funciona desde 1434, mas costuma terminar na véspera de Natal. Provavelmente estará fechado quando vocês chegarem.","Striezelmarkt Dresden"],
+      ["Depois do Natal","De 26 a 30/12 poucos mercados seguem abertos. Vale perguntar no hotel o que ainda funciona.",""]],
+    see:[["Igreja de Nossa Senhora","Reconstruída misturando as pedras originais, escuras, com as novas, claras.","Frauenkirche Dresden"],
+      ["Palácio Zwinger","Palácio barroco com pátio aberto, bom para passear com o Ignacio.","Zwinger Dresden"],
+      ["Mural dos príncipes","Mural de 102 metros feito com 23 mil azulejos de porcelana.","Fürstenzug Dresden"],
+      ["Ópera de Dresden","A ópera mais bonita da cidade. À noite, iluminada, fica ainda melhor.","Semperoper Dresden"]],
+    history:[
+      ["Bombardeio de 1945","Entre 13 e 15 de fevereiro de 1945, bombardeios aliados destruíram o centro e mataram cerca de 25 mil pessoas.",""],
+      ["Igreja de Nossa Senhora","Ficou em ruínas por quase 50 anos como memorial. Foi reconstruída entre 1994 e 2005, e a cruz do topo foi feita por um ourives britânico, filho de um piloto que participou do ataque.","Frauenkirche Dresden"],
+      ["Museu de História Militar","Uma cunha de vidro atravessa o arsenal antigo e aponta para a área de onde vieram os bombardeiros. Costuma fechar às quartas.","Militärhistorisches Museum der Bundeswehr Dresden"]],
+    walk:{name:"Centro histórico de Dresden", km:"cerca de 3 km", stops:[
+      ["Saída do hotel","Prager Straße 13 Dresden",""],["Praça do Mercado Antigo","Altmarkt Dresden",""],
+      ["Igreja de Nossa Senhora","Frauenkirche Dresden",""],["Mural dos príncipes","Fürstenzug Dresden",""],
+      ["Terraço sobre o rio Elba","Brühlsche Terrasse","A melhor vista da cidade."],["Ópera de Dresden","Semperoper Dresden",""],["Palácio Zwinger","Zwinger Dresden",""]]},
+    eat:[["Pão de Natal de Dresden","Com frutas secas e açúcar de confeiteiro, nasceu aqui. Leve um para casa."],["Torta de creme de ovos","Doce típico da região, perfeito com café à tarde."]]},
+  prg:{name:"Praga", hotel:null,
+    intro:"Bate-volta de trem pela beira do rio. A moeda é a coroa tcheca; cartão é aceito em quase todo lugar.",
+    markets:[["Mercado da Praça da Cidade Velha","Árvore enorme e barracas que costumam ficar até o começo de janeiro.","Staroměstské náměstí Praha"],
+      ["Mercado da Praça Venceslau","Outro mercado grande, perto da estação central.","Václavské náměstí Praha"]],
+    see:[["Castelo de Praga","O maior conjunto de castelo antigo do mundo, com a Catedral de São Vito.","Pražský hrad"],
+      ["Ponte Carlos","Ponte do século 14 com 30 estátuas.","Karlův most"],
+      ["Relógio Astronômico","As figuras aparecem a cada hora cheia.","Pražský orloj"]],
+    history:[["Ocupação nazista","Praga foi ocupada em março de 1939. A cidade quase não foi bombardeada, por isso o centro medieval sobreviveu.",""],
+      ["Igreja dos paraquedistas","Na cripta desta igreja, os soldados que mataram o chefe nazista da região, em 1942, resistiram até o fim.","Národní památník hrdinů heydrichiády"]],
+    walk:{name:"Praga em um dia", km:"cerca de 5 km", stops:[
+      ["Chegada na estação Holešovice","Praha-Holešovice nádraží","Bonde até o Castelo."],["Castelo de Praga","Pražský hrad",""],
+      ["Bairro Pequeno, aos pés do castelo","Malostranské náměstí",""],["Ponte Carlos","Karlův most",""],
+      ["Praça da Cidade Velha","Staroměstské náměstí Praha","Mercado de Natal."],["Estação central (volta às 18:31)","Praha hlavní nádraží",""]]},
+    eat:[["Rolo de massa no espeto","Massa enrolada e assada, coberta de açúcar e canela."],["Carne ao molho cremoso","Prato tcheco clássico, servido com bolinhos de pão."]]},
+  ber:{name:"Berlim", hotel:"BER",
+    intro:"A cidade onde a história do século 20 aparece em cada esquina. O hotel fica na parte oeste, perto da grande avenida de compras.",
+    markets:[["Mercado entre as duas catedrais","Um dos mercados mais bonitos da Alemanha. Verificar se segue aberto depois do Natal.","Gendarmenmarkt Berlin"],
+      ["Mercado da Igreja Memorial","Ao pé da igreja em ruínas, a poucos minutos do hotel.","Breitscheidplatz Berlin"]],
+    see:[["Portão de Brandemburgo","Símbolo da divisão e da reunificação da Alemanha.","Brandenburger Tor"],
+      ["Cúpula do Parlamento","Entrada gratuita, com registro online feito antes. Faça antes da viagem.","Reichstag Berlin"],
+      ["Loja de departamentos KaDeWe","Tem um andar inteiro só de comidas. Fica perto do hotel.","KaDeWe Berlin"]],
+    history:[
+      ["Igreja Memorial Kaiser Wilhelm","Atingida em 1943 e mantida em ruínas como memorial contra a guerra.","Kaiser-Wilhelm-Gedächtniskirche"],
+      ["Memorial do Holocausto","2.711 blocos de concreto. O centro de informações, no subsolo, conta histórias de famílias.","Denkmal für die ermordeten Juden Europas"],
+      ["Topografia do Terror","Museu gratuito onde ficavam os quartéis da polícia política nazista.","Topographie des Terrors"],
+      ["Local do bunker de Hitler","Hoje é um estacionamento, marcado só por uma placa informativa.","Gertrud-Kolmar-Straße Berlin"],
+      ["Memorial do Muro","O trecho mais completo para entender como era a fronteira.","Gedenkstätte Berliner Mauer"]],
+    walk:{name:"Berlim da 2ª Guerra", km:"cerca de 4 km", stops:[
+      ["Parlamento","Reichstag Berlin",""],["Portão de Brandemburgo","Brandenburger Tor",""],
+      ["Memorial do Holocausto","Denkmal für die ermordeten Juden Europas",""],["Placa do bunker","Gertrud-Kolmar-Straße Berlin",""],
+      ["Topografia do Terror","Topographie des Terrors","Gratuito."],["Checkpoint Charlie","Checkpoint Charlie","Antigo posto de fronteira americano."]]},
+    eat:[["Salsicha com curry","O lanche símbolo de Berlim. Há quiosques perto do hotel."],["Sonho de Berlim","Recheado de geleia, é tradição comer no Réveillon."]]}
+};
+
+const TASTES = [
+  ["Vinho quente","Com canela e cravo. A caneca tem depósito: devolva para receber o valor de volta ou fique com ela de lembrança."],
+  ["Vinho quente flambado","Um cone de açúcar embebido em rum é flambado em cima da panela de vinho quente."],
+  ["Ponche das crianças","Ponche quente de frutas e especiarias, sem álcool."],
+  ["Amêndoas caramelizadas","Feitas na hora e vendidas quentinhas em cones de papel."],
+  ["Biscoito de mel","Biscoito macio de mel e especiarias, às vezes coberto de chocolate."],
+  ["Pão de Natal","Com frutas secas, amêndoas e bastante açúcar de confeiteiro."],
+  ["Panqueca de batata","Frita na hora, servida com purê de maçã."],
+  ["Salsicha grelhada","No pão, com mostarda."],
+  ["Bolinho no vapor","Bolinho de massa doce cozido no vapor, com creme de baunilha."],
+  ["Nhoque de batata","Alongado e salteado com chucrute e bacon."],
+  ["Gemada quente","Com vinho e licor de ovos, coberta de chantilly."],
+  ["Castanhas assadas","Vendidas em saquinhos, perfeitas para esquentar as mãos."]
+];
+
+const DEFAULT_TODO = [
+  ["Confirmar o pet na cabine nos voos KLM (§klm§).","klm"],
+  ["Confirmar com o hotel de Dresden que o Ignacio é aceito e qual é a taxa.","drs"],
+  ["Decidir sobre o hotel de Munique antes de 15/12 (fim do cancelamento grátis).","muc"],
+  ["Reservar a ceia de Natal em Munique (24/12).","ceia"],
+  ["Reservar o jantar de Réveillon em Berlim (31/12).","rev"],
+  ["Registrar a visita à cúpula do Parlamento em Berlim.","reich"],
+  ["Pedir café da manhã cedo em Munique (26/12) e Dresden (30/12).","cafe"],
+  ["Separar o passaporte de pet e a vacina antirrábica do Ignacio.","pet"],
+  ["Levar a transportadora fechada e a roupa de frio do Ignacio.","box"],
+  ["Documentos com foto de todos.","id"],
+  ["Baixar o app da companhia de trens alemã (DB Navigator) para ver plataformas e atrasos.","db"],
+  ["Levar luvas, gorro, cachecol e sapatos que aguentem neve.","frio"]
+];
+
+const CONTACTS = [
+  ["Emergência na Europa (Alemanha e República Tcheca)","112"],
+  ["Seguro da Ana Maria (Intermac) · WhatsApp","+1 786 786 1194"],
+  ["Seguro · e-mail","asistencias@intermacinsurance.com"],
+  ["Seguro · bilhete nº","§seg§"],
+  ["TAP Miles&Go","0800 888 2066"],
+  ["Hotel em Munique","+49 89 43777750"],
+  ["Hotel em Dresden","+49 351 31261760"],
+  ["Hotel em Berlim","+49 30 4050270"]
+];
+
+/* Única seção com alemão: frases para usar na viagem */
+const PHRASES = [
+  ["Darf der Hund mit rein?","O cachorro pode entrar?"],
+  ["Einen Tisch für drei, bitte.","Uma mesa para três, por favor."],
+  ["Drei Glühwein, bitte.","Três vinhos quentes, por favor."],
+  ["Ich möchte das Pfand zurück.","Quero o depósito da caneca de volta."],
+  ["Die Rechnung, bitte. Zusammen.","A conta, por favor. Tudo junto."],
+  ["Kann ich mit Karte zahlen?","Posso pagar com cartão?"],
+  ["Von welchem Gleis fährt der Zug?","De qual plataforma sai o trem?"],
+  ["Wo ist die Toilette?","Onde fica o banheiro?"],
+  ["Frohe Weihnachten! · Guten Rutsch!","Feliz Natal! · Bom Ano Novo!"],
+  ["Děkuji · Dobrý den","Obrigado · Bom dia (em tcheco, para Praga)"]
+];
+/* Nomes nas barracas, para pedir */
+const MENU = [
+  ["Glühwein","Vinho quente"],["Feuerzangenbowle","Vinho quente flambado"],["Kinderpunsch","Ponche das crianças"],
+  ["Gebrannte Mandeln","Amêndoas caramelizadas"],["Lebkuchen","Biscoito de mel"],["Stollen","Pão de Natal"],
+  ["Reibekuchen","Panqueca de batata"],["Bratwurst","Salsicha grelhada"],["Dampfnudel","Bolinho no vapor"],
+  ["Schupfnudeln","Nhoque de batata"],["Eierpunsch","Gemada quente"],["Maronen","Castanhas assadas"],
+  ["Weißwurst","Salsicha branca"],["Currywurst","Salsicha com curry"]
+];
+
+/* Mala por pessoa: [chave, texto, dica, kg, onde] onde: d = despachada, m = mão, v = no corpo */
+const LIM = {d:23, m:10};  // KLM: 23 kg + mão e acessório até 12 kg; TAP: 23 kg + mão 10 kg. Vale o menor.
+const MALA_ADULTO = [
+  ["A mala em si",[
+    ["mala","Mala grande vazia","Uma mala grande pesa de 3,5 a 5 kg vazia. Pese a de vocês.",4.0,"d"],
+    ["malamao","Mala de mão vazia","",2.0,"m"]]],
+  ["Roupa de frio",[
+    ["casaco","Casaco quente e impermeável, com capuz","Viaje vestindo: não pesa na mala.",1.5,"v"],
+    ["botas","Botas impermeáveis com sola antiderrapante","Viaje calçando. Amaciar antes da viagem.",1.4,"v"],
+    ["gorro","Gorro, cachecol e luvas que funcionam na tela do celular","",0.4,"v"],
+    ["termica","2 conjuntos de segunda pele (blusa e calça térmicas)","Leve e esquenta muito.",0.6,"d"],
+    ["sueter","3 suéteres ou blusas de fleece","Use camadas: dentro de lojas e museus faz calor.",1.5,"d"],
+    ["calca","2 calças na mala (a terceira no corpo), uma forrada","",1.2,"d"],
+    ["camisetas","5 camisetas de manga longa","",1.0,"d"],
+    ["intimas","Roupa íntima para 7 dias","Lavar uma vez no meio da viagem, em Dresden.",0.6,"d"],
+    ["meias","7 pares de meias grossas","",0.7,"d"],
+    ["tenis","Um calçado confortável extra","Para revezar se a bota molhar.",0.9,"d"]]],
+  ["Ocasiões especiais",[
+    ["ceia","Roupa para a ceia de Natal (24/12)","",0.8,"d"],
+    ["reveillon","Roupa para o Réveillon (31/12), quente para ver os fogos","",0.8,"d"],
+    ["pijama","Pijama quente","",0.5,"d"]]],
+  ["Higiene e cuidados",[
+    ["hidratante","Hidratante, creme para as mãos e protetor labial","O frio e o aquecimento ressecam a pele.",0.3,"d"],
+    ["necessaire","Necessaire (líquidos até 100 ml se for na mão)","",0.8,"d"],
+    ["remedios","Remédios de uso pessoal","Sempre na mala de mão.",0.2,"m"]]],
+  ["Eletrônicos",[
+    ["carregador","Carregador do celular","A tomada é a mesma de Portugal: não precisa de adaptador.",0.2,"m"],
+    ["powerbank","Bateria portátil","Proibida na mala despachada. O frio descarrega o celular mais rápido.",0.3,"m"]]],
+  ["Documentos e dinheiro",[
+    ["doc","Documento com foto (passaporte ou cartão de cidadão)","Pedido nos voos e nos trens.",0.1,"m"],
+    ["cartao","Cartão de crédito e um pouco de euros em espécie","As barracas dos mercados muitas vezes só aceitam dinheiro.",0.1,"m"]]]
+];
+const MALA_EXTRA = {
+  "Victor":[["Responsável por",[
+    ["v-trens","Bilhetes de trem no celular (estão todos no nome dele)","Sem o documento do Victor, os bilhetes não valem.",0,"m"],
+    ["v-cartaosaude","Cartão Europeu de Seguro de Doença","Para quem mora em Portugal, cobre atendimento público na Alemanha.",0,"m"],
+    ["v-coroas","Algumas coroas tchecas para o dia em Praga","",0,"m"]]]],
+  "Mariana":[["Responsável por",[
+    ["m-hilton","Reservas dos hotéis em Munique e Berlim (estão no nome dela)","",0,"m"],
+    ["m-tap","Bilhete da TAP com o pet na cabine","Ela faz o check-in do Ignacio no balcão em 02/01.",0,"m"],
+    ["m-cartaosaude","Cartão Europeu de Seguro de Doença","",0,"m"]]]],
+  "Ana Maria":[["Para ela",[
+    ["a-seguro","Seguro viagem impresso (bilhete §seg§) e o contato da seguradora","Vale de 27/11/2026 a 22/01/2027.",0.05,"m"],
+    ["a-passaporte","Passaporte","",0.1,"m"],
+    ["a-casaco","Se não tiver roupa de neve, comprar ou pegar emprestado em Portugal antes de 20/12","Casaco, botas e luvas fazem toda a diferença.",0,"v"],
+    ["a-bolsa","Bolsa pequena com zíper, usada na frente do corpo","Mercados lotados atraem batedores de carteira.",0.3,"v"]]]]
+};
+const MALA_IGNACIO = [
+  ["Viaja com a Mariana na cabine",[
+    ["i-caixa","Transportadora fechada e ventilada","Na cabine, o limite costuma ser de 8 kg somando o cão e a caixa. Confirmar com a KLM e a TAP.",1.2,"c"],
+    ["i-passaporte","Passaporte europeu de pet","",0.05,"m"],
+    ["i-vacina","Comprovante da vacina antirrábica em dia","",0.02,"m"],
+    ["i-manta","Manta com cheiro de casa, dentro da transportadora","Acalma no avião e no trem.",0.2,"c"]]],
+  ["Na mala da Mariana",[
+    ["i-racao","Ração para 14 dias, mais uma reserva","Leve o necessário; dá para comprar ração em pet shops alemães.",1.0,"d"],
+    ["i-potes","Potes dobráveis para água e comida","",0.2,"d"],
+    ["i-petiscos","Petiscos","",0.2,"d"],
+    ["i-roupa","Casaco ou roupinha quente","",0.2,"d"],
+    ["i-patas","Botinhas ou pomada protetora para as patas","O sal das calçadas irrita as patinhas.",0.1,"d"],
+    ["i-coleira","Coleira com plaquinha de telefone e guia","",0.1,"d"],
+    ["i-saquinhos","Saquinhos para recolher o cocô","",0.1,"d"],
+    ["i-tapete","Tapetes higiênicos para o hotel","",0.4,"d"],
+    ["i-brinquedo","Um brinquedo conhecido","",0.1,"d"]]],
+  ["Antes de viajar",[
+    ["i-vet","Conversar com o veterinário sobre os fogos do Réveillon","Berlim tem fogos na rua a noite toda.",0,"x"]]]
+];
+const MALA_FAMILIA = [
+  ["Para dividir entre as malas",[
+    ["f-sacola","Sacolas dobráveis para as compras dos mercados","",0.1,"d"],
+    ["f-guardachuva","Guarda-chuva compacto","",0.3,"d"],
+    ["f-lanche","Lanche para os trens bem cedo (26/12 e 30/12)","",0,"x"],
+    ["f-garrafa","Garrafinhas de água","",0.2,"d"],
+    ["f-espaco","Deixar uns 4 kg livres em cada mala para a volta","Pão de Natal, biscoitos, canecas e enfeites pesam mais do que parece.",0,"x"]]]
+];
+const MALA_PEOPLE = ["Victor","Mariana","Ana Maria","Ignacio","Família"];
+function malaList(p){
+  if (p==="Ignacio") return MALA_IGNACIO;
+  if (p==="Família") return MALA_FAMILIA;
+  return [...(MALA_EXTRA[p]||[]), ...MALA_ADULTO];
+}
+const malaId = (p,k) => (p.replace(/\s/g,"")+"-"+k).toLowerCase();
+function malaPeso(p){
+  const sum = (lst,w) => lst.flatMap(c=>c[1]).filter(i=>i[4]===w).reduce((a,i)=>a+i[3],0);
+  const L = malaList(p); let d=sum(L,"d"), m=sum(L,"m"), v=sum(L,"v");
+  if (p==="Mariana"){ d+=sum(MALA_IGNACIO,"d"); m+=sum(MALA_IGNACIO,"m"); }
+  return {d, m, v};
+}
+
+const TIPS = [
+  "Em 25/12, 26/12 e 01/01 as lojas fecham e o transporte roda em horário de domingo. No dia 24, quase tudo fecha no começo da tarde.",
+  "Se o trem atrasar mais de 20 minutos no destino, o mesmo bilhete vale em outro trem do trajeto.",
+  "Muitos lugares ainda preferem dinheiro, principalmente as barracas dos mercados.",
+  "Nos mercados, guarde a caneca do vinho quente para devolver e recuperar o depósito.",
+  "No Réveillon, Berlim tem fogos na rua desde a tarde. Para o Ignacio, o hotel é o lugar mais tranquilo.",
+  "O sal das calçadas irrita as patas. Limpe as patinhas do Ignacio ao voltar para o hotel.",
+  "Escurece antes das 16h30 em dezembro. Planeje os passeios ao ar livre para a manhã e o começo da tarde."
+];
+
+/* ================= SEGREDOS ================= */
+const ENC = {"salt": "zkbVq1X6t5023GTORoIAiQ==", "iv": "OHUd5s4BTEMZ7/5R", "ct": "tqF4dCBmlj6ETWVtTWxfKSt1wKPGN8Df0aFQLX1KT+qxDSiSCvTY6yo+v16KLqTxz7qQvKD8q1wlTouIROIYEVMmzxD9Z1IrTSwDcAO3EsBBUrFcl7RDP35UR7uEFOqp+vdl+ALWfg//PRuzQB2JeX1qT9TnhUnR5fAy/+JoMDzGbsRxVlaLIYUPcNl7JPHr4kQ4ZzDH8pcDhP71bn+j3OJjE+4wv7FmHIS6HjEOw5owBy97SB5ryE0EL7epeBTmxYIKwLQiRX+bRNFJ+na1TaldMgk3bCkysuEyXkCspFaBdYsmOKwSAgqBBeLSxzGQ1BfbZGrAH895VR4++cW4Z8SVnmDcCg7FiQ8qTDO2oBJfoagLHBSoT+reblliBGWHxd86KEFiJayMsHW6Rx7xn/LybhILVbwMYS3haVyb4J4XDre8DwJAwEO1Yp12QI1jVGegX+5loX9OBeL5OryD3hOkNeVRVycxO+u3TNptBx3nVwr4ArJYPRv1PE4H26Tvgyfk9ukVVmvlOplTfeionXER4XLf6h2ESYCiWE1gUrqimyTwxTb0WDPsi9ZYvOjBYOcxX1Ql9hHtWBa/bxEFqkVL6LkupkQAy2SdaympVV9lrGsD12IObmL1AQ=="};
+let SECRETS = {}, UNLOCKED = false;
+const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
+async function unlock(pw, silent){
+  try{
+    const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+    const key = await crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(ENC.salt), iterations:150000, hash:"SHA-256"}, km, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+    const pt = await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(ENC.iv)}, key, b64(ENC.ct));
+    SECRETS = JSON.parse(new TextDecoder().decode(pt)); UNLOCKED = true;
+    try{ localStorage.setItem("guia-pw", pw); }catch(e){}
+    show(); return true;
+  }catch(e){ if(!silent){ const m=document.getElementById("pwMsg"); if(m) m.textContent="Senha incorreta. Tente de novo."; } return false; }
+}
+function lockCard(){
+  if (UNLOCKED) return `<div class="note ok">Códigos das reservas desbloqueados neste celular.</div>`;
+  return `<form class="card lit" id="pwForm"><span class="eyebrow" style="color:var(--gold)">Códigos protegidos</span>
+    <div class="small">Localizadores e números dos bilhetes ficam protegidos. Digite a senha da família uma vez e eles aparecem neste celular.</div>
+    <div class="row" style="flex-wrap:nowrap"><input type="password" id="pwIn" placeholder="Senha da família" autocomplete="current-password" style="flex:1"><button class="btn primary" type="submit">Desbloquear</button></div>
+    <div class="tiny" id="pwMsg" style="color:var(--berry)"></div></form>`;
+}
+
+/* ================= UTIL ================= */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,"0");
+const unmask = s => String(s ?? "").replace(/§(\w+)§/g,(m,k)=>SECRETS[k] ?? "•••••");
+const esc = s => unmask(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const maps = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+const walkUrl = st => { const q = st.map(s=>s[1]); const u = new URL("https://www.google.com/maps/dir/");
+  u.searchParams.set("api","1"); u.searchParams.set("origin",q[0]); u.searchParams.set("destination",q[q.length-1]);
+  if (q.length>2) u.searchParams.set("waypoints", q.slice(1,-1).join("|")); u.searchParams.set("travelmode","walking"); return u.toString(); };
+const forecastUrl = c => "https://www.google.com/search?q=" + encodeURIComponent("previsão do tempo " + CLIMA[c].q);
+const store = { get(k,d){ try{const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){return d;} }, set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} } };
+function todayISO(){ return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Lisbon",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date()); }
+function parse(iso){ const [y,m,d]=iso.split("-").map(Number); return new Date(Date.UTC(y,m-1,d)); }
+function fmt(iso){ const dt=parse(iso); return WD[dt.getUTCDay()]+", "+pad(dt.getUTCDate())+"/"+pad(dt.getUTCMonth()+1); }
+function fmtLong(iso){ const dt=parse(iso); return WDL[dt.getUTCDay()]+", "+dt.getUTCDate()+" de "+MES[dt.getUTCMonth()]; }
+function copyBtn(v){ if (/§/.test(v) && !UNLOCKED) return `<button class="lockbtn" data-unlock>🔒 Ver com a senha</button>`; return `<button class="copy mono" data-copy="${esc(v)}">${esc(v)}</button>`; }
+const eur = n => n.toLocaleString("pt-PT",{style:"currency",currency:"EUR"});
+
+const TODAY = todayISO();
+const FIRST = DAYS[0].d, LAST = DAYS[DAYS.length-1].d;
+const todayIdx = DAYS.findIndex(x=>x.d===TODAY);
+
+
+/* ================= ÍCONES ================= */
+const IC = {
+  plane:'<svg viewBox="0 0 24 24"><path d="M2 13l20-8-6 16-4-6-6-2z"/><path d="M12 15l4-6"/></svg>',
+  train:'<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l-2-4M15 21l2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>',
+  walk:'<svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M13 9l-3 3 1 3M13 9l3 3 3 1M10 12l-3 1"/></svg>',
+  moon:'<svg viewBox="0 0 24 24"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/></svg>',
+  food:'<svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 2-2 6 0 8v10"/></svg>',
+  bed:'<svg viewBox="0 0 24 24"><path d="M3 19V7M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="2"/></svg>',
+  star:'<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>',
+  stall:'<svg viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5M3 9h18M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 12v8h14v-8M10 20v-4h4v4"/></svg>',
+  eye:'<svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  book:'<svg viewBox="0 0 24 24"><path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-1 .2"/><path d="M20 4v14h-7"/></svg>',
+  map:'<svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
+  paw:'<svg viewBox="0 0 24 24"><circle cx="7" cy="9" r="2"/><circle cx="11" cy="5" r="2"/><circle cx="16" cy="6" r="2"/><circle cx="19" cy="11" r="2"/><path d="M8 17c0-3 2-5 4.5-5S17 14 17 17s-2 3-4.5 3S8 20 8 17z"/></svg>',
+  gift:'<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13M12 8c-2-4-6-4-6-1s6 1 6 1 6 2 6-1-4-3-6 1"/></svg>'
+};
+const CITY_IC = {
+  MUC:'<svg viewBox="0 0 48 48"><rect x="10" y="16" width="9" height="28"/><rect x="29" y="16" width="9" height="28"/><path d="M10 16a4.5 6 0 0 1 9 0M29 16a4.5 6 0 0 1 9 0M19 44V26l5-5 5 5v18"/></svg>',
+  NUR:'<svg viewBox="0 0 48 48"><path d="M6 44V26h36v18M12 26V14h8v12M28 26V10h10v16M10 14l6-6 6 6M26 10l7-7 7 7"/><path d="M21 44v-8h6v8"/></svg>',
+  DRS:'<svg viewBox="0 0 48 48"><path d="M10 44V28c0-10 6-16 14-18 8 2 14 8 14 18v16z"/><path d="M22 10V3h4v7M6 44V24h4M38 24h4v20"/><path d="M20 44v-9a4 4 0 0 1 8 0v9"/></svg>',
+  PRG:'<svg viewBox="0 0 48 48"><path d="M4 44V30h40v14M18 30V12l4-8 4 8v18M30 30V18l3-6 3 6v12M8 30V20l3-5 3 5v10"/></svg>',
+  BER:'<svg viewBox="0 0 48 48"><path d="M4 18h40v5H4zM7 23v21M15 23v21M23 23v21M31 23v21M39 23v21M2 44h44M18 18v-5h12v5M20 13l2-6h4l2 6"/></svg>'
+};
+function itemIcon(t,x){ const s=(t+" "+x).toLowerCase();
+  if (/voo/.test(s)) return IC.plane; if (/trem|estação/.test(s)) return IC.train; if (/ceia|jantar|lanche/.test(s)) return IC.food;
+  if (/hotel|check-out|malas|check-in/.test(s)) return IC.bed; if (/noite/.test(s)) return IC.moon; if (/mercado/.test(s)) return IC.stall;
+  if (/a pé|roteiro|passeio|volta/.test(s)) return IC.walk; return IC.star; }
+function secTitle(icon, txt){ return `<div class="secttl"><span class="sic">${icon}</span><b>${esc(txt)}</b></div>`; }
+
+/* ================= SKYLINE ================= */
+function houses(){
+  // casas de enxaimel simples dos dois lados
+  let s=""; const xs=[[0,40,34],[36,30,26],[64,38,40],[250,34,30],[282,40,38],[320,40,28]];
+  xs.forEach(([x,w,h])=>{ const top=96-h;
+    s+=`<path class="house" d="M${x} 96V${top} L${x+w/2} ${top-14} L${x+w} ${top} V96Z"/>`;
+    s+=`<rect class="win" x="${x+w*0.22}" y="${top+8}" width="5" height="6" rx="1"/><rect class="win" x="${x+w*0.62}" y="${top+8}" width="5" height="6" rx="1"/>`;
+  });
+  return s;
+}
+function landmark(c){
+  if (c==="MUC") return `<rect class="mark" x="146" y="30" width="22" height="66"/><rect class="mark" x="192" y="30" width="22" height="66"/>
+    <ellipse class="mark" cx="157" cy="28" rx="13" ry="15"/><ellipse class="mark" cx="203" cy="28" rx="13" ry="15"/>
+    <rect class="mark" x="155" y="6" width="4" height="10"/><rect class="mark" x="201" y="6" width="4" height="10"/>
+    <path class="mark" d="M168 96V52L180 40L192 52V96Z"/><rect class="win" x="153" y="50" width="8" height="12" rx="4"/><rect class="win" x="199" y="50" width="8" height="12" rx="4"/>`;
+  if (c==="DRS") return `<path class="mark" d="M140 96V58Q140 22 180 14Q220 22 220 58V96Z"/><rect class="mark" x="174" y="0" width="12" height="18"/>
+    <rect class="mark" x="126" y="48" width="14" height="48"/><rect class="mark" x="220" y="48" width="14" height="48"/>
+    <rect class="win" x="172" y="60" width="16" height="22" rx="8"/><rect class="win" x="152" y="66" width="7" height="12" rx="3"/><rect class="win" x="201" y="66" width="7" height="12" rx="3"/>`;
+  if (c==="BER") { let cols=""; for(let i=0;i<6;i++) cols+=`<rect class="mark" x="${122+i*21}" y="46" width="11" height="50"/>`;
+    return `<rect class="mark" x="114" y="34" width="132" height="14"/>${cols}<path class="mark" d="M160 34V24H200V34Z"/><path class="mark" d="M168 24L172 12H190L194 24Z"/><rect class="win" x="176" y="38" width="8" height="5"/>`; }
+  if (c==="PRG") return `<path class="mark" d="M120 96V60H240V96Z"/><path class="mark" d="M168 60V24L176 4L184 24V60Z"/><path class="mark" d="M192 60V34L198 18L204 34V60Z"/><rect class="win" x="172" y="36" width="8" height="12" rx="4"/>`;
+  return `<path class="mark" d="M130 96V54H230V96Z"/><path class="mark" d="M150 54V30H170V54Z"/><path class="mark" d="M190 54V22H214V54Z"/><path class="mark" d="M146 30L160 16L174 30Z"/><path class="mark" d="M186 22L202 6L218 22Z"/><rect class="win" x="198" y="30" width="7" height="10"/>`;
+}
+function scene(c){
+  const cc = getComputedStyle(document.documentElement).getPropertyValue("--"+(c||"MUC")).trim()||"#c8283c";
+  let st=""; for(let i=0;i<22;i++){ const x=(i*53)%360, y=6+((i*37)%40), r=(i%3)*0.4+0.6; st+=`<circle class="star" cx="${x}" cy="${y}" r="${r}" style="animation-delay:${(i%5)*0.6}s"/>`; }
+  // barracas do mercado
+  const stall=(x,col)=>`<g transform="translate(${x},0)"><rect x="0" y="118" width="46" height="26" fill="#3a1220"/><rect x="4" y="124" width="38" height="14" fill="#f0c46a" opacity=".9"/>
+    <path d="M-3 118 L23 102 L49 118Z" fill="${col}"/>${[0,1,2,3,4,5].map(k=>`<path d="M${-3+k*8.7} 118 l4.35 0 l${(23-(-3+k*8.7))*0.18} -6Z" fill="#fff" opacity=".0"/>`).join("")}
+    <path d="M-3 118h52v5h-52z" fill="#fff"/>${[0,1,2,3,4,5].map(k=>`<path d="M${-3+k*8.7} 118h4.35v5h-4.35z" fill="${col}"/>`).join("")}</g>`;
+  const tree = `<g transform="translate(118,0)"><path d="M0 70 L-16 98 H-8 L-22 120 H-10 L-26 144 H26 L10 120 H22 L8 98 H16Z" fill="#1f6b45"/>
+    <rect x="-3" y="144" width="6" height="6" fill="#5a2a14"/><path d="M0 62l2.4 5 5.4.8-3.9 3.8.9 5.4L0 74.4l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8z" fill="#f0c46a" class="tstar"/>
+    ${[[-6,92],[7,100],[-12,114],[10,118],[-4,126],[16,136],[-18,138],[3,140]].map(([x,y],k)=>`<circle class="bulb" cx="${x}" cy="${y}" r="2.2" fill="${["#f0c46a","#ff5470","#7fd6ff","#fff"][k%4]}" style="animation-delay:${k*0.25}s"/>`).join("")}</g>`;
+  const lm = landmark(c||"MUC").replace(/class="mark"/g,`fill="${cc}" stroke="#2a0912" stroke-width="1" opacity=".95"`).replace(/class="win"/g,'fill="#f0c46a"');
+  $("#skyline").innerHTML = `<defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14050b"/><stop offset="1" stop-color="#4a1324"/></linearGradient></defs>
+    <rect width="360" height="160" fill="url(#skyg)"/>${st}
+    <circle cx="312" cy="26" r="13" fill="#fff3d6"/><circle cx="318" cy="22" r="12" fill="#1c0710" opacity=".55"/>
+    <g transform="translate(0,52)">${houses().replace(/class="house"/g,'fill="#2a0c16"').replace(/class="win"/g,'fill="#f0c46a"')}${lm}</g>
+    <path d="M0 150 Q90 140 180 148 T360 146 V160 H0Z" fill="#fff6ea"/>
+    ${stall(4,"#c8283c")}${stall(52,"#1d7a59")}${tree}${stall(256,"#2d5fae")}${stall(306,"#c8283c")}
+    <path d="M0 100 Q45 112 90 100 T180 100 T270 100 T360 100" fill="none" stroke="#f0c46a" stroke-width=".8" opacity=".7"/>
+    ${Array.from({length:18},(_,k)=>{const x=10+k*20; const y=100+Math.sin(k*1.57)*5+5; return `<circle class="bulb" cx="${x}" cy="${y}" r="2" fill="${["#f0c46a","#ff5470","#7fd6ff"][k%3]}" style="animation-delay:${k*0.15}s"/>`;}).join("")}`;
+}
+function skyline(c){ scene(c); }
+
+/* ================= TEMPO ================= */
+const flake = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>`;
+function weatherBox(day){
+  const f = FORECAST[day.d];
+  if (f) return `<div class="wx">${flake}<div class="temp"><b>${f.hi}°</b> / ${f.lo}°C</div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px"><div class="row between tiny"><span>${esc(f.desc||"Previsão")}</span><b>${f.neve}% de neve</b></div>
+    <div class="snowbar"><i style="width:${f.neve}%"></i></div></div></div>
+    <div class="tiny muted">Previsão para ${CITY[day.wx]}, atualizada em ${esc(f.atualizado||"")}. <a href="${forecastUrl(day.wx)}" target="_blank" rel="noopener">Ver a previsão mais recente</a></div>`;
+  const c = CLIMA[day.wx];
+  return `<div class="wx">${flake}
+    <div class="temp"><b>${c.hi}°</b> / ${c.lo}°C</div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+      <div class="row between tiny"><span>Chance de neve no dia</span><b>${c.neve}%</b></div>
+      <div class="snowbar"><i style="width:${c.neve}%"></i></div>
+    </div></div>
+    <div class="tiny muted">Clima típico de dezembro em ${CITY[day.wx]} (média histórica). Luz do dia: ${c.sol}. <a href="${forecastUrl(day.wx)}" target="_blank" rel="noopener">Ver previsão real</a>, confiável a partir de uns 10 dias antes.</div>`;
+}
+
+/* ================= DIA ================= */
+function kindPill(k){ return k==="travel"?'<span class="pill travel">Dia de viagem</span>':k==="trip"?'<span class="pill travel">Bate-volta</span>':'<span class="pill free">Dia livre</span>'; }
+function dayCard(day, i, lit){
+  const h = HOTELS[day.city];
+  return `<div class="card${lit?" lit":""}" style="--cc:var(--${day.wx})">
+    <div class="cityband">${CITY_IC[day.wx]}<div><div class="cd">${fmtLong(day.d)} · dia ${i+1} de ${DAYS.length}</div><div class="cn">${CITY[day.wx]}</div></div>${kindPill(day.kind)}</div>
+    <h3 style="font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.05">${esc(day.title)}</h3>
+    ${weatherBox(day)}
+    <ul class="tl">${day.items.map(([t,x])=>`<li><span class="ic">${itemIcon(t,x)}</span><span class="t">${esc(t)}</span><span class="x">${esc(x)}</span></li>`).join("")}</ul>
+    ${i<DAYS.length-1?`<div class="small muted">Dorme em <b style="color:var(--ink)">${esc(h.name)}</b></div>`:""}
+    <div class="links"><a href="#guia" data-goguide="${day.guide}">Guia de ${GUIDE[day.guide].name}</a><a href="${maps(h.name+", "+h.addr)}" target="_blank" rel="noopener">Hotel no mapa</a><a href="#reservas">Bilhetes</a></div>
+  </div>`;
+}
+
+/* ================= HOJE ================= */
+function nyCountdown(){
+  const target = Date.UTC(2026,11,31,23,0,0); // meia-noite em Berlim
+  let ms = Math.max(0, target - Date.now());
+  const d=Math.floor(ms/864e5); ms-=d*864e5; const h=Math.floor(ms/36e5); ms-=h*36e5; const m=Math.floor(ms/6e4); ms-=m*6e4; const s=Math.floor(ms/1e3);
+  return {d,h,m,s,done:target<=Date.now()};
+}
+function renderCountdown(){
+  const el=$("#nyc"); if(!el) return; const c=nyCountdown();
+  el.innerHTML = c.done ? `<div class="big" style="font-size:44px">Feliz 2027!</div>` :
+    `<div class="count"><div><b>${c.d}</b><span>dias</span></div><div><b>${pad(c.h)}</b><span>horas</span></div><div><b>${pad(c.m)}</b><span>min</span></div><div><b>${pad(c.s)}</b><span>seg</span></div></div>`;
+}
+function renderHoje(){
+  const el=$("#v-hoje"); let main="";
+  if (TODAY < FIRST){
+    const n=Math.round((parse(FIRST)-parse(TODAY))/864e5);
+    skyline("MUC"); $("#hTitle").textContent="Natal na Alemanha"; $("#hSub").textContent="Victor, Mariana, Ana Maria e Ignacio";
+    main = `<div class="card lit" style="flex-direction:row;align-items:center;gap:16px">
+        <div class="big">${n}</div><div><b style="font-size:18px">${n===1?"dia":"dias"} para a viagem</b><div class="small muted">Embarque ${fmtLong(FIRST)}, às 11:30, em Lisboa.</div></div></div>
+      <h2>O primeiro dia</h2>${dayCard(DAYS[0],0,false)}`;
+  } else if (TODAY > LAST){
+    skyline("BER"); main=`<div class="card lit"><h3>Bem-vindos de volta</h3><p class="small muted" style="margin:0">O roteiro, as fotos e os gastos continuam aqui como lembrança.</p></div>`;
+  } else {
+    const day=DAYS[todayIdx]; skyline(day.wx); $("#hTitle").textContent=CITY[day.wx]; $("#hSub").textContent="Hoje em "+CITY[day.wx]+" · "+fmtLong(day.d);
+    main = dayCard(day,todayIdx,true) + (todayIdx<DAYS.length-1?`<h2>Amanhã</h2>${dayCard(DAYS[todayIdx+1],todayIdx+1,false)}`:"");
+  }
+  const pend = DEFAULT_TODO.length;
+  el.innerHTML = `<div class="stack" style="margin-top:14px">${main}
+    <h2>Contagem para 2027</h2>
+    <div class="card"><canvas id="fw" aria-hidden="true"></canvas><div class="small muted">Meia-noite em Berlim, 31/12</div><div id="nyc"></div></div>
+    <h2>Atalhos</h2>
+    <div class="links"><a href="#familia">Lista de pendências</a><a href="#guia" data-goguide="sabores">Sabores do mercado</a><a href="#kit">Conversor e frases</a></div>
+  </div>`;
+  renderCountdown(); startFireworks();
+}
+
+/* ================= DIAS (Advento) ================= */
+let sel = todayIdx>=0 ? todayIdx : (TODAY>LAST ? DAYS.length-1 : 0);
+function renderAdvent(){
+  $("#advent").innerHTML = DAYS.map((x,i)=>{ const dt=parse(x.d); const open = x.d<=TODAY;
+    return `<button class="door${open?" open":""}${x.d===TODAY?" today":""}${i===sel?" sel":""}" style="--cc:var(--${x.wx})" data-i="${i}" role="listitem" aria-label="${fmtLong(x.d)}: ${esc(x.title)}">
+      <i class="bow"></i><span>${WD[dt.getUTCDay()]}</span><b>${dt.getUTCDate()}</b><span>${({MUC:"MUN",NUR:"NUR",DRS:"DRE",PRG:"PRA",BER:"BER"})[x.wx]}</span></button>`; }).join("");
+  $("#dayDetail").innerHTML = dayCard(DAYS[sel],sel,sel===todayIdx) +
+    `<div class="row between" style="margin-top:10px"><button class="btn" id="prev" ${sel===0?"disabled":""}>← Anterior</button><button class="btn" id="next" ${sel===DAYS.length-1?"disabled":""}>Próximo →</button></div>`;
+}
+
+/* ================= RESERVAS ================= */
+let resTab="voos";
+function renderReservas(){
+  document.querySelectorAll("#resSeg button").forEach(b=>b.classList.toggle("on",b.dataset.r===resTab));
+  const B=$("#resBody");
+  const LOCK = lockCard();
+  if (resTab==="voos") B.innerHTML = LOCK + FLIGHTS.map(f=>`
+    <div class="ticket">
+      <div class="top"><span class="eyebrow">${f.date} · ${f.airline}</span><span class="small">Localizador ${copyBtn(f.code)}</span></div>
+      ${f.legs.map(l=>`<div class="legs"><div><div class="time">${l.dep}</div><div class="place">${esc(l.from)}</div></div>
+        <div class="arrow">✈<div class="mono" style="font-size:11px">${l.no}</div></div>
+        <div class="r"><div class="time">${l.arr}</div><div class="place">${esc(l.to)}</div></div></div>`).join("")}
+      <div class="stub">
+        <div class="kv" style="flex-basis:100%"><small>Assentos e check-in</small><span class="small">${esc(f.seats)}</span></div>
+        ${f.tickets.map(([n,t])=>`<div class="kv"><small>${n}</small>${copyBtn(t)}</div>`).join("")}
+        <div class="kv" style="flex-basis:100%"><small>Bagagem</small><span class="small">${esc(f.bag)}</span></div>
+        ${f.warn?`<div class="note" style="flex-basis:100%">${esc(f.warn)}</div>`:""}${f.ok?`<div class="note ok" style="flex-basis:100%">${esc(f.ok)}</div>`:""}
+      </div></div>`).join("");
+  if (resTab==="trens") B.innerHTML = LOCK + `<p class="small muted" style="margin:0">Todos no nome do Victor, válidos só no trem indicado e com documento com foto. O Ignacio viaja de graça na transportadora fechada.</p>` + TRAINS.map(t=>`
+    <div class="ticket">
+      <div class="top"><span class="eyebrow">${t.date} · ${t.cls}</span><span class="mono" style="color:var(--berry);font-weight:700">${t.train}</span></div>
+      <div class="legs"><div><div class="time">${t.dep}</div><div class="place">${esc(t.from)}</div></div><div class="arrow">——→</div>
+        <div class="r"><div class="time">${t.arr}</div><div class="place">${esc(t.to)}</div></div></div>
+      <div class="stub"><div class="kv"><small>Código do bilhete</small>${copyBtn(t.tc)}</div><div class="kv"><small>Nº do pedido</small>${copyBtn(t.ord)}</div>
+        ${t.note?`<div class="note" style="flex-basis:100%">${esc(t.note)}</div>`:""}</div></div>`).join("");
+  if (resTab==="trajetos") B.innerHTML = TRAJETOS.map(t=>`
+    <div class="card">
+      <span class="eyebrow">${esc(t.quando)} · ${esc(t.tempo)}</span>
+      <h3 style="font-family:var(--f-display);font-size:24px;line-height:1.1">${esc(t.de)} → ${esc(t.para)}</h3>
+      <ol class="route">${t.passos.map(([a,b])=>`<li><div><b>${esc(a)}</b><div class="small muted">${esc(b)}</div></div></li>`).join("")}</ol>
+      <div class="note info">${esc(t.bilhete)}</div>
+      ${t.alt?`<div class="small muted">${esc(t.alt)}</div>`:""}
+      <a class="btn primary" href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(t.mapa[0])}&destination=${encodeURIComponent(t.mapa[1])}&travelmode=transit" target="_blank" rel="noopener">Ver o trajeto no Google Maps</a>
+    </div>`).join("") + `<div class="tiny muted">Linhas conferidas em outubro de 2026. Na véspera, confirmem no Google Maps ou no app DB Navigator.</div>`;
+  if (resTab==="hoteis") B.innerHTML = LOCK + ["MUC","DRS","BER"].map(k=>{ const h=HOTELS[k]; return `
+    <div class="card">
+      <span class="eyebrow">${CITY[k]} · ${h.dates}</span>
+      <h3 style="font-family:var(--f-display);font-weight:500;font-size:24px;line-height:1.1">${esc(h.name)}</h3>
+      <div class="small">${esc(h.addr)}</div>
+      <div class="row" style="gap:10px 20px"><div class="kv"><small>Reserva</small>${copyBtn(h.res)}</div><div class="kv"><small>Telefone</small>${copyBtn(h.phone)}</div></div>
+      <div class="small muted">${h.inout}</div>
+      <div class="note${h.petOk?" ok":""}">${esc(h.pet)}</div>
+      <div class="small muted">${esc(h.extra)}</div>
+      <div class="links"><a href="${maps(h.name+", "+h.addr)}" target="_blank" rel="noopener">Abrir no mapa</a>
+        <a href="${maps("restaurante dog friendly perto de "+h.addr)}" target="_blank" rel="noopener">Restaurantes perto que aceitam cães</a></div>
+    </div>`; }).join("");
+}
+
+/* ================= GUIA ================= */
+let guiaTab = todayIdx>=0 ? DAYS[todayIdx].guide : "muc";
+const GUIA_TABS = [["muc","Munique"],["nur","Nuremberg"],["drs","Dresden"],["prg","Praga"],["ber","Berlim"],["sabores","Sabores"],["pet","Ignacio"]];
+function renderGuia(){
+  $("#guiaSeg").innerHTML = GUIA_TABS.map(([k,n])=>`<button data-g="${k}" class="${k===guiaTab?"on":""}">${n}</button>`).join("");
+  const B=$("#guiaBody");
+  if (guiaTab==="sabores"){
+    B.innerHTML = `<div class="small muted">O que provar nas barracas dos mercados de Natal.</div><div class="taste">${TASTES.map(([n,x])=>`<div class="t"><b>${n}</b><span class="small">${esc(x)}</span></div>`).join("")}</div>`;
+    return;
+  }
+  if (guiaTab==="pet"){
+    B.innerHTML = `
+      <div class="card"><span class="eyebrow">No transporte</span>
+        <div class="item"><b>Trens da DB</b><span class="small">Cão pequeno em transportadora fechada viaja de graça. Mantenha a caixa no chão ou no colo.</span></div>
+        <div class="item"><b>Metrô, bonde e ônibus</b><span class="small">Nas três cidades, cão pequeno em transportadora geralmente não paga.</span></div>
+        <div class="item"><b>Voos</b><span class="small">Na TAP ele vai na cabine com a Mariana (confirmado). Na KLM, confirmar a reserva do pet.</span></div></div>
+      <div class="card"><span class="eyebrow">No dia a dia</span>
+        <div class="item"><b>Restaurantes e cafés</b><span class="small">Na Alemanha, cães costumam entrar em restaurantes, cafés e cervejarias. A frase para perguntar está na aba Kit.</span></div>
+        <div class="item"><b>Museus e igrejas</b><span class="small">Em geral não aceitam cães. Combinem revezamento nesses passeios.</span></div>
+        <div class="item"><b>Frio e sal</b><span class="small">Pode ficar abaixo de zero. Leve roupa para ele e limpe as patinhas do sal das calçadas.</span></div>
+        <div class="item"><b>Réveillon</b><span class="small">Fogos por toda Berlim desde a tarde. O quarto do hotel é o lugar mais calmo para ele.</span></div></div>
+      <div class="card"><span class="eyebrow">Restaurantes que aceitam cães perto dos hotéis</span>
+        ${["MUC","DRS","BER"].map(k=>`<div class="item"><b>${CITY[k]}</b><a href="${maps("restaurante dog friendly perto de "+HOTELS[k].addr)}" target="_blank" rel="noopener">Ver no mapa ↗</a></div>`).join("")}</div>`;
+    return;
+  }
+  const g=GUIDE[guiaTab];
+  const list = (arr) => arr.map(([t,x,q])=>`<div class="item"><b>${esc(t)}</b><span class="small">${esc(x)}</span>${q?`<a href="${maps(q)}" target="_blank" rel="noopener">Ver no mapa ↗</a>`:""}</div>`).join("");
+  const cc = ({muc:"MUC",nur:"NUR",drs:"DRS",prg:"PRG",ber:"BER"})[guiaTab];
+  B.style.setProperty("--cc","var(--"+cc+")");
+  B.innerHTML = `
+    <div class="card" style="--cc:var(--${cc})"><div class="cityband" style="margin-bottom:0">${CITY_IC[cc]}<div><div class="cd">Guia</div><div class="cn">${g.name}</div></div></div><p class="small" style="margin:6px 0 0">${esc(g.intro)}</p></div>
+    <div class="card lit">${secTitle(IC.stall,"Mercados de Natal")}${list(g.markets)}</div>
+    <div class="card">${secTitle(IC.walk,"Roteiro a pé")}<span class="small muted">${esc(g.walk.name)} · ${g.walk.km}</span>
+      <ol class="route">${g.walk.stops.map(([n,q,x])=>`<li><div><b>${esc(n)}</b>${x?`<div class="small muted">${esc(x)}</div>`:""}</div></li>`).join("")}</ol>
+      <a class="btn primary" href="${walkUrl(g.walk.stops)}" target="_blank" rel="noopener">Abrir o roteiro no Google Maps</a></div>
+    <div class="card">${secTitle(IC.eye,"Para ver")}${list(g.see)}</div>
+    <div class="card">${secTitle(IC.book,"História da 2ª Guerra")}${g.history.map(([t,x,q])=>`<div class="item hist"><b>${esc(t)}</b><span class="small">${esc(x)}</span>${q?`<a href="${maps(q)}" target="_blank" rel="noopener">Ver no mapa ↗</a>`:""}</div>`).join("")}</div>
+    <div class="card">${secTitle(IC.food,"Comer e beber")}${g.eat.map(([t,x])=>`<div class="item"><b>${esc(t)}</b><span class="small">${esc(x)}</span></div>`).join("")}</div>
+    ${g.hotel?`<div class="links"><a href="${maps("restaurante dog friendly perto de "+HOTELS[g.hotel].addr)}" target="_blank" rel="noopener">Restaurantes perto do hotel que aceitam cães</a></div>`:""}`;
+}
+
+/* ================= KIT ================= */
+function renderKit(){
+  const r = store.get("guia-rates",{czk:25, brl:6.2});
+  $("#kitBody").innerHTML = `
+    <div class="card lit"><span class="eyebrow" style="color:var(--gold)">Conversor</span>
+      <div class="conv">
+        <label class="r"><span>EUR €</span><input type="number" inputmode="decimal" id="cvEUR" value="10"></label>
+        <label class="r"><span>CZK Kč</span><input type="number" inputmode="decimal" id="cvCZK"></label>
+        <label class="r"><span>BRL R$</span><input type="number" inputmode="decimal" id="cvBRL"></label>
+      </div>
+      <div class="form" style="margin-top:4px">
+        <label>1 € em coroas<input type="number" step="0.01" id="rtCZK" value="${r.czk}"></label>
+        <label>1 € em reais<input type="number" step="0.01" id="rtBRL" value="${r.brl}"></label>
+      </div>
+      <div class="tiny muted">Taxas aproximadas. Ajuste com a cotação do dia; elas ficam salvas neste celular.</div>
+    </div>
+    <div class="card"><span class="eyebrow">Clima típico de dezembro</span>
+      <div class="tablewrap"><table><thead><tr><th>Cidade</th><th>Máx</th><th>Mín</th><th>Neve no dia</th><th>Luz do dia</th></tr></thead>
+      <tbody>${Object.keys(CLIMA).map(k=>`<tr><td>${CITY[k]}</td><td class="n">${CLIMA[k].hi}°</td><td class="n">${CLIMA[k].lo}°</td><td class="n">${CLIMA[k].neve}%</td><td class="n">${CLIMA[k].sol}</td></tr>`).join("")}</tbody></table></div>
+      <div class="tiny muted">Médias históricas aproximadas. A previsão real aparece em cada dia, perto da data.</div></div>
+    <div class="card"><span class="eyebrow">Contatos</span>${CONTACTS.map(([n,v],i)=>`<div class="kv" style="padding:8px 0;${i?"border-top:1px dashed var(--line)":""}"><small>${esc(n)}</small>${copyBtn(v)}</div>`).join("")}</div>
+    <div class="card"><span class="eyebrow">Frases úteis em alemão</span>${PHRASES.map(([de,pt])=>`<div class="phr"><b>${esc(de)}</b><span class="small muted">${esc(pt)}</span></div>`).join("")}</div>
+    <div class="card"><span class="eyebrow">Como pedir nas barracas</span><div class="tiny muted">O nome que aparece na placa e o que é.</div>${MENU.map(([de,pt])=>`<div class="phr"><b>${esc(de)}</b><span class="small muted">${esc(pt)}</span></div>`).join("")}</div>
+    <div class="card"><span class="eyebrow">Bom saber</span>${TIPS.map(t=>`<div class="item"><span class="small">${esc(t)}</span></div>`).join("")}</div>
+    <div class="card"><span class="eyebrow">Usar como aplicativo</span>
+      <div class="small"><b>iPhone:</b> abra o link no Safari, toque em Compartilhar e depois em "Adicionar à Tela de Início".</div>
+      <div class="small"><b>Android:</b> abra no Chrome, toque nos três pontinhos e em "Adicionar à tela inicial".</div></div>`;
+  convFrom("EUR");
+}
+function rates(){ return {czk:parseFloat($("#rtCZK").value)||25, brl:parseFloat($("#rtBRL").value)||6.2}; }
+function convFrom(src){
+  const r=rates(); const v=parseFloat($("#cv"+src).value); if (isNaN(v)) return;
+  const e = src==="EUR"?v: src==="CZK"? v/r.czk : v/r.brl;
+  const f = n => (Math.round(n*100)/100).toString();
+  if (src!=="EUR") $("#cvEUR").value=f(e); if (src!=="CZK") $("#cvCZK").value=f(e*r.czk); if (src!=="BRL") $("#cvBRL").value=f(e*r.brl);
+}
+
+/* ================= FAMÍLIA (dados compartilhados) ================= */
+let MODE="local", DB=null, USER=null, ASSETS=null, MYID=null;
+let TODO=[], GASTOS=[], FOTOS=[], famTab="lista", MALA_DONE={}, malaP="Victor";
+const PEOPLE=["Victor","Mariana","Ana Maria"];
+const CATS=["Comida","Transporte","Passeios","Compras","Hospedagem","Ignacio","Outros"];
+
+function setMode(m){
+  MODE=m; const el=$("#modeLine");
+  el.className="mode "+(m==="shared"?"shared":m==="local"?"local":"");
+  el.querySelector("span").textContent = m==="shared" ? "Compartilhado: o que você muda aparece para a família." :
+    m==="view" ? "Só leitura: você vê o que a família registrou." : "Salvo só neste celular.";
+}
+function localLoad(){
+  TODO = store.get("guia-todo-v2", DEFAULT_TODO.map(([t,k],i)=>({id:k,text:t,done:false,ordem:i})));
+  GASTOS = store.get("guia-gastos",[]); FOTOS=[]; MALA_DONE = store.get("guia-mala",{});
+}
+async function initShared(){
+  localLoad(); setMode("local"); renderFam();
+  try{
+    return;
+    DB = await window.claude.use("db"); if (!DB) return;
+    USER = await window.claude.use("user");
+    MYID = USER ? await USER.id() : null;
+    const can = USER ? await USER.can("data.write") : null;
+    setMode(can===false ? "view" : "shared");
+    ASSETS = await window.claude.use("assets");
+    DB.collection("checklist").orderBy("ordem").onSnapshot(s=>{ TODO=s.docs.map(d=>({id:d.id,...d.data()})); if(famTab==="lista") renderFam(); }, ()=>{});
+    DB.collection("gastos").orderBy("ts","desc").onSnapshot(s=>{ GASTOS=s.docs.map(d=>({id:d.id,...d.data()})); if(famTab==="gastos") renderFam(); }, ()=>{});
+    DB.collection("mala").onSnapshot(s=>{ const o={}; s.docs.forEach(d=>{ if(d.data().done) o[d.id]=true; }); MALA_DONE=o; if(famTab==="mala") renderFam(); }, ()=>{});
+    DB.collection("fotos").orderBy("ts","desc").onSnapshot(s=>{ FOTOS=s.docs.map(d=>({id:d.id,...d.data()})); if(famTab==="album") renderFam(); }, ()=>{});
+    TODO=[]; GASTOS=[]; MALA_DONE={}; renderFam();
+  }catch(e){ setMode("local"); localLoad(); renderFam(); }
+}
+async function write(fn){
+  try{ await fn(); }catch(e){ if (e && e.code==="invalid_argument"){ setMode("view"); renderFam(); } }
+}
+
+function renderFam(){
+  document.querySelectorAll("#famSeg button").forEach(b=>b.classList.toggle("on",b.dataset.f===famTab));
+  const B=$("#famBody"); const ro = MODE==="view";
+  if (famTab==="lista"){
+    const done=TODO.filter(t=>t.done).length;
+    B.innerHTML = `<div class="card">
+      <div class="row between"><span class="eyebrow">Pendências</span><span class="pill gold">${done} de ${TODO.length}</span></div>
+      <div>${TODO.length? TODO.map(t=>`<label class="check"><input type="checkbox" id="td-${esc(t.id)}" data-td="${esc(t.id)}" ${t.done?"checked":""} ${ro?"disabled":""}><span>${esc(t.text)}</span>${!ro&&t.custom?`<button class="del" data-tdel="${esc(t.id)}" aria-label="Remover">×</button>`:""}</label>`).join("")
+        : `<div class="small muted">A lista está carregando. Se continuar vazia, adicione o primeiro item abaixo.</div>`}</div>
+      ${ro?"":`<form id="tdForm" class="row" style="flex-wrap:nowrap"><input type="text" id="tdNew" placeholder="Novo item" style="flex:1"><button class="btn primary" type="submit">Adicionar</button></form>`}
+    </div>`;
+  }
+  if (famTab==="mala"){
+    const L=malaList(malaP), items=L.flatMap(c=>c[1]).filter(i=>i[4]!=="x"||true);
+    const done=items.filter(i=>MALA_DONE[malaId(malaP,i[0])]).length;
+    const pw = malaPeso(malaP);
+    const where = {d:"despachada", m:"mala de mão", v:"no corpo", c:"na cabine", x:"tarefa"};
+    const bar = (lab,v,lim) => { const pct=Math.min(100,v/lim*100), over=v>lim, warn=!over&&v>lim*0.85;
+      return `<div class="bar"><span>${lab}</span><span class="track"><i style="width:${pct}%;background:${over?"var(--berry)":warn?"var(--warn)":"var(--ok)"}"></i></span><span class="n">${v.toFixed(1).replace(".",",")} / ${lim} kg</span></div>`; };
+    B.innerHTML = `
+      <div class="seg" id="malaSeg">${MALA_PEOPLE.map(p=>`<button data-mp="${p}" class="${p===malaP?"on":""}">${p}</button>`).join("")}</div>
+      ${malaP!=="Ignacio"&&malaP!=="Família"?`<div class="card lit"><span class="eyebrow" style="color:var(--gold)">Peso estimado da mala de ${malaP}</span>
+        <div class="bars">${bar("Despachada",pw.d,LIM.d)}${bar("De mão",pw.m,LIM.m)}</div>
+        <div class="small muted">Sobram cerca de <b style="color:var(--ink)">${Math.max(0,LIM.d-pw.d).toFixed(1).replace(".",",")} kg</b> na despachada para as compras. No corpo vão mais ${pw.v.toFixed(1).replace(".",",")} kg (casaco, botas e acessórios).${malaP==="Mariana"?" Já inclui as coisas do Ignacio que vão na mala dela.":""}</div>
+        <div class="tiny muted">Limites: 23 kg na despachada nos dois voos; na mão, 10 kg na TAP (na KLM são 12 kg somando a mala de mão e a bolsa). Os pesos são estimativas: pese as malas antes de sair.</div></div>`
+      : malaP==="Ignacio"?`<div class="note info">As coisas da viagem dele vão na cabine, com a Mariana. Ração, potes e roupinhas vão na mala despachada dela e já entram no peso da Mariana.</div>`
+      : `<div class="note info">Itens para dividir entre as malas e a regra de ouro: voltem com espaço para as compras.</div>`}
+      <div class="row between"><span class="eyebrow">Lista de ${malaP}</span><span class="pill gold">${done} de ${items.length}</span></div>
+      ${L.map(([cat,its])=>`<div class="card"><span class="eyebrow">${esc(cat)}</span><div>${its.map(([k,t,tip,kg,w])=>{ const id=malaId(malaP,k);
+        return `<label class="check"><input type="checkbox" id="ml-${id}" data-ml="${id}" ${MALA_DONE[id]?"checked":""} ${ro?"disabled":""}><span style="flex:1;min-width:0"><span>${esc(t)}</span>${tip?`<span class="tiny muted" style="display:block;text-decoration:none">${esc(tip)}</span>`:""}</span>${w!=="x"?`<span class="tiny muted" style="white-space:nowrap;text-align:right">${kg?kg.toString().replace(".",",")+" kg<br>":""}${where[w]}</span>`:""}</label>`; }).join("")}</div></div>`).join("")}`;
+  }
+  if (famTab==="gastos"){
+    const r=store.get("guia-rates",{czk:25,brl:6.2});
+    const inE = g => g.moeda==="CZK" ? g.valor/r.czk : g.valor;
+    const total = GASTOS.reduce((a,g)=>a+inE(g),0);
+    const byP = PEOPLE.map(p=>[p, GASTOS.filter(g=>g.quem===p).reduce((a,g)=>a+inE(g),0)]);
+    const byC = CATS.map(c=>[c, GASTOS.filter(g=>g.cat===c).reduce((a,g)=>a+inE(g),0)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+    const maxP=Math.max(1,...byP.map(x=>x[1])), maxC=Math.max(1,...byC.map(x=>x[1]));
+    const share = total/3;
+    B.innerHTML = `
+      <div class="card lit"><div class="row between"><span class="eyebrow" style="color:var(--gold)">Total da viagem</span><span class="mono" style="font-size:24px">${eur(total)}</span></div>
+        <div class="bars">${byP.map(([p,v])=>`<div class="bar"><span>${p}</span><span class="track"><i style="width:${v/maxP*100}%"></i></span><span class="n">${eur(v)}</span></div>`).join("")}</div>
+        ${total>0?`<div class="small muted">Se dividirem por 3, cada um fica com ${eur(share)}. ${byP.map(([p,v])=>`${p}: ${v-share>=0?"recebe":"paga"} ${eur(Math.abs(v-share))}`).join(" · ")}.</div>`:""}
+      </div>
+      ${byC.length?`<div class="card"><span class="eyebrow">Por categoria</span><div class="bars">${byC.map(([c,v])=>`<div class="bar"><span>${c}</span><span class="track"><i style="width:${v/maxC*100}%;background:var(--berry)"></i></span><span class="n">${eur(v)}</span></div>`).join("")}</div></div>`:""}
+      ${ro?"":`<form class="card" id="gForm"><span class="eyebrow">Lançar gasto</span>
+        <div class="form">
+          <label class="full">O quê<input type="text" id="gDesc" placeholder="Ex.: vinho quente no mercado" required></label>
+          <label>Valor<input type="number" step="0.01" inputmode="decimal" id="gVal" required></label>
+          <label>Moeda<select id="gMoeda"><option>EUR</option><option>CZK</option></select></label>
+          <label>Quem pagou<select id="gQuem">${PEOPLE.map(p=>`<option>${p}</option>`).join("")}</select></label>
+          <label>Categoria<select id="gCat">${CATS.map(c=>`<option>${c}</option>`).join("")}</select></label>
+        </div><button class="btn primary" type="submit">Lançar</button></form>`}
+      <div class="card"><span class="eyebrow">Lançamentos</span>
+        ${GASTOS.length? GASTOS.map(g=>`<div class="spend"><b>${esc(g.desc)}</b><span class="v">${g.moeda==="CZK"?esc(g.valor)+" Kč":eur(+g.valor)}</span>
+          <span class="tiny muted">${esc(g.quem)} · ${esc(g.cat)} · ${esc(g.dia||"")}</span>${ro?"":`<button class="del" data-gdel="${esc(g.id)}" style="justify-self:end;font:inherit;background:none;border:0;color:var(--muted);cursor:pointer">remover</button>`}</div>`).join("")
+          : `<div class="small muted">Nenhum gasto ainda. O primeiro vinho quente já conta.</div>`}
+      </div>`;
+  }
+  if (famTab==="album"){
+    const canUp = MODE==="shared" && ASSETS;
+    const dayOpts = DAYS.map(d=>`<option value="${d.d}" ${d.d===TODAY?"selected":""}>${fmt(d.d)} · ${esc(d.title)}</option>`).join("");
+    B.innerHTML = `
+      ${canUp?`<form class="card" id="fForm"><span class="eyebrow">Adicionar foto</span>
+        <div class="form"><label class="full">Foto<input type="file" id="fFile" accept="image/*" required></label>
+          <label class="full">Legenda<input type="text" id="fCap" placeholder="Ex.: Primeiro vinho quente"></label>
+          <label class="full">Dia<select id="fDay">${dayOpts}</select></label></div>
+        <button class="btn primary" type="submit" id="fBtn">Enviar foto</button><div class="tiny muted" id="fMsg"></div></form>`
+      : `<div class="note info">${MODE==="local"?"O álbum compartilhado funciona para quem abre o app com uma conta do Claude com acesso de edição. Mandem as fotos para o Victor ou a Mariana colocarem aqui.":"Só quem pode editar o app consegue adicionar fotos."}</div>`}
+      ${FOTOS.length? DAYS.filter(d=>FOTOS.some(f=>f.dia===d.d)).map(d=>`<h3 style="font-family:var(--f-display);font-weight:500;font-size:22px;color:var(--gold);margin-top:6px">${fmt(d.d)} · ${esc(d.title)}</h3>
+        <div class="album">${FOTOS.filter(f=>f.dia===d.d).map(f=>`<figure><img src="/_blob/${encodeURIComponent(f.asset)}" alt="${esc(f.legenda||"Foto da viagem")}" loading="lazy" onerror="this.style.opacity=.2">${f.legenda?`<figcaption>${esc(f.legenda)}</figcaption>`:""}</figure>`).join("")}</div>`).join("")
+        : `<div class="card"><div class="small muted">O álbum começa vazio. Cada foto entra no dia em que foi tirada, e no fim vira o álbum da viagem.</div></div>`}`;
+  }
+}
+
+async function shrink(file){
+  const img = await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=URL.createObjectURL(file); });
+  const max=1600, k=Math.min(1, max/Math.max(img.naturalWidth,img.naturalHeight));
+  const c=document.createElement("canvas"); c.width=Math.round(img.naturalWidth*k); c.height=Math.round(img.naturalHeight*k);
+  c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  return await new Promise(res=>c.toBlob(b=>res(b),"image/jpeg",0.84));
+}
+
+/* ================= EVENTOS ================= */
+document.addEventListener("click", e=>{
+  const c=e.target.closest(".copy");
+  if (c){ const v=c.dataset.copy; const ok=()=>{c.classList.add("done");setTimeout(()=>c.classList.remove("done"),1400);};
+    const pick=()=>{const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r);};
+    try{ navigator.clipboard.writeText(v).then(ok).catch(pick);}catch(_){pick();} return; }
+  if (e.target.closest("[data-unlock]")){ resTab = resTab||"voos"; if(location.hash!=="#reservas") location.hash="#reservas"; else show(); setTimeout(()=>{const i=$("#pwIn"); if(i) i.focus();},300); return; }
+  const g=e.target.closest("[data-goguide]"); if (g){ guiaTab=g.dataset.goguide; }
+  const door=e.target.closest(".door"); if (door){ sel=+door.dataset.i; renderAdvent(); $("#dayDetail").scrollIntoView({behavior:"smooth",block:"start"}); return; }
+  if (e.target.id==="prev"&&sel>0){sel--;renderAdvent();}
+  if (e.target.id==="next"&&sel<DAYS.length-1){sel++;renderAdvent();}
+  const rb=e.target.closest("#resSeg button"); if (rb){ resTab=rb.dataset.r; renderReservas(); }
+  const gb=e.target.closest("#guiaSeg button"); if (gb){ guiaTab=gb.dataset.g; renderGuia(); }
+  const fb=e.target.closest("#famSeg button"); if (fb){ famTab=fb.dataset.f; renderFam(); }
+  const mp=e.target.closest("[data-mp]"); if (mp){ malaP=mp.dataset.mp; renderFam(); }
+  const td=e.target.closest("[data-tdel]"); if (td){ e.preventDefault(); const id=td.dataset.tdel;
+    if (MODE==="shared") write(()=>DB.collection("checklist").doc(id).delete());
+    else { TODO=TODO.filter(t=>t.id!==id); store.set("guia-todo-v2",TODO); renderFam(); } }
+  const gd=e.target.closest("[data-gdel]"); if (gd){ const id=gd.dataset.gdel;
+    if (MODE==="shared") write(()=>DB.collection("gastos").doc(id).delete());
+    else { GASTOS=GASTOS.filter(x=>x.id!==id); store.set("guia-gastos",GASTOS); renderFam(); } }
+});
+document.addEventListener("change", e=>{
+  const t=e.target;
+  if (t.dataset.td){ const id=t.dataset.td, v=t.checked;
+    if (MODE==="shared") write(()=>DB.collection("checklist").doc(id).update({done:v}));
+    else { TODO=TODO.map(x=>x.id===id?{...x,done:v}:x); store.set("guia-todo-v2",TODO); renderFam(); } }
+  if (t.dataset.ml){ const id=t.dataset.ml, v=t.checked; if (v) burst(t);
+    if (MODE==="shared") write(()=>DB.collection("mala").doc(id).set({done:v}));
+    else { if(v) MALA_DONE[id]=true; else delete MALA_DONE[id]; store.set("guia-mala",MALA_DONE); renderFam(); } }
+  if (t.dataset.td && t.checked) burst(t);
+  if (t.id==="rtCZK"||t.id==="rtBRL"){ store.set("guia-rates",rates()); convFrom("EUR"); }
+});
+document.addEventListener("input", e=>{ const id=e.target.id; if (id==="cvEUR"||id==="cvCZK"||id==="cvBRL") convFrom(id.slice(2)); });
+document.addEventListener("submit", async e=>{
+  e.preventDefault(); const f=e.target;
+  if (f.id==="pwForm"){ await unlock($("#pwIn").value.trim()); return; }
+  if (f.id==="tdForm"){ const txt=$("#tdNew").value.trim(); if(!txt) return;
+    const item={text:txt,done:false,ordem:Date.now(),custom:true};
+    if (MODE==="shared") await write(()=>DB.collection("checklist").add(item));
+    else { TODO.push({id:"c"+Date.now(),...item}); store.set("guia-todo-v2",TODO); renderFam(); }
+    const n=$("#tdNew"); if(n) n.value=""; }
+  if (f.id==="gForm"){ const valor=parseFloat($("#gVal").value); if(isNaN(valor)) return;
+    const g={desc:$("#gDesc").value.trim(), valor, moeda:$("#gMoeda").value, quem:$("#gQuem").value, cat:$("#gCat").value, dia:fmt(todayIdx>=0?TODAY:TODAY), ts:Date.now()};
+    if (MODE==="shared") await write(()=>DB.collection("gastos").add(g));
+    else { GASTOS.unshift({id:"g"+Date.now(),...g}); store.set("guia-gastos",GASTOS); renderFam(); } }
+  if (f.id==="fForm"){ const file=$("#fFile").files[0]; if(!file||!ASSETS) return;
+    const btn=$("#fBtn"), msg=$("#fMsg"); btn.disabled=true; msg.textContent="Enviando…";
+    try{ const blob=await shrink(file); const up=await ASSETS.upload(blob,{type:"image/jpeg"});
+      await DB.collection("fotos").add({asset:up.id, legenda:$("#fCap").value.trim(), dia:$("#fDay").value, autor:MYID, ts:Date.now()});
+      msg.textContent="Foto adicionada."; f.reset();
+    }catch(err){ msg.textContent = err&&err.code==="too_large"?"A foto é grande demais. Tente outra.":err&&err.code==="quota_or_state"?"O espaço do álbum acabou.":"Não deu para enviar agora. Tente de novo em instantes."; }
+    btn.disabled=false; }
+});
+
+/* ================= NAVEGAÇÃO ================= */
+const TABS=["hoje","dias","reservas","guia","familia","kit"];
+const TITLES={dias:"Calendário",reservas:"Reservas",guia:"Guia da viagem",familia:"Família",kit:"Kit de viagem"};
+const SUBS={dias:"Calendário da viagem",reservas:"Voos, trens e hotéis",guia:"Mercados, roteiros e história",familia:"Lista, gastos e álbum",kit:"Conversor, contatos e frases"};
+function show(){
+  const t = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "hoje";
+  TABS.forEach(x=>{ document.getElementById("v-"+x).hidden = x!==t; });
+  document.querySelectorAll("nav.tabs a").forEach(a=>{ const on=a.dataset.tab===t; a.classList.toggle("on",on); on?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"); });
+  if (t==="hoje") renderHoje();
+  else { $("#hTitle").textContent=TITLES[t]; $("#hSub").textContent=SUBS[t];
+    skyline(t==="guia"&&GUIDE[guiaTab]?({muc:"MUC",nur:"NUR",drs:"DRS",prg:"PRG",ber:"BER"})[guiaTab]:(todayIdx>=0?DAYS[todayIdx].wx:"MUC")); }
+  if (t==="dias") renderAdvent(); if (t==="reservas") renderReservas(); if (t==="guia") renderGuia(); if (t==="familia") renderFam(); if (t==="kit") renderKit();
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange", show);
+setInterval(()=>{ if(!$("#v-hoje").hidden){ renderCountdown(); const b=document.querySelectorAll('#nyc .count b')[3]; if(b&&!REDUCE){ b.classList.add('tick'); setTimeout(()=>b.classList.remove('tick'),200);} } },1000);
+
+/* ================= NEVE ================= */
+(function(){
+  const cv=$("#snow"), ctx=cv.getContext("2d"); if(!ctx) return;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W,H,fl=[]; const N=70;
+  function size(){ const d=devicePixelRatio||1; W=innerWidth; H=innerHeight; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0); }
+  function mk(y){ return {x:Math.random()*W, y:y??Math.random()*H, r:Math.random()*2.2+0.6, s:Math.random()*0.6+0.25, w:Math.random()*Math.PI*2}; }
+  size(); for(let i=0;i<N;i++) fl.push(mk());
+  addEventListener("resize",size);
+  function color(){ return getComputedStyle(document.documentElement).getPropertyValue("--snow").trim()||"#fff"; }
+  let col=color(); const gold=getComputedStyle(document.documentElement).getPropertyValue("--gold").trim()||"#e3b860"; matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>col=color());
+  new MutationObserver(()=>col=color()).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  function draw(){ ctx.clearRect(0,0,W,H); ctx.fillStyle=col; ctx.globalAlpha=.7;
+    fl.forEach((f,i)=>{ ctx.fillStyle = i%7===0 ? gold : col; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,7); ctx.fill(); }); }
+  if (reduce){ draw(); return; }
+  (function tick(){ for(const f of fl){ f.y+=f.s; f.w+=0.01; f.x+=Math.sin(f.w)*0.3; if(f.y>H+5){ Object.assign(f,mk(-5)); } } draw(); requestAnimationFrame(tick); })();
+})();
+
+
+/* ================= EFEITOS ================= */
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function burst(el){
+  if (REDUCE || !el) return; const r=el.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  const cols=["var(--gold)","var(--berry)","var(--ok)","#fff"];
+  for(let i=0;i<14;i++){ const d=document.createElement("i"); d.className="burst-dot"; d.style.left=cx+"px"; d.style.top=cy+"px"; d.style.background=cols[i%4];
+    document.body.appendChild(d); const a=Math.PI*2*i/14, dist=26+Math.random()*26;
+    d.animate([{transform:"translate(-50%,-50%) scale(1)",opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*dist}px),calc(-50% + ${Math.sin(a)*dist}px)) scale(.3)`,opacity:0}],{duration:650,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>d.remove(); }
+}
+let fwRun=false;
+function startFireworks(){
+  const cv=document.getElementById("fw"); if(!cv) return; const ctx=cv.getContext("2d"); if(!ctx) return;
+  const d=devicePixelRatio||1; const W=cv.clientWidth||300, H=cv.clientHeight||120; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+  const css=getComputedStyle(document.documentElement); const cols=[css.getPropertyValue("--gold"),css.getPropertyValue("--berry"),css.getPropertyValue("--ok"),"#ffffff"].map(c=>c.trim());
+  let parts=[];
+  function boom(){ const x=W*(.15+Math.random()*.7), y=H*(.2+Math.random()*.45), c=cols[Math.floor(Math.random()*cols.length)];
+    for(let i=0;i<34;i++){ const a=Math.PI*2*i/34, sp=1+Math.random()*1.8; parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,c}); } }
+  if (REDUCE){ for(let k=0;k<3;k++) boom(); parts.forEach(p=>{p.x+=p.vx*18;p.y+=p.vy*18;});
+    ctx.clearRect(0,0,W,H); parts.forEach(p=>{ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();}); return; }
+  if (fwRun) return; fwRun=true; let t=0;
+  (function loop(){ if(!document.getElementById("fw")||$("#v-hoje").hidden){ fwRun=false; return; }
+    t++; if(t%45===1) boom();
+    ctx.globalCompositeOperation="destination-out"; ctx.fillStyle="rgba(0,0,0,.18)"; ctx.fillRect(0,0,W,H); ctx.globalCompositeOperation="source-over";
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.025; p.vx*=0.985; p.life-=0.014; ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.c; ctx.beginPath(); ctx.arc(p.x,p.y,1.7,0,7); ctx.fill(); });
+    ctx.globalAlpha=1; parts=parts.filter(p=>p.life>0); requestAnimationFrame(loop); })();
+}
+
+/* ================= INÍCIO ================= */
+show();
+initShared();
+try{ const pw=localStorage.getItem("guia-pw"); if(pw) unlock(pw,true); }catch(e){}
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body></html>
