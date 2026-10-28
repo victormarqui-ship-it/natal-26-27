@@ -291,6 +291,50 @@ body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/20
   .igHero img{animation:wag 3.5s ease-in-out infinite;transform-origin:50% 90%} @keyframes wag{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
   .bubble{animation:popin .5s cubic-bezier(.2,1.4,.4,1) both} @keyframes popin{from{opacity:0;transform:scale(.7) translateY(6px)}to{opacity:1;transform:none}}
 }
+
+/* ===== painel e chat ===== */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{font:inherit;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:12px 10px;border-radius:16px;border:0;cursor:pointer;
+  background:#fffaf3;color:#2a0a14;box-shadow:0 3px 0 rgba(0,0,0,.25);min-width:0;transition:transform .15s}
+.tile:active{transform:scale(.96)}
+.tile .tic{width:36px;height:36px;border-radius:11px;background:var(--tc);display:grid;place-items:center;overflow:hidden}
+.tile .tic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile .tic img{width:44px;height:auto;margin-top:6px}
+.tile b{font-size:14px;line-height:1.15}
+.tile small{font-size:11.5px;color:#76525c;line-height:1.2}
+.tile-chat{grid-column:1/-1;display:grid;grid-template-columns:52px 1fr;column-gap:12px;row-gap:2px;align-items:center;background:linear-gradient(120deg,#fff3dc,#fffaf3);border:2px solid #f0c46a}
+.tile-chat .tic{width:52px;height:52px;border-radius:50%;background:var(--choc);grid-row:span 2}
+.tile-chat .tic img{width:60px;margin-top:8px}
+.tile-chat b{font-size:17px}
+@media (max-width:360px){.tiles{grid-template-columns:repeat(2,1fr)}}
+#chatFab{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30;font:inherit;display:flex;align-items:center;gap:6px;
+  background:#fffaf3;color:#2a0a14;border:2px solid #f0c46a;border-radius:99px;padding:4px 14px 4px 4px;box-shadow:0 8px 20px -6px rgba(0,0,0,.6);cursor:pointer;font-weight:700;font-size:13px}
+#chatFab img{width:40px;height:auto;border-radius:50%}
+body.chat-open #chatFab{display:none}
+#chatSheet{position:fixed;inset:0;z-index:60;background:rgba(20,4,10,.55);display:flex;align-items:flex-end;justify-content:center}
+#chatSheet[hidden]{display:none!important}
+.sheet{width:100%;max-width:580px;height:min(78vh,680px);background:#fffaf3;color:#2a0a14;border-radius:22px 22px 0 0;display:flex;flex-direction:column;
+  padding:12px max(14px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));gap:10px;border-top:3px solid #f0c46a}
+.sheetHead{display:flex;align-items:center;gap:10px}
+.sheetHead img{width:44px;height:auto}
+.sheetHead b{display:block;font-family:var(--f-display);font-size:24px;line-height:1}
+.sheetHead small{color:#76525c;font-size:12px}
+#chatClose{margin-left:auto;font:inherit;font-size:28px;line-height:1;background:none;border:0;color:#76525c;cursor:pointer;padding:0 6px}
+#chatLog{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:92%}
+.msg img{width:34px;height:auto;flex:0 0 auto}
+.msg .mb{padding:9px 12px;border-radius:16px;font-size:14.5px;line-height:1.45;white-space:pre-wrap;min-width:0;overflow-wrap:anywhere}
+.msg .mb small{display:block;margin-top:6px;font-size:11.5px;opacity:.75}
+.msg.bot .mb{background:#f6e6da;border-bottom-left-radius:4px}
+.msg.me{align-self:flex-end}
+.msg.me .mb{background:#7a1530;color:#fff;border-bottom-right-radius:4px}
+.sugs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.sugs::-webkit-scrollbar{display:none}
+.sugs button{font:inherit;flex:0 0 auto;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid #ead6cf;background:#fff;color:#7a1530;cursor:pointer}
+.chatForm{display:flex;gap:8px}
+.chatForm input{flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1px solid #ead6cf;background:#fff;color:#2a0a14}
+@media (prefers-reduced-motion:no-preference){ .sheet{animation:up .28s cubic-bezier(.2,.9,.3,1)} @keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+  #chatFab img{animation:wag 3.5s ease-in-out infinite} }
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -339,6 +383,13 @@ body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/20
   </section>
 </div>
 
+<button id="chatFab" aria-label="Pergunte ao Ignacio"><img class="igimg" src="" alt=""><span>Pergunte ao Ignacio</span></button>
+<div id="chatSheet" hidden><div class="sheet" role="dialog" aria-label="Pergunte ao Ignacio">
+  <div class="sheetHead"><img class="igimg" src="" alt=""><div><b>Pergunte ao Ignacio</b><small>Guia da viagem</small></div><button id="chatClose" aria-label="Fechar">×</button></div>
+  <div id="chatLog"></div>
+  <div class="sugs"><button data-ask="Que horas sai o trem para Dresden?">Trem para Dresden</button><button data-ask="O que fazemos no dia 24?">Dia 24</button><button data-ask="Vai nevar em Munique?">Vai nevar?</button><button data-ask="Como chego do aeroporto ao hotel em Munique?">Aeroporto → hotel</button><button data-ask="O que a Ana Maria precisa levar na mala?">Mala da Ana Maria</button><button data-ask="Onde o Ignacio pode entrar?">Sobre o Ignacio</button></div>
+  <form id="chatForm" class="chatForm"><input type="text" id="chatIn" placeholder="Escreva sua pergunta…" autocomplete="off"><button class="btn primary" id="chatSend" type="submit">Enviar</button></form>
+</div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
     <a href="#hoje" data-tab="hoje"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/></svg>Hoje</a>
@@ -778,7 +829,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "+6sQDvTzKl6IJlXPibuM8Q==", "iv": "h7fjDKWHUtFa2lBW", "ct": "msQVopzD2dI6EwKlz/Qh0y4+MAPbiBaUQg/bzrPHqGkZkdMHAFUBXq/Z83af5RHR5bpwK3ZAMh8RJ9784Q8EBmoPSEcuU4Dql+kNVovZXTgiWAhvtJg6HUTwWQaqzZoxVWBIxUNMuanJX4726GRFkCMfNHzkcIqV0wZUdx/+nJRBtNAAFEJ+3W8RqTQ/bc2is038rFO6SUFWZzzre4jK3lULP1JDOWlEKVfA8FfJ9uhc+SnPVD4WTwxTB9f3PtUrTTY84BY74Urnan87eITSZMcSyvQnDe2hPgtf+7IIXFkp6GPMVE7mdYTFkDqvnzQxC4/ml/djERXjtRvDuL/qM8Vsy2GxN75B7agYpaesl1ibGA9cXaO3yjwFbR/gc2EEi25G75i4aA7PBdSoDIEJdIrHfnuwAaoAzHsZ+X1+Lvn7XoVJuDPAnPIIfNuQwiuIuNObukXCLB7vfvK7M5rzR2vbXfMkrddoKn+KmxG8Zx8WrCviahLHxpsaDfs1dgJkOhulJnQWAgjB0LcXALwZOD8QnssFVj0Aj+e7bZ5yCiEDjc8gQbDBIaUAWVlpAUpjP7+bJ1giL6JSYJVjVS4/Um8eiAANFh0JsnFNQQcLVqpvaX1SQKB4Z1pqTw=="};
+const ENC = {"salt": "IKzVYxZvLAePwLWwNykkfw==", "iv": "8ZEZ6z28ddwQLnkp", "ct": "D7x/kuDOTqGhdDSuy4Dkgpz9MkLIJKTuPTmjRUAydQqXKFhVBBNcJyizD9xcPmgWpt81LPunkcfA0SY8/8um1HEQfnyxBRh80Vwl5zD0mYXsvSxaNcBPc7qSEP4s/KN/OkAbiDZkyqBdb++sMbi1FwnbouAwd8m/JW8gtBWv0ohu5zUpnBmtxnDXzcKfLwCu2zXrOUUywgWrTzyFzwqamAySFo1W//AbyRqatlRlcxqCQRsN5XrqBbIEJw5wAZFP+JIbd3i/AP618eH6uLDZIZtTwDg6B7mXCyBp5yFrOn2zK1Cp6+rWY9ALyV8zn51YGbCaa9XFbixks0VuP26B28jrc3lBbVteGEe1rZW5rQaA8+p83u4UYI4L4/KeJLHxiOwk/vawnyqXTjcY9kT2hSdTleklHdveeL9jruYygxvgJ96bLehuodkBxCup4Zzh/vNwyA0p4aMOeFdEfhy9TMVmjP3eVBgvFzWxgWFoILRyokwW4nRv3xySG1zy4i2rKcKL3Z6LdgVesvhgc8HgAT3IMTP7iguIrMRH2zYkZgq2d4bHwJAaNOcXEgMZogGbNGM10rSLdYl6VoQ4AAMqtPtbJ2CKTSv1MIFYowIFPefr6Z7lZhQeVcMw0g=="};
 let SECRETS = {}, UNLOCKED = false;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -959,10 +1010,10 @@ function renderHoje(){
   }
   const pend = DEFAULT_TODO.length;
   el.innerHTML = `<div class="stack" style="margin-top:14px">${main}
+    <h2>O que você quer ver?</h2>
+    ${tilesHtml()}
     <h2>Contagem para 2027</h2>
     <div class="card"><canvas id="fw" aria-hidden="true"></canvas><div class="small muted">Meia-noite em Berlim, 31/12</div><div id="nyc"></div></div>
-    <h2>Atalhos</h2>
-    <div class="links"><a href="#familia">Lista de pendências</a><a href="#guia" data-goguide="sabores">Sabores do mercado</a><a href="#kit">Conversor e frases</a></div>
   </div>`;
   renderCountdown(); startFireworks();
 }
@@ -1070,7 +1121,7 @@ function renderGuia(){
 function renderKit(){
   const r = store.get("guia-rates",{czk:25, brl:6.2});
   $("#kitBody").innerHTML = `
-    <div class="card lit"><span class="eyebrow" style="color:var(--gold)">Conversor</span>
+    <div class="card lit" id="k-conv"><span class="eyebrow" style="color:var(--gold)">Conversor</span>
       <div class="conv">
         <label class="r"><span>EUR €</span><input type="number" inputmode="decimal" id="cvEUR" value="10"></label>
         <label class="r"><span>CZK Kč</span><input type="number" inputmode="decimal" id="cvCZK"></label>
@@ -1082,12 +1133,12 @@ function renderKit(){
       </div>
       <div class="tiny muted">Taxas aproximadas. Ajuste com a cotação do dia; elas ficam salvas neste celular.</div>
     </div>
-    <div class="card"><span class="eyebrow">Clima típico de dezembro</span>
+    <div class="card" id="k-clima"><span class="eyebrow">Clima típico de dezembro</span>
       <div class="tablewrap"><table><thead><tr><th>Cidade</th><th>Máx</th><th>Mín</th><th>Neve no dia</th><th>Luz do dia</th></tr></thead>
       <tbody>${Object.keys(CLIMA).map(k=>`<tr><td>${CITY[k]}</td><td class="n">${CLIMA[k].hi}°</td><td class="n">${CLIMA[k].lo}°</td><td class="n">${CLIMA[k].neve}%</td><td class="n">${CLIMA[k].sol}</td></tr>`).join("")}</tbody></table></div>
       <div class="tiny muted">Médias históricas aproximadas. A previsão real aparece em cada dia, perto da data.</div></div>
-    <div class="card"><span class="eyebrow">Contatos</span>${CONTACTS.map(([n,v],i)=>`<div class="kv" style="padding:8px 0;${i?"border-top:1px dashed var(--line)":""}"><small>${esc(n)}</small>${copyBtn(v)}</div>`).join("")}</div>
-    <div class="card"><span class="eyebrow">Frases úteis em alemão</span>${PHRASES.map(([de,pt])=>`<div class="phr"><b>${esc(de)}</b><span class="small muted">${esc(pt)}</span></div>`).join("")}</div>
+    <div class="card" id="k-cont"><span class="eyebrow">Contatos</span>${CONTACTS.map(([n,v],i)=>`<div class="kv" style="padding:8px 0;${i?"border-top:1px dashed var(--line)":""}"><small>${esc(n)}</small>${copyBtn(v)}</div>`).join("")}</div>
+    <div class="card" id="k-frases"><span class="eyebrow">Frases úteis em alemão</span>${PHRASES.map(([de,pt])=>`<div class="phr"><b>${esc(de)}</b><span class="small muted">${esc(pt)}</span></div>`).join("")}</div>
     <div class="card"><span class="eyebrow">Como pedir nas barracas</span><div class="tiny muted">O nome que aparece na placa e o que é.</div>${MENU.map(([de,pt])=>`<div class="phr"><b>${esc(de)}</b><span class="small muted">${esc(pt)}</span></div>`).join("")}</div>
     <div class="card"><span class="eyebrow">Bom saber</span>${TIPS.map(t=>`<div class="item"><span class="small">${esc(t)}</span></div>`).join("")}</div>
     <div class="card"><span class="eyebrow">Usar como aplicativo</span>
@@ -1344,6 +1395,179 @@ function startFireworks(){
     parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.025; p.vx*=0.985; p.life-=0.014; ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.c; ctx.beginPath(); ctx.arc(p.x,p.y,1.7,0,7); ctx.fill(); });
     ctx.globalAlpha=1; parts=parts.filter(p=>p.life>0); requestAnimationFrame(loop); })();
 }
+
+
+/* ================= PAINEL INICIAL ================= */
+const TILES = [
+  ["dias",null,IC.star,"Roteiro","Dia a dia, com clima"],
+  ["reservas","voos",IC.plane,"Voos","Ida e volta"],
+  ["reservas","trens",IC.train,"Trens","Horários e códigos"],
+  ["reservas","hoteis",IC.bed,"Hotéis","Endereços e reservas"],
+  ["reservas","trajetos",IC.map,"Como chegar","Aeroporto e estações"],
+  ["guia","muc",IC.stall,"Guia das cidades","Mercados e passeios"],
+  ["guia","sabores",IC.food,"O que provar","Comidas do mercado"],
+  ["familia","mala",IC.gift,"Mala e roupas","Lista de cada um"],
+  ["familia","lista",IC.star,"Pendências","Antes de viajar"],
+  ["familia","gastos",IC.book,"Gastos","Quem pagou o quê"],
+  ["guia","pet",IC.paw,"Ignacio","Dicas para o pet"],
+  ["kit","k-conv",IC.eye,"Conversor","Euro, coroa e real"],
+  ["kit","k-frases",IC.book,"Frases","Alemão de bolso"],
+  ["kit","k-cont",IC.map,"Emergência","Contatos e seguro"],
+  ["kit","k-clima",IC.moon,"Clima","Frio e neve"],
+  ["chat",null,IC.paw,"Pergunte ao Ignacio","Tire dúvidas da viagem"]
+];
+function tilesHtml(){
+  return `<div class="tiles">${TILES.map(([t,sub,ic,lab,desc],i)=>`<button class="tile${t==="chat"?" tile-chat":""}" data-go="${t}" data-sub="${sub||""}" style="--tc:${["var(--MUC)","var(--DRS)","var(--BER)","var(--NUR)","var(--PRG)"][i%5]}">
+    <span class="tic">${t==="chat"?`<img src="${IG_IMG}" alt="">`:ic}</span><b>${lab}</b><small>${desc}</small></button>`).join("")}</div>`;
+}
+function go(tab, sub){
+  if (tab==="chat"){ openChat(); return; }
+  if (tab==="reservas" && sub) resTab=sub;
+  if (tab==="guia" && sub) guiaTab=sub;
+  if (tab==="familia" && sub) famTab=sub;
+  if (location.hash==="#"+tab) show(); else location.hash=tab;
+  if (tab==="kit" && sub) setTimeout(()=>{ const el=document.getElementById(sub); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },250);
+}
+
+/* ================= PERGUNTE AO IGNACIO ================= */
+let CHAT=[], SAMPLE=null, AI_OK=true, chatBusy=false, chatCtl=null;
+const _um = s => (typeof unmask==="function" ? unmask(s) : String(s ?? ""));
+const _locked = () => (typeof UNLOCKED!=="undefined" && !UNLOCKED);
+const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const has = (q, ...ws) => ws.some(w => q.includes(w));
+const CITY_KEYS = {MUC:["munique","munich","munchen"],NUR:["nuremberg","nurnberg","nuremberga"],DRS:["dresden","dresda"],PRG:["praga","prague","praha"],BER:["berlim","berlin"]};
+function cityIn(q){ return Object.keys(CITY_KEYS).filter(k=>CITY_KEYS[k].some(w=>q.includes(w))); }
+function dayIn(q){
+  if (has(q,"amanha")){ const i=DAYS.findIndex(d=>d.d===TODAY); if(i>=0&&i<DAYS.length-1) return DAYS[i+1]; }
+  if (has(q,"hoje")){ const d=DAYS.find(d=>d.d===TODAY); if(d) return d; }
+  if (has(q,"natal","ceia","dia 25")) return DAYS.find(d=>d.d===(has(q,"dia 25")?"2026-12-25":"2026-12-24"));
+  if (has(q,"reveillon","ano novo","virada","31")) return DAYS.find(d=>d.d===(has(q,"ano novo")&&!has(q,"reveillon")?"2027-01-01":"2026-12-31"));
+  const m = q.match(/\b(?:dia\s*)?(\d{1,2})(?:\s*(?:\/|de)\s*(\d{1,2}|dez\w*|jan\w*))?\b/);
+  if (m){ const n=+m[1]; const mm = m[2] ? (/jan|^0?1$/.test(m[2])?"01":"12") : (n<=2?"01":"12");
+    const iso=(mm==="01"?"2027":"2026")+"-"+mm+"-"+pad(n); return DAYS.find(d=>d.d===iso); }
+  return null;
+}
+function dayText(d){ return `${fmtLong(d.d)} — ${d.title} (${CITY[d.wx]}):\n` + d.items.map(([t,x])=>`• ${t}: ${x}`).join("\n"); }
+function localAnswer(qRaw){
+  const q=norm(qRaw), cs=cityIn(q), d=dayIn(q);
+  if (has(q,"senha","codigo","localizador","bilhete n","numero do bilhete")){
+    return !_locked() ? "Os localizadores estão na aba Reservas: KLM "+_um(FLIGHTS[0].code)+" (ida) e TAP "+_um(FLIGHTS[1].code)+" (volta). Os códigos dos trens estão em Reservas → Trens."
+      : "Os códigos estão protegidos. Abra Reservas e digite a senha da família uma vez; depois eles aparecem neste celular.";
+  }
+  if (has(q,"trem","comboio","estacao","ice ","plataforma")){
+    let t=TRAINS; if (cs.length){ const dest=cs.filter(c=>CITY_KEYS[c].some(w=>q.includes("para "+w)||q.includes("pra "+w)||q.includes("ate "+w)));
+      t = dest.length ? t.filter(x=>dest.some(c=>norm(x.to).includes(CITY_KEYS[c][0].slice(0,5)))) : t.filter(x=>cs.some(c=>norm(x.from+" "+x.to).includes(CITY_KEYS[c][0].slice(0,5)))); }
+    if (d) t=t.filter(x=>x.date.includes(d.d.slice(8,10)+"/"+d.d.slice(5,7)));
+    if (!t.length) t=TRAINS;
+    if (t.length<TRAINS.length){ const ords=new Set(t.map(x=>x.ord+x.date)); t=TRAINS.filter(x=>ords.has(x.ord+x.date)); }
+    return "Trens:\n"+t.map(x=>`• ${x.date}: ${x.train}, ${x.from} ${x.dep} → ${x.to} ${x.arr}${x.note?" ("+x.note+")":""}`).join("\n")+"\nOs bilhetes estão no nome do Victor e pedem documento com foto.";
+  }
+  if (has(q,"como chego","como chegar","como ir","transporte","s-bahn","metro","taxi","do aeroporto","para o aeroporto","ate o hotel","ao hotel")){
+    let t=TRAJETOS; if (cs.length) t=t.filter(x=>cs.some(c=>norm(x.de+" "+x.para).includes(CITY_KEYS[c][0].slice(0,5))));
+    if (has(q,"aeroporto")) t=t.filter(x=>norm(x.de+x.para).includes("aeroporto"));
+    if (!t.length) t=TRAJETOS;
+    return t.map(x=>`${x.de} → ${x.para} (${x.tempo}):\n`+x.passos.map(([a,b])=>`• ${a}: ${b}`).join("\n")+`\n${x.bilhete}`).join("\n\n");
+  }
+  if (has(q,"voo","aviao","embarque","check-in","checkin","klm","tap","aeroporto","bagagem de mao","mala de mao")){
+    return FLIGHTS.map(f=>`${f.date} · ${f.airline}: `+f.legs.map(l=>`${l.no} ${l.from} ${l.dep} → ${l.to} ${l.arr}`).join("; ")+`. ${f.bag}`).join("\n\n")+"\nNa volta, o check-in fecha às 12:05 e o Ignacio faz check-in no balcão da TAP.";
+  }
+  if (has(q,"hotel","hospedagem","dormir","endereco","check-out","checkout","quarto")){
+    const ks = cs.filter(c=>HOTELS[c]); const list=(ks.length?ks:["MUC","DRS","BER"]);
+    return list.map(k=>{const h=HOTELS[k]; return `${CITY[k]} (${h.dates}): ${h.name}, ${h.addr}. ${h.inout}. Tel. ${h.phone}. ${h.pet}`;}).join("\n\n");
+  }
+  if (has(q,"tempo","clima","neve","nevar","frio","temperatura","chuva","graus")){
+    if (d){ const f=FORECAST[d.d], c=CLIMA[d.wx]; return f ? `Previsão para ${fmtLong(d.d)} em ${CITY[d.wx]}: ${f.hi}° / ${f.lo}°C, ${f.neve}% de chance de neve. ${f.desc||""}` : `Em ${fmtLong(d.d)} vocês estarão em ${CITY[d.wx]}. A média de dezembro é ${c.hi}° de máxima e ${c.lo}° de mínima, com cerca de ${c.neve}% de chance de neve no dia. A previsão real entra no app em 12/12 e 19/12.`; }
+    const ks = cs.length?cs:Object.keys(CLIMA);
+    return "Clima típico de dezembro:\n"+ks.map(k=>`• ${CITY[k]}: ${CLIMA[k].hi}° / ${CLIMA[k].lo}°C, ${CLIMA[k].neve}% de chance de neve por dia`).join("\n")+"\nA previsão real entra no app em 12/12 e 19/12.";
+  }
+  if (has(q,"mala","levar","roupa","peso","bagagem","vestir","casaco","bota")){
+    const p = ["victor","mariana","ana maria","ignacio"].find(n=>q.includes(n)) || (q.includes("sogra")?"ana maria":null);
+    if (d && has(q,"vestir")) return `Para ${fmtLong(d.d)}: `+outfit(d).join(", ")+".";
+    if (p){ const nome = p==="ana maria"?"Ana Maria":p[0].toUpperCase()+p.slice(1); const L=malaList(nome);
+      return `Lista de ${nome}:\n`+L.map(([c,its])=>`${c}: `+its.map(i=>i[1]).join("; ")).join("\n")+(nome!=="Ignacio"?`\nPeso estimado da despachada: ${malaPeso(nome).d.toFixed(1)} de 23 kg.`:""); }
+    return "Cada um tem sua lista na aba Mala, com o peso estimado. Limites: 23 kg na despachada; 10 kg na mala de mão (TAP). Viajem com casaco e botas no corpo e deixem uns 4 kg livres para as compras.";
+  }
+  if (has(q,"ignacio","cachorro","cao ","pet","cao?","cachorrinho")){
+    return "Sobre o Ignacio:\n• Trens: viaja de graça na transportadora fechada.\n• Voo de volta (TAP): pet na cabine confirmado com a Mariana. Na KLM (ida) ainda falta confirmar.\n• Hotéis: aceito em Munique e Berlim (taxa de €25 cada); Dresden ainda falta confirmar.\n• Restaurantes costumam aceitar cães; museus e igrejas, não.\n• Réveillon: muitos fogos, melhor ele ficar no hotel.";
+  }
+  if (has(q,"emergencia","seguro","medico","hospital","doente","policia","farmacia")){
+    return "Emergência na Europa: 112.\nSeguro da Ana Maria (Intermac): WhatsApp +1 786 786 1194, e-mail asistencias@intermacinsurance.com, bilhete nº "+(_locked()?"(protegido pela senha)":_um(CONTACTS.find(c=>c[0].includes("bilhete"))[1]))+".\nVictor e Mariana: Cartão Europeu de Seguro de Doença.";
+  }
+  if (has(q,"dinheiro","moeda","coroa","euro","cartao","cambio","pagar")){
+    return "Na Alemanha é euro; em Praga, coroa tcheca (cerca de 25 coroas por euro, confira no conversor da aba Kit). Cartão funciona em quase todo lugar, mas as barracas dos mercados muitas vezes só aceitam dinheiro.";
+  }
+  if (has(q,"comer","comida","provar","restaurante","jantar","bebida","vinho","mercado")){
+    if (cs.length){ const g=GUIDE[{MUC:"muc",NUR:"nur",DRS:"drs",PRG:"prg",BER:"ber"}[cs[0]]];
+      return `Em ${g.name}:\nMercados: `+g.markets.map(m=>m[0]).join("; ")+".\nPara provar: "+g.eat.map(e=>e[0]+" ("+e[1]+")").join("; "); }
+    if (d && d.d==="2026-12-24") return "Ceia de Natal em Munique, orçamento de até €130 por pessoa. Reservem com antecedência: no dia 24 quase tudo fecha cedo.";
+    if (d && d.d==="2026-12-31") return "Jantar de Réveillon em Berlim, orçamento de até €150 por pessoa. Reservem antes.";
+    return "Nos mercados, provem: "+TASTES.slice(0,8).map(t=>t[0]).join(", ")+". Os nomes como aparecem nas placas estão na aba Kit.";
+  }
+  if (has(q,"frase","alemao","como se diz","como digo","falar","dizer")){
+    return "Algumas frases:\n"+PHRASES.slice(0,6).map(([de,pt])=>`• ${pt} = ${de}`).join("\n");
+  }
+  if (d) return dayText(d);
+  if (cs.length){ const c=cs[0]; const ds=DAYS.filter(x=>x.wx===c); return `Em ${CITY[c]}: `+ds.map(x=>`${fmt(x.d)} — ${x.title}`).join("; ")+"."; }
+  if (has(q,"roteiro","programa","plano","itinerario","quando")) return DAYS.map(x=>`• ${fmt(x.d)}: ${x.title} (${CITY[x.wx]})`).join("\n");
+  return "Hmm, essa eu ainda não sei responder. Tente perguntar sobre trens, voos, hotéis, um dia específico (ex.: 'o que fazemos dia 27?'), clima, mala ou sobre mim. Se for algo diferente, pergunte ao Victor!";
+}
+function tripContext(){
+  const L=[];
+  L.push("VIAJANTES: Victor, Mariana (esposa), Ana Maria (sogra) e Ignacio (chihuahua). Moram em Portugal (Ana Maria vem do Brasil).");
+  L.push("ROTEIRO:"); DAYS.forEach(d=>L.push(`- ${d.d} (${CITY[d.wx]}, dormem em ${CITY[d.city]}): ${d.title}. `+d.items.map(([t,x])=>t+": "+x).join(" | ")));
+  L.push("VOOS:"); FLIGHTS.forEach(f=>L.push(`- ${f.date} ${f.airline} localizador ${_um(f.code)}: `+f.legs.map(l=>`${l.no} ${l.from} ${l.dep}→${l.to} ${l.arr}`).join("; ")+`. ${f.seats}. ${f.bag}. ${f.warn||f.ok||""}`));
+  L.push("TRENS:"); TRAINS.forEach(t=>L.push(`- ${t.date} ${t.train} ${t.from} ${t.dep}→${t.to} ${t.arr}, ${t.cls}${t.note?", "+t.note:""}`));
+  L.push("HOTÉIS:"); Object.keys(HOTELS).forEach(k=>{const h=HOTELS[k]; L.push(`- ${CITY[k]} ${h.dates}: ${h.name}, ${h.addr}, tel ${h.phone}, ${h.inout}. ${h.pet} ${_um(h.extra)}`);});
+  L.push("COMO CHEGAR:"); TRAJETOS.forEach(t=>L.push(`- ${t.de}→${t.para} (${t.tempo}): `+t.passos.map(p=>p.join(": ")).join("; ")+". "+t.bilhete));
+  L.push("CLIMA TÍPICO DEZ: "+Object.keys(CLIMA).map(k=>`${CITY[k]} ${CLIMA[k].hi}/${CLIMA[k].lo}°C neve ${CLIMA[k].neve}%`).join("; "));
+  if (Object.keys(FORECAST).length) L.push("PREVISÃO REAL: "+JSON.stringify(FORECAST));
+  L.push("GUIAS: "+Object.values(GUIDE).map(g=>`${g.name}: mercados ${g.markets.map(m=>m[0]).join(", ")}; ver ${g.see.map(s=>s[0]).join(", ")}; história ${g.history.map(h=>h[0]).join(", ")}; comer ${g.eat.map(e=>e[0]).join(", ")}`).join(" || "));
+  L.push("DICAS: "+TIPS.join(" ")); L.push("ORÇAMENTO: ceia 24/12 até €130/pessoa; Réveillon 31/12 até €150/pessoa.");
+  L.push("PET: trens grátis na transportadora; TAP pet na cabine confirmado; KLM e hotel de Dresden a confirmar; museus não aceitam cães.");
+  L.push("EMERGÊNCIA: 112. Seguro Ana Maria Intermac WhatsApp +1 786 786 1194.");
+  return L.join("\n");
+}
+const RULES = () => `Você é o Ignacio, o chihuahua da família, agindo como guia de viagem simpático deste app. Responda em português do Brasil, em no máximo 5 frases curtas ou uma lista curta, com carinho e um toque de humor canino, mas sempre preciso. Use SOMENTE os dados abaixo para fatos da viagem (horários, endereços, reservas). Para dicas gerais de turismo na Alemanha e em Praga, pode usar conhecimento geral, avisando quando for bom conferir. Se não souber, diga que não sabe e sugira perguntar ao Victor. Hoje é ${TODAY}.\n\nDADOS DA VIAGEM:\n${tripContext()}`;
+
+function chatEl(){ return document.getElementById("chatLog"); }
+function addMsg(role, text, note){
+  const log=chatEl(); const div=document.createElement("div"); div.className="msg "+role;
+  div.innerHTML = role==="bot" ? `<img src="${IG_IMG}" alt=""><div class="mb"></div>` : `<div class="mb"></div>`;
+  const mb=div.querySelector(".mb"); mb.textContent=text; if (note){ const n=document.createElement("small"); n.textContent=note; mb.appendChild(n); }
+  log.appendChild(div); log.scrollTop=log.scrollHeight; return mb;
+}
+async function askIgnacio(q){
+  if (chatBusy || !q.trim()) return; chatBusy=true; $("#chatSend").disabled=true;
+  addMsg("me", q); CHAT.push({role:"user",content:q});
+  const mb = addMsg("bot","Farejando a resposta…");
+  try{
+    if (SAMPLE && AI_OK){
+      chatCtl = new AbortController();
+      const turns=[{role:"user",content:RULES()}, ...CHAT.slice(-8)];
+      const {text} = await SAMPLE(turns,{modelTier:"quick", cache:false, signal:chatCtl.signal, onText:({text})=>{ mb.textContent=text; chatEl().scrollTop=chatEl().scrollHeight; }});
+      mb.textContent=text; CHAT.push({role:"assistant",content:text});
+    } else throw {code:"local"};
+  }catch(e){
+    if (e && ["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(e.code)) AI_OK=false;
+    if (e && e.code==="cancelled"){ mb.textContent=e.text||"Parei."; }
+    else { const a=localAnswer(q); mb.textContent=a; CHAT.push({role:"assistant",content:a}); }
+  }
+  chatBusy=false; $("#chatSend").disabled=false;
+}
+function openChat(){
+  const sh=$("#chatSheet"); sh.hidden=false; document.body.classList.add("chat-open");
+  if (!chatEl().children.length) addMsg("bot","Au au! Eu sou o Ignacio. Pergunte qualquer coisa da viagem: horários de trem, hotéis, o que fazer em um dia, clima, o que levar na mala…", SAMPLE&&AI_OK?"":"Respondo com tudo o que sei do roteiro, até sem internet.");
+  setTimeout(()=>{ const i=$("#chatIn"); if(i) i.focus(); },150);
+}
+function closeChat(){ $("#chatSheet").hidden=true; document.body.classList.remove("chat-open"); if (chatCtl) chatCtl.abort(); }
+document.addEventListener("click", e=>{
+  const t=e.target.closest("[data-go]"); if (t){ go(t.dataset.go, t.dataset.sub||null); return; }
+  if (e.target.closest("#chatFab")) { openChat(); return; }
+  if (e.target.closest("#chatClose") || e.target.id==="chatSheet") { closeChat(); return; }
+  const sg=e.target.closest("[data-ask]"); if (sg){ askIgnacio(sg.dataset.ask); return; }
+});
+document.addEventListener("submit", e=>{ if (e.target.id==="chatForm"){ e.preventDefault(); e.stopImmediatePropagation(); const i=$("#chatIn"); const v=i.value; i.value=""; askIgnacio(v); } }, true);
+(async()=>{ try{ if (window.claude && window.claude.use) SAMPLE = await window.claude.use("sample"); }catch(e){ SAMPLE=null; } })();
 
 /* ================= INÍCIO ================= */
 document.querySelectorAll(".igimg").forEach(i=>i.src=IG_IMG);
