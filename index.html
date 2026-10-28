@@ -124,7 +124,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .kv{display:flex;flex-direction:column;min-width:0}
 .kv small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .copy{font:inherit;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;text-align:left;display:inline-flex;gap:6px;align-items:baseline;word-break:break-all}
-.copy::after{content:"copiar";font-family:var(--f-body);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);word-break:normal}
+.copy::after{content:"ampliar";font-family:var(--f-body);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);word-break:normal}
 .copy.done::after{content:"copiado";color:var(--ok)}
 .seg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .seg::-webkit-scrollbar{display:none}
@@ -367,6 +367,49 @@ body.chat-open #chatFab{display:none}
 .diffsel{display:flex;gap:6px;justify-content:center;padding-bottom:8px}
 .diffsel button{font:inherit;font-size:14px;font-weight:700;padding:8px 18px;border-radius:99px;border:2px solid #f0c46a;background:transparent;color:#f0c46a;cursor:pointer}
 .diffsel button.on{background:#f0c46a;color:#2a0912}
+
+/* ===== CX ===== */
+.hero.compact .sceneWrap,.hero.compact .orns,.hero.compact .meta{display:none}
+.hero.compact h1{font-size:30px;margin:0}
+.hero.compact{padding-bottom:12px!important}
+#offline{position:fixed;left:0;right:0;top:0;z-index:80;background:#a35a12;color:#fff;font-size:13px;font-weight:700;text-align:center;
+  padding:calc(6px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px))}
+#helpFab{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:30;font:inherit;font-weight:700;font-size:14px;
+  background:#d62839;color:#fff;border:2px solid #fff;border-radius:99px;padding:10px 16px;box-shadow:0 8px 20px -6px rgba(0,0,0,.6);cursor:pointer}
+body.chat-open #helpFab{display:none}
+#ovl{position:fixed;inset:0;z-index:75;background:#14050b;display:flex;justify-content:center}
+#ovl[hidden]{display:none!important}
+.ovlBox{width:100%;max-width:600px;display:flex;flex-direction:column;background:#fffaf3;color:#2a0a14;
+  padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+#ovl.tone-help .ovlBox{border-top:6px solid #d62839}
+.ovlHead{display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid #ead6cf}
+.ovlTitle{font-family:var(--f-display);font-size:28px;line-height:1.05}
+#ovlClose{margin-left:auto;font:inherit;font-size:32px;background:none;border:0;color:#76525c;cursor:pointer;line-height:1}
+.ovlBody{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-top:12px;--ink:#2a0a14;--muted:#76525c;--line:#ead6cf;--gold:#946512;--berry:#a3213f;--bg2:#f5e3da;--surface2:#fbefe6}
+.bigcode{font-size:clamp(34px,11vw,64px);font-weight:700;text-align:center;letter-spacing:.06em;padding:30px 8px;border:3px dashed #f0c46a;border-radius:18px;word-break:break-all;color:#2a0a14}
+.helpGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.helpBtn{font:inherit;text-align:left;display:flex;flex-direction:column;gap:4px;padding:16px 12px;border-radius:16px;border:2px solid #f3c2c8;background:#fff;color:#2a0a14;cursor:pointer;min-height:96px}
+.helpBtn b{font-size:17px;color:#b01f30}
+.helpBtn small{color:#76525c}
+.sos{font-family:var(--f-mono);font-size:56px;font-weight:700;color:#d62839;line-height:1}
+.taxi{border:3px solid #2a0a14;border-radius:18px;padding:22px 16px;display:flex;flex-direction:column;gap:12px;text-align:center;background:#fff}
+.taxiDe{font-size:20px;font-weight:700}
+.taxiHotel{font-size:26px;font-weight:700;line-height:1.15;color:#7a1530}
+.taxiAddr{font-size:30px;font-weight:700;line-height:1.2}
+.taxiTel{font-size:20px;font-family:var(--f-mono)}
+.taxiPt{font-size:14px;color:#76525c}
+.travelNow{font:inherit;text-align:left;display:flex;flex-direction:column;gap:4px;width:100%;padding:14px 16px;border-radius:16px;border:3px solid #f0c46a;background:#d62839;color:#fff;cursor:pointer;box-shadow:0 6px 16px -6px rgba(0,0,0,.5)}
+.travelNow .tnTag{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;opacity:.9}
+.travelNow b{font-size:18px;line-height:1.3}
+.travelNow .tnGo{font-weight:700;color:#ffe3a3}
+.stepNow{display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#fff3dc;border:2px solid #f0c46a;border-radius:16px;padding:16px}
+.stepNow img{width:70px}
+.stepNow .stepT{font-family:var(--f-mono);font-size:22px;font-weight:700;color:#a3213f}
+.stepNow b{font-size:20px;line-height:1.3}
+.stepNext{width:100%;font-size:17px!important;padding:14px!important}
+.stepsList li.done{opacity:.45}
+.stepsList li.done::before{content:"✓"!important;background:#2f7a4c!important}
+.stepsList li.now b{color:#a3213f}
 .lockbtn{font:inherit;font-size:13px;font-weight:700;background:var(--gold-soft);color:var(--gold);border:1px dashed var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer}
 </style>
 
@@ -432,6 +475,9 @@ body.chat-open #chatFab{display:none}
   <canvas id="mazeCanvas" aria-label="Labirinto: leve o Ignacio até a mamãe"></canvas>
   
 </div></div>
+<div id="offline" hidden>Sem internet: o app funciona, mas mapas e previsão precisam de conexão.</div>
+<button id="helpFab" aria-label="Ajuda">Ajuda</button>
+<div id="ovl" hidden><div class="ovlBox"><div class="ovlHead"><b class="ovlTitle"></b><button id="ovlClose" aria-label="Fechar">×</button></div><div class="ovlBody"></div></div></div>
 <nav class="tabs" aria-label="Seções">
   <div class="in">
     <a href="#hoje" data-tab="hoje"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/></svg>Hoje</a>
@@ -871,7 +917,7 @@ function outfit(day){
 }
 
 /* ================= SEGREDOS ================= */
-const ENC = {"salt": "Xt0EWDW7OZxcVnZK6nMYLA==", "iv": "X6hBWAIko4NBPgMk", "ct": "4ESjKV0vuh727mCUoUqym+Xk"};
+const ENC = {"salt": "tnTOYBJBDBp0Fyjw4QzFjQ==", "iv": "Ax4OKp1C0YbRqcMa", "ct": "UEyHAwCSM26y4ayMzQf6p+Tn"};
 let SECRETS = {}, UNLOCKED = true;
 const b64 = x => Uint8Array.from(atob(x), c=>c.charCodeAt(0));
 async function unlock(pw, silent){
@@ -1020,6 +1066,7 @@ function dayCard(day, i, lit){
     <div><div class="eyebrow" style="margin-bottom:6px">O que vestir hoje</div><div class="outfit">${outfit(day).map(o=>`<i>${esc(o)}</i>`).join("")}</div></div>
     ${IG_TIPS[day.d]?`<div class="igtip"><img src="${IG_IMG}" alt=""><div><b>Dica do Ignacio</b><span>${esc(IG_TIPS[day.d])}</span></div></div>`:""}
     ${i<DAYS.length-1?`<div class="small muted">Dorme em <b style="color:var(--ink)">${esc(h.name)}</b></div>`:""}
+    ${STEPS[day.d]?`<button class="btn primary" data-steps="${day.d}">Passo a passo do deslocamento</button>`:""}
     <div class="links"><a href="#guia" data-goguide="${day.guide}">Guia de ${GUIDE[day.guide].name}</a><a href="${maps(h.name+", "+h.addr)}" target="_blank" rel="noopener">Hotel no mapa</a><a href="#reservas">Bilhetes</a></div>
   </div>`;
 }
@@ -1051,6 +1098,7 @@ function renderHoje(){
     detail = `<h2>Programa de hoje</h2>${dayCard(day,todayIdx,true)}` + (todayIdx<DAYS.length-1?`<h2>Amanhã</h2>${dayCard(DAYS[todayIdx+1],todayIdx+1,false)}`:"");
   }
   el.innerHTML = `<div class="stack" style="margin-top:14px">
+    ${stepsBanner()}
     ${tilesHtml()}
     ${top}
     ${detail}
@@ -1319,9 +1367,7 @@ async function shrink(file){
 /* ================= EVENTOS ================= */
 document.addEventListener("click", e=>{
   const c=e.target.closest(".copy");
-  if (c){ const v=c.dataset.copy; const ok=()=>{c.classList.add("done");setTimeout(()=>c.classList.remove("done"),1400);};
-    const pick=()=>{const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r);};
-    try{ navigator.clipboard.writeText(v).then(ok).catch(pick);}catch(_){pick();} return; }
+  if (c){ openBig(c.dataset.copy); return; }
   if (e.target.closest("[data-unlock]")){ resTab = resTab||"voos"; if(location.hash!=="#reservas") location.hash="#reservas"; else show(); setTimeout(()=>{const i=$("#pwIn"); if(i) i.focus();},300); return; }
   const g=e.target.closest("[data-goguide]"); if (g){ guiaTab=g.dataset.goguide; }
   const door=e.target.closest(".door"); if (door){ sel=+door.dataset.i; renderAdvent(); $("#dayDetail").scrollIntoView({behavior:"smooth",block:"start"}); return; }
@@ -1378,6 +1424,7 @@ const SUBS={dias:"Calendário da viagem",reservas:"Voos, trens e hotéis",guia:"
 function show(){
   const t = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "hoje";
   TABS.forEach(x=>{ document.getElementById("v-"+x).hidden = x!==t; });
+  document.querySelector(".hero").classList.toggle("compact", t!=="hoje");
   document.querySelectorAll("nav.tabs a").forEach(a=>{ const on=a.dataset.tab===t; a.classList.toggle("on",on); on?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"); });
   if (t==="hoje") renderHoje();
   const say = $("#igSay");
@@ -1600,7 +1647,7 @@ async function askIgnacio(q){
   chatBusy=false; $("#chatSend").disabled=false;
 }
 function openChat(){
-  const sh=$("#chatSheet"); sh.hidden=false; document.body.classList.add("chat-open");
+  pushOv("chat"); const sh=$("#chatSheet"); sh.hidden=false; document.body.classList.add("chat-open");
   if (!chatEl().children.length) addMsg("bot","Au au! Eu sou o Ignacio. Pergunte qualquer coisa da viagem: horários de trem, hotéis, o que fazer em um dia, clima, o que levar na mala…", SAMPLE&&AI_OK?"":"Respondo com tudo o que sei do roteiro, até sem internet.");
   setTimeout(()=>{ const i=$("#chatIn"); if(i) i.focus(); },150);
 }
@@ -1617,7 +1664,7 @@ document.addEventListener("submit", e=>{ if (e.target.id==="chatForm"){ e.preven
 
 /* ================= JOGO: IGNACIO NO MERCADO DE NATAL ================= */
 const GAME = {run:false, raf:0};
-function openGame(){ $("#gameSheet").hidden=false; document.body.classList.add("chat-open"); gameReset(); gameDrawIntro(); }
+function openGame(){ pushOv("game"); $("#gameSheet").hidden=false; document.body.classList.add("chat-open"); gameReset(); gameDrawIntro(); }
 function closeGame(){ $("#gameSheet").hidden=true; document.body.classList.remove("chat-open"); GAME.run=false; cancelAnimationFrame(GAME.raf); }
 const G_CITIES = [["Munique","#c8283c",0],["Dresden","#2d5fae",400],["Praga","#7b3fa6",900],["Berlim","#1d7a59",1500]];
 let gImg = null;
@@ -1718,7 +1765,7 @@ const MOM_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQE
 const MZ_LV = {facil:{name:"Fácil",ig:10,mom:28,foe:2.3,lives:5}, medio:{name:"Médio",ig:8,mom:21,foe:1.6,lives:4}, dificil:{name:"Difícil",ig:7,mom:16,foe:1,lives:3}};
 let mzDiff = store.get("guia-maze-diff","facil"); if(!MZ_LV[mzDiff]) mzDiff="facil";
 const DIRS = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
-function openMaze(){ if(!gImg){ gImg=new Image(); gImg.src=IG_IMG; } $("#mazeSheet").hidden=false; document.body.classList.add("chat-open"); mzNewGame(); }
+function openMaze(){ pushOv("maze"); if(!gImg){ gImg=new Image(); gImg.src=IG_IMG; } $("#mazeSheet").hidden=false; document.body.classList.add("chat-open"); mzNewGame(); }
 function closeMaze(){ $("#mazeSheet").hidden=true; document.body.classList.remove("chat-open"); MZ.run=false; cancelAnimationFrame(MZ.raf); }
 function mzGen(C,R){
   const g=Array.from({length:R},()=>Array(C).fill(1));
@@ -1842,8 +1889,172 @@ document.addEventListener("pointerdown", e=>{ if (e.target.id!=="mazeCanvas") re
   const d = Math.abs(nx)>Math.abs(ny) ? (nx>0?"right":"left") : (ny>0?"down":"up"); mzSteer(d); MZ.tapHint={d,t:12}; });
 document.addEventListener("keydown", e=>{ if ($("#mazeSheet").hidden) return; const m={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"}[e.code]; if(m){ e.preventDefault(); mzSteer(m); } });
 
+
+/* ================= CX: SOBREPOSIÇÃO GENÉRICA ================= */
+function pushOv(name){ try{ if(!(history.state&&history.state.ov)) history.pushState({ov:name},""); }catch(e){} }
+function anyOpen(){ return ["#chatSheet","#gameSheet","#mazeSheet","#ovl"].some(s=>{const el=$(s); return el&&!el.hidden;}); }
+function closeAll(){
+  if (!$("#chatSheet").hidden) closeChat();
+  if (!$("#gameSheet").hidden) closeGame();
+  if (!$("#mazeSheet").hidden) closeMaze();
+  if (!$("#ovl").hidden){ $("#ovl").hidden=true; document.body.classList.remove("chat-open"); }
+}
+addEventListener("popstate", ()=>{ if (anyOpen()) closeAll(); });
+function ovl(title, html, tone){
+  const o=$("#ovl"); o.querySelector(".ovlTitle").textContent=title; o.querySelector(".ovlBody").innerHTML=html;
+  o.className = tone ? "tone-"+tone : ""; o.hidden=false; document.body.classList.add("chat-open"); pushOv("ovl");
+  o.querySelector(".ovlBody").scrollTop=0;
+}
+document.addEventListener("click", e=>{
+  if (e.target.closest("#chatClose,#gameClose,#mazeClose,#ovlClose")){
+    e.stopImmediatePropagation();
+    if (history.state&&history.state.ov) history.back(); else closeAll();
+  }
+}, true);
+
+/* ================= CX: CÓDIGO EM TELA CHEIA ================= */
+function openBig(v){
+  ovl("Mostre no balcão", `<div class="bigcode mono">${esc(v)}</div>
+    <button class="btn primary" id="bigCopy" data-v="${esc(v)}" style="width:100%">Copiar</button>
+    <div class="small muted" style="text-align:center">Vire o celular para o funcionário ver.</div>`);
+}
+
+/* ================= CX: AJUDA ================= */
+function cityNow(){ const d=DAYS.find(x=>x.d===TODAY); return d ? d.city : (TODAY<FIRST?"MUC":"BER"); }
+function taxiCard(k){
+  const h=HOTELS[k];
+  ovl("Cartão para o taxista", `<div class="taxi">
+      <div class="taxiDe">Bitte bringen Sie mich zu dieser Adresse:</div>
+      <div class="taxiHotel">${esc(h.name)}</div>
+      <div class="taxiAddr">${esc(h.addr)}</div>
+      <div class="taxiTel">Tel. ${esc(h.phone)}</div>
+      <div class="taxiPt">"Por favor, me leve a este endereço." Mostre esta tela ao taxista ou a quem puder ajudar.</div>
+    </div>
+    <div class="seg" style="justify-content:center">${["MUC","DRS","BER"].map(c=>`<button data-taxi="${c}" class="${c===k?"on":""}">${CITY[c]}</button>`).join("")}</div>
+    <a class="btn" style="width:100%" href="${maps(h.name+", "+h.addr)}" target="_blank" rel="noopener">Abrir no mapa</a>`, "light");
+}
+function helpMenu(){
+  ovl("Ajuda", `<div class="helpGrid">
+    <button class="helpBtn" data-help="perdi"><b>Me perdi</b><small>Cartão do hotel para o taxista</small></button>
+    <button class="helpBtn" data-help="mal"><b>Estou passando mal</b><small>Emergência e seguro</small></button>
+    <button class="helpBtn" data-help="trem"><b>Perdi o trem</b><small>O que fazer agora</small></button>
+    <button class="helpBtn" data-help="pet"><b>Perdi o Ignacio</b><small>Passos e frases</small></button>
+  </div>
+  <div class="card"><span class="eyebrow">Número de emergência na Europa</span><div class="sos">112</div><div class="small muted">Ambulância, bombeiros e polícia. Funciona de qualquer celular, de graça.</div></div>`, "help");
+}
+const HELP = {
+  mal:()=>`<div class="card"><span class="eyebrow">Emergência</span><div class="sos">112</div><div class="small">Ligue e diga: <b>"Ich brauche einen Arzt."</b> (Preciso de um médico.)</div></div>
+    <div class="card"><span class="eyebrow">Seguro da Ana Maria (Intermac)</span>
+      <div class="kv"><small>WhatsApp, 24 horas</small>${copyBtn("+1 786 786 1194")}</div>
+      <div class="kv"><small>Número do bilhete</small>${copyBtn(CONTACTS.find(c=>c[0].includes("bilhete"))[1])}</div>
+      <div class="small muted">Avise a seguradora antes de ir ao médico, se der tempo.</div></div>
+    <div class="card"><span class="eyebrow">Farmácia</span><div class="small">Procure a placa vermelha com um <b>A</b> grande: <b>Apotheke</b>. Em Praga: <b>Lékárna</b>.</div>
+      <a class="btn" href="${maps("Apotheke")}" target="_blank" rel="noopener">Farmácias perto de mim</a></div>
+    <div class="card"><span class="eyebrow">Victor e Mariana</span><div class="small">Usem o Cartão Europeu de Seguro de Doença no atendimento público.</div></div>`,
+  trem:()=>`<div class="card"><span class="eyebrow">Atraso do trem</span><div class="small">Se o seu trem atrasar e por isso vocês perderem a conexão, ou se o atraso no destino passar de <b>20 minutos</b>, o mesmo bilhete vale no próximo trem do trajeto. Não precisa comprar outro.</div></div>
+    <div class="card"><span class="eyebrow">Se vocês perderam o trem</span><div class="small">Os bilhetes promocionais só valem no trem marcado. Vá ao balcão da DB na estação (<b>DB Reisezentrum</b>) com o bilhete e mostre a frase:</div>
+      <div class="phr"><b>Wir haben unseren Zug verpasst. Was können wir tun?</b><span class="small muted">Perdemos nosso trem. O que podemos fazer?</span></div></div>
+    <div class="card"><span class="eyebrow">Ver os bilhetes</span><button class="btn primary" data-go="reservas" data-sub="trens">Abrir os trens</button></div>`,
+  pet:()=>`<div class="card"><span class="eyebrow">Fique calmo e faça nesta ordem</span>
+      <ol class="route"><li><div><b>Volte ao último lugar onde ele estava</b><div class="small muted">Chihuahuas costumam se esconder perto, embaixo de bancos e barracas.</div></div></li>
+      <li><div><b>Avise o hotel</b><div class="small muted">Ele pode tentar voltar para lá.</div></div></li>
+      <li><div><b>Mostre a foto dele para as pessoas</b><div class="small muted">Use a frase abaixo.</div></div></li>
+      <li><div><b>Ligue para a polícia: 110</b><div class="small muted">Em Praga: 158.</div></div></li></ol></div>
+    <div class="card" style="align-items:center"><img src="${IG_IMG}" alt="Foto do Ignacio" style="width:140px">
+      <div class="phr" style="text-align:center"><b>Ich habe meinen Hund verloren. Haben Sie ihn gesehen?</b><span class="small muted">Perdi meu cachorro. Você o viu?</span></div></div>`,
+};
+
+/* ================= CX: PASSO A PASSO DOS DESLOCAMENTOS ================= */
+const STEPS = {
+  "2026-12-20":{title:"Lisboa → Munique", steps:[
+    ["Até 9:00","Confiram passaportes, a transportadora e os documentos do Ignacio."],
+    ["9:30","Chegar ao aeroporto de Lisboa e ir ao balcão da KLM."],
+    ["Balcão","Despachar as malas e confirmar o Ignacio na cabine."],
+    ["11:30","Embarque no voo KL1580 para Amsterdã."],
+    ["15:30","Em Amsterdã, siga as placas \"Transfer\" até o voo KL1857, que sai às 17:50."],
+    ["19:15","Chegada em Munique. Peguem as malas na esteira."],
+    ["Trem","Trem S8 até Ostbahnhof e depois S2, S4 ou S6 até Berg am Laim. Comprem o bilhete de grupo na máquina."],
+    ["Hotel","Check-in no hotel. Bem-vindos a Munique!"]]},
+  "2026-12-22":{title:"Bate-volta a Nuremberg", steps:[
+    ["9:45","Sair do hotel e ir a pé até a estação Berg am Laim."],
+    ["Trem","S2, S4 ou S6 até Munique Central."],
+    ["10:30","Trem ICE 1600 para Nuremberg. Confiram a plataforma no app DB Navigator."],
+    ["11:33","Chegada em Nuremberg. Aproveitem o dia!"],
+    ["19:01","Trem ICE 723 de volta para Munique."],
+    ["20:06","Chegada em Munique Central e trem S até Berg am Laim."]]},
+  "2026-12-26":{title:"Munique → Dresden", steps:[
+    ["6:00","Acordar e tomar café."],
+    ["6:20","Passeio rápido com o Ignacio para ele fazer xixi."],
+    ["6:40","Check-out e ir a pé até a estação Berg am Laim."],
+    ["Trem","S2, S4 ou S6 até Munique Central (cerca de 15 min)."],
+    ["7:25","Trem ICE 1102 para Erfurt. Confiram a plataforma no app DB Navigator."],
+    ["9:44","Erfurt: a troca tem só 6 minutos. Fiquem perto da porta antes de chegar e já procurem a plataforma do ICE 1555."],
+    ["9:50","Trem ICE 1555 para Dresden."],
+    ["11:42","Dresden Central: saiam pela saída norte. O hotel fica a 5 minutos a pé, na rua de pedestres."],
+    ["Hotel","Deixem as malas no hotel. O check-in é a partir das 15h."]]},
+  "2026-12-28":{title:"Bate-volta a Praga", steps:[
+    ["7:40","Sair do hotel e ir a pé até Dresden Central."],
+    ["8:10","Trem RJ 251 para Praga."],
+    ["10:21","Chegada em Praha-Holešovice. Peguem o bonde para o Castelo."],
+    ["Dia","Castelo, Ponte Carlos e Praça da Cidade Velha. A moeda é a coroa."],
+    ["18:00","Ir para a estação central de Praga (Praha hlavní nádraží). A volta NÃO sai de Holešovice."],
+    ["18:31","Trem EC 458 de volta para Dresden."],
+    ["20:57","Chegada em Dresden e 5 minutos a pé até o hotel."]]},
+  "2026-12-30":{title:"Dresden → Berlim", steps:[
+    ["6:20","Passeio rápido com o Ignacio."],
+    ["6:50","Check-out e ir a pé até Dresden Central."],
+    ["7:32","Trem IC 2272 para Berlim. Confiram a plataforma no app DB Navigator."],
+    ["9:32","Berlim Central: trem urbano S3, S5, S7 ou S9 sentido oeste até Savignyplatz (4 paradas)."],
+    ["Hotel","Cerca de 350 m a pé até o hotel. Deixem as malas; o check-in é a partir das 15h."]]},
+  "2027-01-02":{title:"Berlim → Lisboa", steps:[
+    ["8:45","Malas prontas e passeio com o Ignacio."],
+    ["9:15","Check-out e ir a pé até a estação Savignyplatz."],
+    ["Trem","Trem urbano S3, S5, S7 ou S9 até Berlim Central. Bilhete das zonas ABC!"],
+    ["Trem","Expresso do aeroporto (FEX) até o aeroporto BER, cerca de 25 min."],
+    ["10:30","Terminal 1. A Mariana faz o check-in do Ignacio no balcão da TAP."],
+    ["12:05","Fim do check-in. Passem pelo controle de segurança."],
+    ["12:50","Voo TP531 para Lisboa. Boa volta!"]]}
+};
+function stepsKey(d){ return "guia-steps-"+d; }
+function openSteps(d){
+  const S=STEPS[d]; if(!S) return; const cur=Math.min(store.get(stepsKey(d),0), S.steps.length);
+  const done = cur>=S.steps.length;
+  ovl(S.title, `<div class="stepsTop small muted">${fmtLong(d)} · etapa ${Math.min(cur+1,S.steps.length)} de ${S.steps.length}</div>
+    ${done?`<div class="stepNow"><img src="${IG_IMG}" alt=""><b>Tudo certo! Chegaram.</b><span class="small">O Ignacio está orgulhoso de vocês.</span></div>`:
+      `<div class="stepNow"><span class="stepT">${esc(S.steps[cur][0])}</span><b>${esc(S.steps[cur][1])}</b></div>
+       <button class="btn primary stepNext" data-stepnext="${d}">Feito! Próximo passo →</button>`}
+    <ol class="route stepsList">${S.steps.map(([t,x],i)=>`<li class="${i<cur?"done":i===cur?"now":""}"><div><b>${esc(t)}</b><div class="small">${esc(x)}</div></div></li>`).join("")}</ol>
+    <div class="row between"><button class="btn" data-stepback="${d}" ${cur===0?"disabled":""}>← Voltar um passo</button><button class="btn" data-stepreset="${d}">Recomeçar</button></div>`, "light");
+}
+function stepsBanner(){
+  const d=DAYS.find(x=>x.d===TODAY); if(!d||!STEPS[d.d]) return "";
+  const S=STEPS[d.d], cur=Math.min(store.get(stepsKey(d.d),0),S.steps.length);
+  return `<button class="travelNow" data-steps="${d.d}"><span class="tnTag">Hoje é dia de deslocamento</span>
+    <b>${cur>=S.steps.length?"Concluído!":esc(S.steps[cur][0])+": "+esc(S.steps[cur][1])}</b><span class="tnGo">Abrir passo a passo →</span></button>`;
+}
+
+/* ================= CX: SEM INTERNET ================= */
+function netBanner(){ const b=$("#offline"); if(b) b.hidden = navigator.onLine !== false; }
+addEventListener("online", netBanner); addEventListener("offline", netBanner);
+
+document.addEventListener("click", e=>{
+  const t=e.target;
+  if (t.closest("#helpFab")){ helpMenu(); return; }
+  const hp=t.closest("[data-help]"); if (hp){ const k=hp.dataset.help;
+    if (k==="perdi") taxiCard(cityNow()); else ovl({mal:"Estou passando mal",trem:"Perdi o trem",pet:"Perdi o Ignacio"}[k], HELP[k](), "light"); return; }
+  const tx=t.closest("[data-taxi]"); if (tx){ taxiCard(tx.dataset.taxi); return; }
+  const st=t.closest("[data-steps]"); if (st){ openSteps(st.dataset.steps); return; }
+  const sn=t.closest("[data-stepnext]"); if (sn){ const d=sn.dataset.stepnext; store.set(stepsKey(d), store.get(stepsKey(d),0)+1); burst(sn); openSteps(d); if(!$("#v-hoje").hidden) renderHoje(); return; }
+  const sb=t.closest("[data-stepback]"); if (sb){ const d=sb.dataset.stepback; store.set(stepsKey(d), Math.max(0,store.get(stepsKey(d),0)-1)); openSteps(d); return; }
+  const sr=t.closest("[data-stepreset]"); if (sr){ store.set(stepsKey(sr.dataset.stepreset),0); openSteps(sr.dataset.stepreset); return; }
+  const bc=t.closest("#bigCopy"); if (bc){ const v=bc.dataset.v; try{ navigator.clipboard.writeText(v).then(()=>{bc.textContent="Copiado!";}).catch(()=>{}); }catch(_){} return; }
+  // dentro da sobreposição, um toque em data-go fecha e navega
+  const g=t.closest("#ovl [data-go]"); if (g){ $("#ovl").hidden=true; document.body.classList.remove("chat-open"); }
+});
+
 /* ================= INÍCIO ================= */
 document.querySelectorAll(".igimg").forEach(i=>i.src=IG_IMG);
+netBanner();
 show();
 initShared();
 try{ const pw=localStorage.getItem("guia-pw"); if(pw) unlock(pw,true); }catch(e){}
