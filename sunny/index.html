@@ -325,6 +325,68 @@ nav.tabs button.on .ti{filter:none;opacity:1}
 @keyframes splAway{to{opacity:0;transform:translateY(-24px) scale(.96)}}
 @keyframes splOut{to{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){#splash,#splash *{animation-duration:.01s!important;animation-delay:0s!important}#splash{animation:splOut .3s ease 1.2s forwards!important}}
+/* ===== agente Sunny ===== */
+#agFab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:60;width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;padding:0;
+  background:radial-gradient(circle at 35% 30%,#fff3b0,#ffd23f 55%,#ffc21a);box-shadow:0 0 0 4px #fff,0 6px 0 4px #e5a400,0 12px 28px rgba(120,70,0,.3);display:grid;place-items:center;transition:transform .18s ease,bottom .25s ease;animation:agIn .5s cubic-bezier(.2,1.4,.4,1) both}
+body.hasTabs #agFab{bottom:calc(86px + env(safe-area-inset-bottom))}
+#agFab:hover{transform:translateY(-2px)} #agFab:active{transform:translateY(3px);box-shadow:0 0 0 4px #fff,0 2px 0 4px #e5a400,0 6px 14px rgba(120,70,0,.25)}
+#agFab::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:3px solid rgba(255,200,0,.55);animation:agRing 3.2s ease-out 1.2s infinite;pointer-events:none}
+#agFab .agFsun{width:50px;height:50px}
+.agFtag{position:absolute;top:-3px;right:-5px;background:#3c2a00;color:#ffe066;font-size:11px;font-weight:900;letter-spacing:.04em;padding:3px 6px;border-radius:9px;border:2px solid var(--bg)}
+@keyframes agIn{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes agRing{0%{transform:scale(.9);opacity:.9}70%,100%{transform:scale(1.35);opacity:0}}
+#agPanel{position:fixed;z-index:70;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);overflow:hidden;
+  left:0;right:0;bottom:0;top:max(10px,env(safe-area-inset-top));border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(60,40,0,.25);
+  transform-origin:calc(100% - 48px) calc(100% - 48px);animation:agOpen .32s cubic-bezier(.2,1.1,.3,1) both}
+#agPanel[hidden]{display:none}
+@media (min-width:760px){#agPanel{left:auto;top:auto;right:24px;bottom:24px;width:400px;height:min(680px,calc(100vh - 48px));border-radius:24px;border:2px solid var(--line);box-shadow:0 20px 60px rgba(60,40,0,.28)}}
+@media (max-width:759px){body.agOpen{overflow:hidden}}
+@keyframes agOpen{from{transform:scale(.15);opacity:0;border-radius:50%}to{transform:none;opacity:1}}
+.agHead{display:flex;align-items:center;gap:10px;padding:12px 12px 12px 14px;background:linear-gradient(180deg,#ffd84d,#ffc800);color:#3c2a00;flex:0 0 auto}
+.agHsun{width:42px;height:42px;flex:0 0 auto}
+.agHt{flex:1;display:flex;flex-direction:column;line-height:1.15;min-width:0}.agHt b{font-size:19px;font-weight:900}.agHt small{font-size:12.5px;font-weight:800;color:#6b4d00;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;background:#8a7a50}.agdot.claude,.agdot.proxy{background:#2fbf4a;box-shadow:0 0 0 3px rgba(47,191,74,.25)}
+.agIc{width:38px;height:38px;border-radius:12px;border:0;background:rgba(255,255,255,.55);color:#3c2a00;font-size:16px;font-weight:900;cursor:pointer;flex:0 0 auto}
+.agIc.on{background:#3c2a00;color:#ffe066}
+.agMsgs{flex:1;overflow-y:auto;padding:16px 14px 8px;display:flex;flex-direction:column;gap:12px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.agm{display:flex;gap:8px;align-items:flex-end;max-width:100%;animation:pop .25s ease both}
+.agm.u{justify-content:flex-end}
+.agm .agav{width:30px;height:30px;flex:0 0 auto;margin-bottom:2px}
+.agcol{display:flex;flex-direction:column;gap:6px;min-width:0;max-width:calc(100% - 40px)}
+.agb{padding:10px 14px;border-radius:18px;font-size:15.5px;line-height:1.42;font-weight:700;word-wrap:break-word}
+.agm.u .agb{background:#ffd23f;color:#3c2a00;border-bottom-right-radius:6px;max-width:82%}
+.agm.a .agb{background:var(--card);border:2px solid var(--line);border-bottom-left-radius:6px}
+.agb p{margin:0}.agb p+p,.agb ul+p,.agb p+ul{margin-top:6px}.agb ul{margin:4px 0 0;padding-left:18px}.agb li{margin:2px 0}.agb b{font-weight:900}
+.agb.live p:last-child::after{content:"";display:inline-block;width:7px;height:15px;margin-left:3px;vertical-align:-2px;background:var(--acc);border-radius:2px;animation:blink2 .9s steps(1) infinite}
+@keyframes blink2{50%{opacity:0}}
+.agthink{color:var(--sub);font-weight:800}.dots{display:inline-flex;gap:3px;margin-left:6px}.dots i{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:agDot 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes agDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+.agacts{display:flex;flex-wrap:wrap;gap:6px}
+.agact{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:900;padding:5px 10px;border-radius:999px;background:var(--soft);border:2px solid var(--line);color:var(--ink)}
+.agact.ok{background:#e6f9d9;border-color:#b6e89a;color:#2b6a00}.agact.bad{background:#ffe3e3;border-color:#ffb3b3;color:#9b1c1c}
+[data-theme=dark] .agact.ok{background:#1f3a12;border-color:#2f5a1a;color:#b6f08f}
+.agspin{width:11px;height:11px;border-radius:50%;border:2px solid var(--acc);border-right-color:transparent;animation:spin .7s linear infinite;display:inline-block}
+.aglinks{display:flex;flex-direction:column;gap:6px}
+.aglink{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);border-bottom-width:4px;background:var(--card);color:inherit;text-decoration:none;font-size:14px;font-weight:900}
+.aglink span{color:var(--acc)} .aglink:active{transform:translateY(2px);border-bottom-width:2px}
+.agnote{color:var(--sub);font-size:12px;font-weight:700}
+.agchips{display:flex;flex-direction:column;gap:8px;padding-left:38px}
+.agchip{text-align:left;border:2px solid var(--line);border-bottom-width:4px;background:var(--card);color:var(--ink);border-radius:14px;padding:9px 12px;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+.agchip:active{transform:translateY(2px);border-bottom-width:2px}
+.agBar{display:flex;align-items:flex-end;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:2px solid var(--line);background:var(--bg);flex:0 0 auto}
+.agBar textarea{flex:1;resize:none;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:22px;padding:11px 16px;font:inherit;font-size:16px;font-weight:700;line-height:1.3;max-height:120px;outline:none}
+.agBar textarea:focus{border-color:var(--sel-b)}
+.agMic,.agSend{width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;flex:0 0 auto;display:grid;place-items:center}
+.agMic{background:var(--soft);border:2px solid var(--line);color:var(--ink)}
+.agMic svg,.agSend svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.agMic svg rect{fill:currentColor;stroke:none}
+.agMic.on{background:#ff4b4b;border-color:#ff4b4b;color:#fff;animation:agPulse 1.2s ease-out infinite}
+@keyframes agPulse{0%{box-shadow:0 0 0 0 rgba(255,75,75,.5)}100%{box-shadow:0 0 0 16px rgba(255,75,75,0)}}
+.agSend{background:#ffc800;color:#3c2a00;box-shadow:0 3px 0 #e5a400}.agSend svg{fill:currentColor;stroke:none}.agSend.stop{background:var(--ink);color:var(--bg);box-shadow:none;font-size:16px}
+.agWave{position:absolute;left:0;right:0;bottom:calc(74px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:5px;pointer-events:none}
+.agWave i{width:5px;height:18px;border-radius:3px;background:#ff4b4b;animation:agWave .9s ease-in-out infinite}.agWave i:nth-child(2){animation-delay:.1s}.agWave i:nth-child(3){animation-delay:.2s}.agWave i:nth-child(4){animation-delay:.3s}.agWave i:nth-child(5){animation-delay:.4s}
+@keyframes agWave{50%{transform:scaleY(.35)}}
+@media (prefers-reduced-motion:reduce){#agFab,#agFab::before,#agPanel,.agm{animation:none!important}}
 </style>
 
 <div id="splash" role="img" aria-label="Sunny Trip">
@@ -1467,6 +1529,424 @@ function quoteCard(T){
   return `<div class="glass card"><span class="k">🔎 Cotar agora</span><span class="sub sm">Preços reais, já com as datas e ${n} ${n>1?"pessoas":"pessoa"}.</span><div class="qlist">${rows.join("")}</div></div>`;
 }
 
+/* ===== Sunny — agente de IA do app (texto + voz + ações) =====
+   Cérebros, em ordem: 1) Claude (quando o app roda dentro do Claude: capability "sample", com ferramentas)
+                       2) servidor próprio configurado (proxy da API da Anthropic, com ferramentas e streaming)
+                       3) modo offline (entende pedidos comuns em PT/EN/ES e executa as mesmas ações)        */
+const AG={open:false,msgs:[],busy:false,ctl:null,rec:null,speak:false,brain:"local",sample:null,turn:null,boot:false};
+const AGL=()=>S.lang||"pt";
+const AGTX={
+  pt:{name:"Sunny",sub:"Seu agente de viagem",ph:"Escreva ou toque no microfone…",listen:"Ouvindo… pode falar",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Falar",close:"Fechar",open:"Abrir o agente Sunny",clear:"Nova conversa",
+    speakOn:"Ler respostas em voz alta",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"Este navegador não deixa usar o microfone aqui. Escreva sua mensagem.",micDenied:"O microfone foi bloqueado. Libere nas permissões do navegador ou escreva.",
+    err:"Não consegui responder agora. Tente de novo.",fallback:"Não consegui falar com a IA agora, então respondi no modo offline.",
+    hello:"Oi! Eu sou o **Sunny** ☀️ Me diga o que você quer e eu faço por você. Por exemplo: *“quero 20 dias de Lisboa para a Itália em maio, vamos em 3”*.\n\nTambém mudo noites, abro dias, lanço gastos, cotizo voos e hotéis e respondo dúvidas da viagem.",
+    chipsNo:["✈️ 15 dias na Itália em maio, 2 pessoas","🏖️ 10 dias de praia na Grécia em julho, casal","🇯🇵 3 semanas no Japão em abril, 4 pessoas, econômico"],
+    chipsTrip:c=>[`🌙 Mais uma noite em ${c}`,"📅 O que faço amanhã?","💶 Gastei 40 euros num jantar","🔎 Cotar hotéis"]},
+  en:{name:"Sunny",sub:"Your travel agent",ph:"Type or tap the mic…",listen:"Listening… go ahead",think:"Thinking…",stop:"Stop",send:"Send",mic:"Speak",close:"Close",open:"Open the Sunny agent",clear:"New chat",
+    speakOn:"Read replies aloud",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"This browser can't use the microphone here. Please type your message.",micDenied:"The microphone is blocked. Allow it in the browser settings or type instead.",
+    err:"I couldn't answer right now. Please try again.",fallback:"I couldn't reach the AI just now, so I answered in offline mode.",
+    hello:"Hi! I'm **Sunny** ☀️ Tell me what you want and I'll do it for you. For example: *“20 days from Lisbon to Italy in May, 3 of us”*.\n\nI can also change nights, open days, log expenses, find flight and hotel prices and answer questions about the trip.",
+    chipsNo:["✈️ 15 days in Italy in May, 2 people","🏖️ 10 beach days in Greece in July, a couple","🇯🇵 3 weeks in Japan in April, 4 people, budget"],
+    chipsTrip:c=>[`🌙 One more night in ${c}`,"📅 What do I do tomorrow?","💶 I spent 40 euros on dinner","🔎 Hotel prices"]},
+  es:{name:"Sunny",sub:"Tu agente de viajes",ph:"Escribe o toca el micrófono…",listen:"Escuchando… habla",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Hablar",close:"Cerrar",open:"Abrir el agente Sunny",clear:"Nueva conversación",
+    speakOn:"Leer respuestas en voz alta",bC:"Agente de viajes · Claude",bP:"Agente de viajes · online",bL:"Agente de viajes · sin conexión",noMic:"Este navegador no permite usar el micrófono aquí. Escribe tu mensaje.",micDenied:"El micrófono está bloqueado. Permítelo en el navegador o escribe.",
+    err:"No pude responder ahora. Inténtalo de nuevo.",fallback:"No pude hablar con la IA ahora, así que respondí en modo sin conexión.",
+    hello:"¡Hola! Soy **Sunny** ☀️ Dime qué quieres y lo hago por ti. Por ejemplo: *“20 días de Madrid a Italia en mayo, vamos 3”*.\n\nTambién cambio noches, abro días, anoto gastos, cotizo vuelos y hoteles y respondo dudas del viaje.",
+    chipsNo:["✈️ 15 días en Italia en mayo, 2 personas","🏖️ 10 días de playa en Grecia en julio, pareja","🇯🇵 3 semanas en Japón en abril, 4 personas, económico"],
+    chipsTrip:c=>[`🌙 Una noche más en ${c}`,"📅 ¿Qué hago mañana?","💶 Gasté 40 euros en una cena","🔎 Cotizar hoteles"]}};
+const AT=k=>(AGTX[AGL()]||AGTX.pt)[k];
+const agSay={ // frases das ações (no idioma do app)
+  pt:{mk:"Montando a viagem",mkd:"Viagem criada",nt:"Ajustando as noites",ntd:"Noites ajustadas",op:"Abrindo",add:"Programa do dia atualizado",exp:"Gasto lançado",q:"Links de preço prontos",cfg:"Ajustes salvos",day:"Lendo o dia"},
+  en:{mk:"Building the trip",mkd:"Trip created",nt:"Adjusting nights",ntd:"Nights adjusted",op:"Opening",add:"Day plan updated",exp:"Expense logged",q:"Price links ready",cfg:"Settings saved",day:"Reading the day"},
+  es:{mk:"Armando el viaje",mkd:"Viaje creado",nt:"Ajustando noches",ntd:"Noches ajustadas",op:"Abriendo",add:"Plan del día actualizado",exp:"Gasto anotado",q:"Enlaces de precios listos",cfg:"Ajustes guardados",day:"Leyendo el día"}};
+const AS=k=>(agSay[AGL()]||agSay.pt)[k];
+
+/* ---------- lugares: países e cidades em qualquer idioma ---------- */
+let _AGC=null,_AGX=null;
+const AG_ALIAS={US:["eua","usa","estados unidos","united states","america"],GB:["inglaterra","england","reino unido","uk","escocia","scotland","gra bretanha","great britain"],NL:["holanda","holland","paises baixos"],CZ:["tchequia","republica tcheca","czech republic","chequia","republica checa"],KR:["coreia","coreia do sul","korea","south korea","corea","corea del sur"],AE:["emirados","emirates","emiratos"],ZA:["africa do sul","south africa","sudafrica"],DO:["republica dominicana","dominican republic"],BA:["bosnia"],VA:["vaticano","vatican"]};
+function agCountries(){ if(_AGC) return _AGC; _AGC=[];
+  for(const cc of Object.keys(GEO)){ const ns=new Set([...["pt","en","es"].map(L=>norm(countryNameL(cc,L)).replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()),...(AG_ALIAS[cc]||[])]); ns.forEach(n=>{ if(n&&n.length>2&&n!==cc.toLowerCase()) _AGC.push([n,cc]); }); }
+  _AGC.sort((a,b)=>b[0].length-a[0].length); return _AGC; }
+function agCityIndex(){ if(_AGX) return _AGX; _AGX=new Map();
+  for(const cc of Object.keys(GEO)) for(const c of citiesOf(cc)){ for(const nm of [c.name,c.nome,...(c.pop>=150?c.alts:[])]){ const k=norm(nm).replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim(); if(!k) continue; const o=_AGX.get(k); if(!o||c.score>o.score) _AGX.set(k,c); } }
+  return _AGX; }
+const agClean=s=>" "+norm(s).replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()+" ";
+function agCountryIn(s){ const n=agClean(s); for(const [k,cc] of agCountries()) if(n.includes(" "+k+" ")) return cc; return null; }
+function agPlace(str,prefer){ // -> {cc} país | {city} cidade | null
+  const k=agClean(str).trim(); if(!k) return null;
+  const cc=agCountries().find(([n])=>n===k); if(cc) return {cc:cc[1]};
+  const c=agCityIndex().get(k); if(c) return {city:c};
+  const s=searchAllCities(str,1,prefer)[0]; if(s) return {city:s};
+  const cc2=agCountryIn(str); return cc2?{cc:cc2}:null; }
+const agMeta=c=>({name:c.name,nome:c.nome,cc:c.cc,lat:c.lat,lon:c.lon,code:c.code||""});
+const agCapital=cc=>{ const nm=HOME_CITY[cc]; return (nm&&citiesOf(cc).find(x=>x.name===nm))||[...citiesOf(cc)].sort((a,b)=>b.pop-a.pop)[0]; };
+
+/* ---------- ações (as mesmas para Claude, servidor e modo offline) ---------- */
+function agTripSummary(T){ if(!T) return null; const tot=T.orcamento.itens.reduce((a,i)=>a+i[1],0);
+  return {titulo:tr(T.titulo),ida:T.ida,volta:T.volta,origem:T.orig,cidades:T.cidades.map(c=>`${tr(c.nome)}: ${c.noites}`),viajantes:T.viajantes.map(v=>tr(v.nome)+(v.tipo==="pet"?" (pet)":"")),
+    estimativa:inCur(tot,S.cur),orcamento:T.budget?`${money(T.budget.valor,T.budget.moeda)} (${T.budget.ok?"ok":"acima"})`:null}; }
+function agState(){ const T=S.trip; const o={hoje:todayISO(),idioma:AGL(),moeda:S.cur,saida_padrao:origOf(S.form).nome,tela:S.view==="trip"?(S.dayOpen?`dia ${S.day+1}`:S.tab):S.view,
+  viagens_salvas:S.trips.map((t,i)=>`${i+1}. ${t.titulo} (${t.ida} a ${t.volta})`)};
+  if(T){ o.viagem_aberta=agTripSummary(T); o.dias=T.dias.map((d,i)=>`${i+1}. ${d.data} ${d.cidade}: ${d.titulo}`); o.gastos_lancados=T.gastos.length; }
+  return o; }
+function agRebalance(F,ids,fixed){ // mantém o total de noites, tirando/pondo nas outras cidades
+  const E=E_of(F,ids); let dif=E-noitesSum(F,ids); const others=ids.filter(id=>!fixed.includes(id));
+  let guard=200; while(dif!==0&&guard-->0&&others.length){ others.sort((a,b)=>dif<0?(F.noites[b]-F.noites[a]):(F.noites[a]-F.noites[b]));
+    const id=others.find(x=>dif>0||F.noites[x]>1); if(!id) break; F.noites[id]+=dif>0?1:-1; dif+=dif>0?-1:1; }
+  return dif===0; }
+async function agCreateTrip(a){
+  const F={paises:[],cidades:[],gx:{},ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"],modo:"sug",bmode:"estilo"};
+  const home=(S.home&&S.home.cc)||"BR"; const notes=[];
+  if(a.origin){ const p=agPlace(String(a.origin),home); if(p&&p.city) F.origemCity=agMeta(p.city); else if(p&&p.cc){ const c=agCapital(p.cc); if(c) F.origemCity=agMeta(c); } else notes.push(`origem "${a.origin}" não encontrada; usei ${origOf(S.form).nome}`); }
+  if(!F.origemCity&&S.form&&S.form.origemCity) F.origemCity=S.form.origemCity;
+  if(a.return_to){ const p=agPlace(String(a.return_to),home); const c=p&&(p.city||agCapital(p.cc)); if(c) F.voltaCity=agMeta(c); }
+  const dests=[].concat(a.destinations||[]).map(String).filter(Boolean); if(!dests.length) throw new Error("Falta o destino (cidades ou países).");
+  const wantCC=[], picked=[];
+  dests.forEach(d=>{ const p=agPlace(d,F.paises[0]); if(!p){ notes.push(`não achei "${d}"`); return; }
+    if(p.cc){ if(!wantCC.includes(p.cc)) wantCC.push(p.cc); if(!F.paises.includes(p.cc)) F.paises.push(p.cc); }
+    else { const c=p.city; if(!F.paises.includes(c.cc)) F.paises.push(c.cc); if(!F.cidades.includes(c.id)){ F.cidades.push(c.id); if(!KB[c.id]||KB[c.id].generic) F.gx[c.id]=gmeta(c); picked.push(c.cc); } } });
+  if(!F.paises.length) throw new Error("Não encontrei esses destinos: "+dests.join(", "));
+  // datas
+  const ymd=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||""))?String(s):"";
+  let ida=ymd(a.start_date), volta=ymd(a.end_date); const days=Math.round(+a.days||0);
+  if(!ida){ ida=addDays(todayISO(),60); }
+  if(ida<todayISO()) ida=addDays(todayISO(),1);
+  if(!volta) volta=addDays(ida,Math.max(4,(days||10))-1+((days&&a.days_are_nights)?1:0));
+  let N=nightsBetween(ida,volta); if(N<4){ volta=addDays(ida,4); N=4; notes.push("ajustei para o mínimo de 4 noites"); } if(N>35){ volta=addDays(ida,35); notes.push("o app monta até 35 noites; ajustei para 35"); }
+  F.ida=ida; F.volta=volta;
+  // pessoas
+  F.adultos=Math.max(0,Math.round(a.adults!=null?+a.adults:2)); F.idosos=Math.max(0,Math.round(+a.seniors||0)); F.idades=[].concat(a.children_ages||[]).map(x=>Math.max(0,Math.min(17,Math.round(+x||0))));
+  if(F.adultos+F.idosos<1) F.adultos=1;
+  if(a.pet_name){ F.pet=true; F.petNome=String(a.pet_name).slice(0,20); }
+  if(a.pace&&["Tranquilo","Equilibrado","Intenso"].includes(a.pace)) F.ritmo=a.pace;
+  const IN=INTER.map(x=>x[0]); const ints=[].concat(a.interests||[]).filter(x=>IN.includes(x)); if(ints.length) F.inter=ints; if(F.idades.length&&!F.inter.includes("Com crianças")) F.inter.push("Com crianças");
+  if(a.free_days) F.modo="meu";
+  if(+a.budget>0){ F.bmode="valor"; F.budget=String(Math.round(+a.budget)); F.bmoeda=String(a.budget_currency||S.cur).toUpperCase().slice(0,3); F.bvoo=a.budget_includes_flights!==false; }
+  else { F.bmode="estilo"; F.orc=TIERS.includes(a.style)?a.style:"Médio"; }
+  // cidades sugeridas para países sem cidade escolhida
+  const noCity=F.paises.filter(cc=>!picked.includes(cc));
+  if(noCity.length){ const share=Math.max(4,Math.round(N*noCity.length/F.paises.length)); suggestWorld(noCity,share,[origOf(F),...F.cidades.map(id=>KB[id]||F.gx[id]).filter(Boolean)]).forEach(c=>{ if(!F.cidades.includes(c.id)){ F.cidades.push(c.id); if(c.cc&&!KB[c.id]) F.gx[c.id]=gmeta(c); } }); }
+  const ids=prepCities(F); if(!ids.length) throw new Error("Não consegui montar cidades para esse destino.");
+  // noites pedidas
+  F.noites=defaultNoites(F);
+  if(a.nights_per_city&&typeof a.nights_per_city==="object"){ const fixed=[]; Object.entries(a.nights_per_city).forEach(([k,v])=>{ const p=agPlace(k,F.paises[0]); const id=p&&p.city&&ids.find(x=>x===p.city.id||norm(KB[x].nome)===norm(p.city.nome)||norm(KB[x].gname||"")===norm(p.city.name)); if(id){ F.noites[id]=Math.max(0,Math.round(+v||0)); fixed.push(id); } });
+    if(fixed.length&&!agRebalance(F,ids,fixed)){ F.noites=defaultNoites(F); notes.push("as noites pedidas não fecham com as datas; usei a divisão sugerida"); } }
+  S.form=JSON.parse(JSON.stringify(F)); save();
+  await enrichAll(ids,F);
+  const T=generate(F,ids); S.trips.unshift(T); AG.keepOpen=true; openTrip(0);
+  return {ok:true,...agTripSummary(T),avisos:notes};
+}
+function agCityId(T,name){ const p=agPlace(String(name||""),KB[T.cityIds[0]].pais); if(!p||!p.city) { const n=norm(name); return T.cityIds.find(id=>norm(KB[id].nome).includes(n)||norm(KB[id].gname||"").includes(n)); }
+  return T.cityIds.find(id=>id===p.city.id||norm(KB[id].nome)===norm(p.city.nome)||norm(KB[id].gname||"")===norm(p.city.name)); }
+function agNeedTrip(){ if(!S.trip) throw new Error("Nenhuma viagem aberta. Abra uma viagem ou crie uma nova."); return S.trip; }
+function agSetNights(a){
+  const T=agNeedTrip(); if(!T.form) throw new Error("Esta viagem veio de reservas importadas; ajuste as noites pelo botão Ajustar noites.");
+  const id=agCityId(T,a.city); if(!id) throw new Error(`"${a.city}" não está nesta viagem. Cidades: ${T.cidades.map(c=>c.nome).join(", ")}`);
+  const nf=JSON.parse(JSON.stringify(T.form)); nf.noites={}; prepCities(nf).forEach(x=>nf.noites[x]=0); T.cityIds.forEach((x,i)=>nf.noites[x]=T.cidades[i].noites);
+  const ids=prepCities(nf); const cur=nf.noites[id]||0; const want=Math.max(0,Math.round(a.nights!=null?+a.nights:cur+(+a.delta||0)));
+  if(a.extend_trip){ nf.volta=addDays(nf.volta,want-cur); nf.noites[id]=want; }
+  else { nf.noites[id]=want; if(!agRebalance(nf,ids,[id])) throw new Error("Não dá para mudar sem alterar as datas. Posso aumentar a viagem (extend_trip)."); }
+  const T2=generate(nf,ids); T2.id=T.id; T2.gastos=T.gastos; T2.checks=T.checks; if(T.viajantes.length===T2.viajantes.length) T2.viajantes=T.viajantes;
+  S.trips[S.ti]=T2; S.trip=T2; S.view="trip"; S.tab="roteiro"; S.dayOpen=false; save(); render();
+  return {ok:true,cidades:T2.cidades.map(c=>`${tr(c.nome)}: ${c.noites}`),ida:T2.ida,volta:T2.volta};
+}
+function agOpen(a){
+  const sc=String(a.screen||"").toLowerCase();
+  if(a.trip_number){ const i=Math.round(+a.trip_number)-1; if(!S.trips[i]) throw new Error("Essa viagem não existe."); AG.keepOpen=true; openTrip(i); }
+  if(sc==="home"){ S.view="home"; S.trip=null; S.ti=null; render(); return {ok:true,tela:"inicio do app"}; }
+  if(sc==="settings"){ S.cfgBack=S.view; S.view="cfg"; render(); return {ok:true,tela:"ajustes"}; }
+  if(sc==="new_trip"){ S.view="wz"; S.wz=0; render(); return {ok:true,tela:"assistente de nova viagem"}; }
+  if(sc==="import"){ S.imp={back:S.view}; S.view="imp"; render(); return {ok:true,tela:"importar reservas"}; }
+  const T=agNeedTrip(); S.view="trip";
+  if(sc==="day"){ let d=Math.round(+a.day||0); if(a.date){ const k=T.dias.findIndex(x=>x.data===a.date); if(k>=0) d=k+1; } if(d<1||d>T.dias.length) throw new Error(`Dia inválido (1 a ${T.dias.length}).`); S.tab="roteiro"; S.day=d-1; S.dayOpen=true; S.dayEdit=false; }
+  else { const tab={overview:"inicio",inicio:"inicio",itinerary:"roteiro",calendar:"roteiro",roteiro:"roteiro",costs:"custos",custos:"custos",bag:"mala",mala:"mala",guide:"guia",guia:"guia"}[sc]||"inicio"; S.tab=tab; S.dayOpen=false; if(sc==="calendar") S.rv="cal"; }
+  render(); window.scrollTo(0,0); return {ok:true,tela:S.dayOpen?`dia ${S.day+1}`:S.tab};
+}
+function agDay(a){ const T=agNeedTrip(); let i=Math.round(+a.day||0)-1; if(a.date){ const k=T.dias.findIndex(x=>x.data===a.date); if(k>=0) i=k; } const d=T.dias[i]; if(!d) throw new Error(`Dia inválido (1 a ${T.dias.length}).`);
+  const w=typeof wxFor==="function"?wxFor(d):null; const hol=holidaysOn(T,d.data,d.cidade);
+  return {dia:i+1,data:d.data,cidade:tr(d.cidade),titulo:tr(d.titulo),tipo:d.tipo,programa:d.itens.map(([h,t])=>`${tr(h)}: ${tr(t)}`),dica:d.dica?tr(d.dica):null,clima:w?`${Math.round(w.max)}°/${Math.round(w.min)}°, chuva ${Math.round(w.chance)}%${w.live?"":" (média histórica)"}`:null,feriado:hol.map(h=>h.n),reservas:resForDay(T,d.data).map(r=>r.t)}; }
+function agAddActivity(a){ const T=agNeedTrip(); const i=Math.round(+a.day||0)-1; const d=T.dias[i]; if(!d) throw new Error(`Dia inválido (1 a ${T.dias.length}).`);
+  const txt=String(a.text||"").trim().slice(0,160); if(!txt) throw new Error("Falta o que adicionar.");
+  if(a.remove){ const n=norm(txt); const before=d.itens.length; d.itens=d.itens.filter(([,t])=>!norm(t).includes(n)); if(d.itens.length===before) throw new Error("Não achei esse item no dia."); }
+  else addToDay(d,txt);
+  persistTrip(); S.view="trip"; S.tab="roteiro"; S.day=i; S.dayOpen=true; render(); return {ok:true,dia:i+1,programa:d.itens.map(([h,t])=>`${h}: ${t}`)}; }
+const AG_CAT={flights:0,hotel:1,transport:2,food:3,tours:4,shopping:5};
+function agExpense(a){ const T=agNeedTrip(); const v=+String(a.amount).replace(",","."); if(!(v>0)) throw new Error("Valor inválido.");
+  const P=people(), PY=payers(); const who=n=>{ const k=norm(n||""); const p=P.find(x=>norm(x.nome)===k)||P.find(x=>k&&norm(x.nome).includes(k)); return p?p.i:null; };
+  const pag=who(a.paid_by); const entre=[].concat(a.split_with||[]).map(who).filter(x=>x!=null);
+  const g={id:"g"+Date.now(),desc:String(a.description||"Gasto").slice(0,60),valor:Math.round(v*100)/100,moeda:String(a.currency||S.cur).toUpperCase().slice(0,3),cat:CAT[AG_CAT[a.category]!=null?AG_CAT[a.category]:5],pagou:pag!=null?pag:(PY[0]||P[0]).i,entre:entre.length?entre:PY.map(p=>p.i)};
+  T.gastos.push(g); persistTrip(); S.view="trip"; S.tab="custos"; S.dayOpen=false; render();
+  const st=T.gastos.reduce((s,x)=>s+toEUR(x),0); return {ok:true,lancado:`${g.desc} ${money2(g.valor,g.moeda)}`,pagou:tr(T.viajantes[g.pagou].nome),dividido_entre:g.entre.length,total_gasto:inCur(st,S.cur)}; }
+function agQuotes(a){ const T=agNeedTrip(); const what=String(a.what||"all"); const p=pax(T), n=p.adults+p.kids.length, st=stays(T); const L=[];
+  const only=a.city?agCityId(T,a.city):null; const fs=s=>!only||s.id===only;
+  if(what==="all"||what==="flights"){ L.push({label:`✈️ ${T.orig} → ${iataOf(T.cityIds[0])} · ${fmtD(T.ida)}`,url:gfUrl(T.orig,iataOf(T.cityIds[0]),T.ida,null,n)}); const last=T.cityIds[T.cityIds.length-1]; L.push({label:`✈️ ${iataOf(last)} → ${T.origV||T.orig} · ${fmtD(T.volta)}`,url:gfUrl(iataOf(last),T.origV||T.orig,T.volta,null,n)}); }
+  if(what==="all"||what==="hotels") st.filter(fs).forEach(s=>L.push({label:`🏨 ${tr(s.nome)} · ${fmtD(s.ci)}–${fmtD(s.co)}`,url:bookingUrl(T,s)}));
+  if(what==="all"||what==="transport") T.cityIds.slice(1).forEach((id,i)=>{ const a2=T.cityIds[i]; L.push({label:`🚆 ${tr(KB[a2].nome)} → ${tr(KB[id].nome)}`,url:leg(a2,id).tipo==="voo"?gfUrl(iataOf(a2),iataOf(id),st[i+1].ci,null,n):r2rUrl(a2,id)}); });
+  if(what==="all"||what==="tours") st.filter(fs).forEach(s=>L.push({label:`🎟️ ${tr(s.nome)}`,url:gygUrl(s)}));
+  if(AG.turn) AG.turn.links.push(...L.slice(0,10));
+  return {ok:true,links_mostrados_como_botoes:L.length,observacao:"Os botões com os links já aparecem abaixo da sua resposta; não repita as URLs."}; }
+function agPrefs(a){ const out={};
+  if(a.language&&["pt","en","es"].includes(a.language)){ S.lang=a.language; out.idioma=a.language; }
+  if(a.currency&&/^[A-Z]{3}$/.test(String(a.currency).toUpperCase())){ S.cur=String(a.currency).toUpperCase(); out.moeda=S.cur; }
+  if(a.theme&&["auto","light","dark"].includes(a.theme)){ S.theme=a.theme; out.tema=a.theme; }
+  save(); render(); agRender(); return {ok:true,...out}; }
+const AG_TOOLS=[
+  {name:"create_trip",act:"mk",done:"mkd",description:"Creates a new trip in the app and opens it (builds itinerary day by day, budget, packing list). Call it as soon as you know the destination; use sensible defaults for anything missing (2 adults, departure = user's default city, ~10 days, start ~2 months from today). Returns the trip summary.",
+    inputSchema:{type:"object",properties:{origin:{type:"string",description:"Departure city (or country)"},return_to:{type:"string",description:"Only if returning to a different city"},destinations:{type:"array",items:{type:"string"},description:"Cities and/or countries, any language. A country alone lets the app pick its best cities."},start_date:{type:"string",description:"YYYY-MM-DD"},end_date:{type:"string",description:"YYYY-MM-DD (return flight date)"},days:{type:"integer",description:"Trip length in days, if no end_date"},adults:{type:"integer"},seniors:{type:"integer",description:"People 60+"},children_ages:{type:"array",items:{type:"integer"}},pet_name:{type:"string"},budget:{type:"number",description:"Total budget for the whole group"},budget_currency:{type:"string",description:"ISO code, e.g. BRL, EUR, USD"},budget_includes_flights:{type:"boolean"},style:{type:"string",enum:["Conforto","Médio","Econômico","Super econômico"]},pace:{type:"string",enum:["Tranquilo","Equilibrado","Intenso"]},interests:{type:"array",items:{type:"string",enum:["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"]}},nights_per_city:{type:"object",description:"Optional {city: nights}",additionalProperties:{type:"integer"}},free_days:{type:"boolean",description:"true = leave days empty for the user to fill"}},required:["destinations"]},
+    run:agCreateTrip},
+  {name:"set_nights",act:"nt",done:"ntd",description:"Changes how many nights the open trip spends in one city and rebuilds the itinerary. By default keeps the same flight dates (takes/gives nights from other cities); extend_trip=true moves the return date instead.",
+    inputSchema:{type:"object",properties:{city:{type:"string"},nights:{type:"integer",description:"New total nights in that city"},delta:{type:"integer",description:"Or +1/-1 relative change"},extend_trip:{type:"boolean"}},required:["city"]},run:agSetNights},
+  {name:"open_screen",act:"op",description:"Navigates the app. screen: home | new_trip | import | settings | overview | itinerary | calendar | day | costs | bag | guide. For 'day' pass day (1-based) or date.",
+    inputSchema:{type:"object",properties:{screen:{type:"string"},day:{type:"integer"},date:{type:"string"},trip_number:{type:"integer",description:"Open a saved trip (1-based)"}},required:["screen"]},run:agOpen},
+  {name:"get_day",act:"day",description:"Returns the full plan of one day of the open trip: schedule, tip, weather, holiday, reservations.",
+    inputSchema:{type:"object",properties:{day:{type:"integer"},date:{type:"string"}}},run:agDay},
+  {name:"edit_day",act:"add",description:"Adds an activity to a day of the open trip (or removes one with remove=true) and opens that day.",
+    inputSchema:{type:"object",properties:{day:{type:"integer"},text:{type:"string"},remove:{type:"boolean"}},required:["day","text"]},run:agAddActivity},
+  {name:"add_expense",act:"exp",description:"Logs a real expense in the open trip, split among travellers.",
+    inputSchema:{type:"object",properties:{description:{type:"string"},amount:{type:"number"},currency:{type:"string"},category:{type:"string",enum:["flights","hotel","transport","food","tours","shopping"]},paid_by:{type:"string"},split_with:{type:"array",items:{type:"string"}}},required:["description","amount"]},run:agExpense},
+  {name:"price_links",act:"q",description:"Shows buttons with live-price searches (Google Flights, Booking, Rome2Rio, GetYourGuide) already filled with the trip dates and people. Use it whenever the user asks for prices or to book.",
+    inputSchema:{type:"object",properties:{what:{type:"string",enum:["all","flights","hotels","transport","tours"]},city:{type:"string"}}},run:agQuotes},
+  {name:"set_preferences",act:"cfg",description:"Changes app language (pt, en, es), display currency (ISO code) or theme (auto, light, dark).",
+    inputSchema:{type:"object",properties:{language:{type:"string"},currency:{type:"string"},theme:{type:"string"}}},run:agPrefs}];
+
+const AG_RULES=()=>`You are Sunny, the AI travel agent inside the "Sunny Trip" app. You can act inside the app with your tools: create trips, change nights per city, open screens and days, edit day plans, log expenses, show price links and change settings.
+Rules:
+- Reply in ${({pt:"Portuguese (Brazil)",en:"English",es:"Spanish"})[AGL()]}. Be warm and brief: 1–4 short sentences, plain text, at most a short "- " list. You may use **bold**. No tables, no URLs.
+- When the user wants something the tools can do, DO IT right away with the tools instead of explaining. Use sensible defaults and mention them; ask at most one short question, only if the destination is missing.
+- Dates: today is ${todayISO()}. Resolve relative dates ("em maio", "next month") to future dates. "20 dias" = days:20.
+- After acting, say in one sentence what changed and suggest one next step.
+- Never invent prices, schedules or availability; for prices call price_links. For deleting a trip, tell the user to use the trash icon.
+- The app state below is current; trust it over the chat history.`;
+
+/* ---------- execução de ferramenta com recibo na conversa ---------- */
+async function agRun(name,input){
+  const t=AG_TOOLS.find(x=>x.name===name); if(!t) throw new Error("Ferramenta desconhecida");
+  const SCN={pt:{home:"início",new_trip:"nova viagem",import:"reservas",settings:"ajustes",overview:"resumo",itinerary:"roteiro",calendar:"calendário",day:"dia",costs:"custos",bag:"mala",guide:"guia"},en:{home:"home",new_trip:"new trip",import:"bookings",settings:"settings",overview:"overview",itinerary:"itinerary",calendar:"calendar",day:"day",costs:"costs",bag:"bag",guide:"guide"},es:{home:"inicio",new_trip:"nuevo viaje",import:"reservas",settings:"ajustes",overview:"resumen",itinerary:"itinerario",calendar:"calendario",day:"día",costs:"costos",bag:"maleta",guide:"guía"}}[AGL()]; const sc=input&&input.screen; const act={e:"⏳",t:AS(t.act)+(name==="open_screen"&&sc?` · ${(SCN[sc]||sc)}${sc==="day"&&input.day?" "+input.day:""}`:"")}; if(AG.turn){ AG.turn.acts.push(act); agPaint(); }
+  try{ const r=await t.run(input||{}); act.e="✓"; if(t.done) act.t=AS(t.done); if(name==="create_trip"&&r.titulo) act.t+=` · ${r.titulo}`; agPaint(); return r; }
+  catch(e){ act.e="⚠️"; act.t+=` · ${e.message||e}`; agPaint(); throw e; }
+}
+
+/* ---------- cérebro 1: Claude (dentro do Claude) ---------- */
+async function agClaude(hist,onText,signal){
+  const tools=AG_TOOLS.map(t=>({name:t.name,description:t.description,inputSchema:t.inputSchema,execute:(inp)=>agRun(t.name,inp)}));
+  const turns=[{role:"user",content:AG_RULES()},...hist.slice(0,-1)];
+  const last=hist[hist.length-1];
+  turns.push({role:"user",content:`[App state]\n${JSON.stringify(agState())}\n\n[User]\n${last.content}`});
+  const r=await AG.sample(turns,{tools,onText:({text})=>onText(text),signal,cache:false,modelTier:"quick"});
+  return r.text;
+}
+/* ---------- cérebro 2: servidor próprio (proxy da API Messages) ---------- */
+async function agProxy(hist,onText,signal){
+  const msgs=hist.map((m,i)=>i===hist.length-1?{role:"user",content:`[App state]\n${JSON.stringify(agState())}\n\n[User]\n${m.content}`}:m);
+  let full=""; const tools=AG_TOOLS.map(t=>({name:t.name,description:t.description,input_schema:t.inputSchema}));
+  for(let round=0;round<6;round++){
+    const res=await fetch(S.agUrl,{method:"POST",signal,headers:{"content-type":"application/json"},body:JSON.stringify({model:S.agModel||"claude-haiku-5-5",max_tokens:1200,stream:true,system:AG_RULES(),tools,messages:msgs})});
+    if(!res.ok||!res.body) throw {code:"upstream_error",message:"HTTP "+res.status};
+    const rd=res.body.getReader(), dec=new TextDecoder(); let buf="", blocks=[], stop=null;
+    for(;;){ const {done,value}=await rd.read(); if(done) break; buf+=dec.decode(value,{stream:true}); let k;
+      while((k=buf.indexOf("\n\n"))>=0){ const ev=buf.slice(0,k); buf=buf.slice(k+2); const line=ev.split("\n").find(l=>l.startsWith("data:")); if(!line) continue; let j; try{ j=JSON.parse(line.slice(5)); }catch(e){ continue; }
+        if(j.type==="content_block_start"){ const b={...j.content_block}; if(b.type==="tool_use") b._json=""; blocks[j.index]=b; }
+        else if(j.type==="content_block_delta"){ const b=blocks[j.index]; if(j.delta.type==="text_delta"){ b.text=(b.text||"")+j.delta.text; full+=j.delta.text; onText(full); } else if(j.delta.type==="input_json_delta") b._json+=j.delta.partial_json; }
+        else if(j.type==="message_delta"&&j.delta) stop=j.delta.stop_reason||stop;
+        else if(j.type==="error") throw {code:"upstream_error",message:j.error&&j.error.message}; } }
+    blocks=blocks.filter(Boolean).map(b=>{ if(b.type==="tool_use"){ let inp={}; try{ inp=b._json?JSON.parse(b._json):(b.input||{}); }catch(e){} return {type:"tool_use",id:b.id,name:b.name,input:inp}; } return {type:"text",text:b.text||""}; }).filter(b=>b.type!=="text"||b.text);
+    msgs.push({role:"assistant",content:blocks});
+    const uses=blocks.filter(b=>b.type==="tool_use"); if(stop!=="tool_use"||!uses.length) break;
+    const results=[]; for(const u of uses){ try{ const r=await agRun(u.name,u.input); results.push({type:"tool_result",tool_use_id:u.id,content:JSON.stringify(r).slice(0,30000)}); }catch(e){ results.push({type:"tool_result",tool_use_id:u.id,is_error:true,content:"Error: "+(e.message||e)}); } }
+    msgs.push({role:"user",content:results}); if(full) { full+="\n\n"; }
+  }
+  return full.trim();
+}
+/* ---------- cérebro 3: modo offline (entende pedidos comuns) ---------- */
+const AG_MON={jan:0,janeiro:0,january:0,enero:0,fev:1,fevereiro:1,february:1,febrero:1,mar:2,marco:2,march:2,marzo:2,abr:3,abril:3,april:3,mai:4,maio:4,may:4,mayo:4,jun:5,junho:5,june:5,junio:5,jul:6,julho:6,july:6,julio:6,ago:7,agosto:7,august:7,set:8,setembro:8,september:8,septiembre:8,sep:8,out:9,outubro:9,october:9,octubre:9,oct:9,nov:10,novembro:10,november:10,noviembre:10,dez:11,dezembro:11,december:11,diciembre:11,dic:11,dec:11};
+const AG_NUM={um:1,uma:1,one:1,un:1,una:1,dois:2,duas:2,two:2,dos:2,tres:3,three:3,quatro:4,four:4,cuatro:4,cinco:5,five:5,seis:6,six:6,sete:7,seven:7,siete:7,oito:8,eight:8,ocho:8,nove:9,nine:9,nueve:9,dez:10,ten:10,diez:10,quinze:15,fifteen:15,quince:15,vinte:20,twenty:20,veinte:20,trinta:30,thirty:30,treinta:30};
+const AG_STOP=new Set("para pra por com sem dias dia mais menos uma umas um uns que quero queria vamos ir viagem viajar roteiro casal pessoas pessoa amigos familia filhos meu minha nos nós the and with for days day trip travel want people from to in on de del la las los el en con por quiero viaje dias semana semanas mes maio junho julho agosto marco abril janeiro fevereiro setembro outubro novembro dezembro may june july august march april january february september october november december praia beach playa natal ano novo cidade cidades centro sol mar santa santo sao".split(" "));
+const agN=w=>/^\d+$/.test(w)?+w:AG_NUM[w];
+function agFindPlaces(q){ // varre o texto procurando países e cidades
+  const words=agClean(q).trim().split(" "); const used=new Array(words.length).fill(false); const out=[];
+  for(let L=4;L>=1;L--) for(let i=0;i+L<=words.length;i++){ if(used.slice(i,i+L).some(Boolean)) continue; const g=words.slice(i,i+L).join(" ");
+    if(L===1&&(AG_STOP.has(g)||g.length<4||/^\d/.test(g))) continue;
+    const cc=agCountries().find(([n])=>n===g);
+    let hit=cc?{cc:cc[1]}:null;
+    if(!hit){ const c=agCityIndex().get(g); if(c&&(c.pop>=60||(KB[c.id]&&!KB[c.id].generic))&&!AG_STOP.has(g)) hit={city:c}; }
+    if(hit){ for(let k=i;k<i+L;k++) used[k]=true; out.push({...hit,pos:i,txt:g,before:words.slice(Math.max(0,i-2),i).join(" ")}); } }
+  return out.sort((a,b)=>a.pos-b.pos); }
+function agParseTrip(q){
+  const n=agClean(q); const places=agFindPlaces(q); if(!places.length) return null;
+  const a={destinations:[]}; let origin=null;
+  places.forEach((p,i)=>{ const isOrig=/(saindo|partindo|saliendo|from|desde)( de| do| da| del)?$/.test(p.before)||(/(^| )(de|do|da|from|desde)$/.test(p.before)&&places[i+1]&&/ (para|pra|a|ao|à|até|ate|to|hacia|rumo) /.test(" "+n.slice(n.indexOf(p.txt)+p.txt.length,n.indexOf(places[i+1].txt))+" "));
+    if(isOrig&&!origin) origin=p; else a.destinations.push(p.city?p.city.name:countryNameL(p.cc,"en")); });
+  if(origin) a.origin=origin.city?origin.city.name:countryNameL(origin.cc,"en");
+  if(!a.destinations.length) return null;
+  let m=n.match(/ (\d+|\w+) (dias|days|dias|diaz|noites|nights|noches|semanas|semana|weeks|week) /);
+  if(m){ const k=agN(m[1])||(m[1]==="uma"||m[1]==="una"||m[1]==="a"||m[1]==="one"?1:null); if(k){ if(/seman|week/.test(m[2])) a.days=k*7; else if(/noit|night|noch/.test(m[2])) {a.days=k+1;} else a.days=k; } }
+  m=n.match(/ (\d+|\w+) (pessoas|pessoa|people|persons|personas|adultos|adults|viajantes|of us|de nosotros) /); if(m&&agN(m[1])) a.adults=agN(m[1]);
+  else if(/ (vamos|somos|we are|seremos|iremos|vamos a ser) (em |en |in )?(\d+|\w+) /.test(n)&&agN(n.match(/ (vamos|somos|we are|seremos|iremos|vamos a ser) (em |en |in )?(\d+|\w+) /)[3])){ a.adults=agN(n.match(/ (vamos|somos|we are|seremos|iremos|vamos a ser) (em |en |in )?(\d+|\w+) /)[3]); }
+  else if(/ (casal|couple|pareja|eu e minha|eu e meu|me and my|mi esposa|mi marido) /.test(n)) a.adults=2; else if(/ (sozinho|sozinha|alone|solo|sola) /.test(n)) a.adults=1;
+  m=n.match(/ (\d+|\w+) (criancas|crianca|filhos|filho|kids|children|ninos|hijos) /); if(m&&agN(m[1])){ a.children_ages=Array(agN(m[1])).fill(8); }
+  m=n.match(/ (\d+|\w+) (idosos|idoso|seniors|mayores) /); if(m&&agN(m[1])) a.seniors=agN(m[1]);
+  if(/ (sogra|sogro|avo|avó|grandma|grandpa|abuela|abuelo|suegra) /.test(n)) a.seniors=(a.seniors||0)+1;
+  if(a.adults&&a.seniors&&/(pessoas|people|personas)/.test(n)) a.adults=Math.max(1,a.adults-a.seniors);
+  if(/ (cachorro|cao|cachorra|gato|gata|pet|dog|cat|perro|perrita|chihuahua) /.test(n)) a.pet_name="Pet";
+  // datas: 20/12 a 02/01 | 20 de dezembro | em maio
+  const dm=[...q.matchAll(/(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?/g)]; const y0=+todayISO().slice(0,4);
+  const mk=(d,mo,y)=>{ let yy=y?(+y<100?2000+ +y:+y):y0; let iso=`${yy}-${String(mo+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`; if(!y&&iso<todayISO()) iso=`${yy+1}${iso.slice(4)}`; return iso; };
+  const dmy=(L)=>{ const p=L==="en"?[1,0]:[0,1]; return x=>[+x[1+p[0]],+x[1+p[1]]-1,x[3]]; };
+  if(dm.length){ const f=dmy(AGL()); const [d1,m1,y1]=f(dm[0]); if(m1>=0&&m1<12&&d1>=1&&d1<=31) a.start_date=mk(d1,m1,y1); if(dm[1]){ const [d2,m2,y2]=f(dm[1]); if(m2>=0&&m2<12) { a.end_date=mk(d2,m2,y2); if(a.end_date<a.start_date) a.end_date=mk(d2,m2,String(+a.start_date.slice(0,4)+1)); } } }
+  if(!a.start_date){ const mm=n.match(/ (\d{1,2}) (de )?([a-z]+) /); const mo=mm&&AG_MON[mm[3]]; if(mm&&mo!=null) a.start_date=mk(+mm[1],mo);
+    else { const m2=[...n.matchAll(/ (em|no|na|in|en|durante|para|pra|de|from) (?:o mes de |el mes de )?([a-z]+)(?= )/g)]; const hit=m2.map(x=>x[2]).find(w=>AG_MON[w]!=null&&(w.length>3||w==="may")); if(hit){ const mo2=AG_MON[hit]; let y=y0; if(`${y}-${String(mo2+1).padStart(2,"0")}-28`<todayISO()) y++; const d1=new Date(Date.UTC(y,mo2,1)); while(d1.getUTCDay()!==6) d1.setUTCDate(d1.getUTCDate()+1); a.start_date=d1.toISOString().slice(0,10); } } }
+  if(/ (natal|christmas|navidad) /.test(n)&&!a.start_date){ a.start_date=`${y0}-12-20`; if(a.start_date<todayISO()) a.start_date=`${y0+1}-12-20`; }
+  m=q.match(/(r\$|us\$|€|\$|£)\s*([\d.,]+)\s*(mil|k)?/i)||q.match(/([\d.,]+)\s*(mil|k)?\s*(reais|euros?|d[oó]lares|dollars|usd|eur|brl|libras|pounds|gbp)/i);
+  if(m){ const sym=(m[1]&&/[^\d.,]/.test(m[1])?m[1]:m[3]||"").toLowerCase(); const num=m[1]&&/[^\d.,]/.test(m[1])?m[2]:m[1]; const mult=(m[3]&&/mil|k/i.test(m[3]))||(m[2]&&/mil|k/i.test(m[2]))?1000:1;
+    a.budget=parseFloat(String(num).replace(/\.(?=\d{3})/g,"").replace(",","."))*mult; a.budget_currency=/r\$|reais|brl/.test(sym)?"BRL":/€|eur/.test(sym)?"EUR":/£|libra|pound|gbp/.test(sym)?"GBP":/\$|dol|usd/.test(sym)?(/us\$|usd|dol/.test(sym)?"USD":(S.cur==="BRL"?"USD":S.cur)):S.cur; }
+  if(/(econom|barat|cheap|budget|mochil|backpack)/.test(n)) a.style="Econômico"; if(/(luxo|luxury|lujo|conforto|comfort|confort)/.test(n)) a.style="Conforto";
+  if(/(tranquil|calma|relax|devagar|slow)/.test(n)) a.pace="Tranquilo"; if(/(intens|corrid|ver tudo|see everything|todo lo posible)/.test(n)) a.pace="Intenso";
+  const ints=[]; [["História",/(histor)/],["Arte e museus",/(museu|museo|museum|arte|art )/],["Gastronomia",/(gastro|comida|food|comer)/],["Natureza",/(natureza|nature|naturaleza|trilha|hike|montanha|mountain)/],["Praia",/(praia|beach|playa)/],["Vinho",/(vinho|wine|vino)/],["Compras",/(compras|shopping)/],["Vida noturna",/(balada|noite|nightlife|fiesta|bares)/]].forEach(([k,r])=>{ if(r.test(n)) ints.push(k); }); if(ints.length) a.interests=ints;
+  return a; }
+async function agLocal(text){
+  const q=text, n=agClean(q); const L=AGL(); const T=S.trip; const R={pt:{},en:{},es:{}};
+  const say=(pt,en,es)=>({pt,en,es})[L]||pt;
+  // idioma / moeda
+  const lg=/(em ingles|in english|en ingles)/.test(n)?"en":/(em espanhol|in spanish|en espanol)/.test(n)?"es":/(em portugues|in portuguese|en portugues)/.test(n)?"pt":null;
+  if(lg&&/(mude|muda|troque|change|switch|cambia|cambiar|fala|habla|speak|idioma|language|lingua)/.test(n)){ await agRun("set_preferences",{language:lg}); return ({pt:"Pronto! O app agora está em português.",en:"Done! The app is now in English.",es:"¡Listo! La app ahora está en español."})[lg]; }
+  // criar viagem
+  const wantsTrip=/(viagem|viajar|roteiro|ferias|trip|travel|vacation|holiday|itinerary|viaje|vacaciones|quero ir|queria ir|want to go|quiero ir| dias | days | semanas | weeks |planej|plan )/.test(n);
+  if(wantsTrip||!T){ const a=agParseTrip(q); if(a){ const r=await agRun("create_trip",a);
+      const ppl=(a.adults||2)+(a.seniors||0)+((a.children_ages||[]).length);
+      return say(`Pronto! Montei **${r.titulo}**, de ${fmtD(r.ida)} a ${fmtD(r.volta)}, para ${ppl} ${ppl>1?"pessoas":"pessoa"}: ${r.cidades.join(" · ")} noites. Estimativa: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nQuer que eu ajuste alguma cidade ou mostre os preços de voos e hotéis?`,
+        `Done! I built **${r.titulo}**, ${fmtD(r.ida)} to ${fmtD(r.volta)}, for ${ppl} ${ppl>1?"people":"person"}: ${r.cidades.join(" · ")} nights. Estimate: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nWant me to adjust a city or show flight and hotel prices?`,
+        `¡Listo! Armé **${r.titulo}**, del ${fmtD(r.ida)} al ${fmtD(r.volta)}, para ${ppl} ${ppl>1?"personas":"persona"}: ${r.cidades.join(" · ")} noches. Estimación: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\n¿Ajusto alguna ciudad o te muestro precios de vuelos y hoteles?`); }
+    if(!T) return say("Para onde vocês querem ir? Me diga o destino, quantos dias e quantas pessoas, por exemplo: *“12 dias em Portugal em setembro, 2 pessoas”*.","Where would you like to go? Tell me the destination, how many days and how many people, e.g. *“12 days in Portugal in September, 2 people”*.","¿A dónde quieren ir? Dime el destino, cuántos días y cuántas personas, por ejemplo: *“12 días en Portugal en septiembre, 2 personas”*."); }
+  // noites
+  let m=n.match(/ (mais|menos|one more|one less|extra|una noche mas|un dia mas|otro dia|otra noche|una noche menos|un dia menos) (um |uma |1 )?(dia|noite|day|night|dias|noites)? ?(em|no|na|in|en) ([a-z ]+?) $/)||n.match(/ (mais|menos) (um|uma|1) (dia|noite) (em|no|na) ([a-z ]+?) /)||n.match(/ (una noche mas|un dia mas|una noche menos|un dia menos|one more night|one more day|one less night|one less day) (en|in) ([a-z ]+?) /);
+  if(m){ const city=m[m.length-1].trim(); const minus=/(menos|less)/.test(m[0]); const ext=/(estend|aument|extend|alarg|sem tirar|without)/.test(n);
+    const r=await agRun("set_nights",{city,delta:minus?-1:1,extend_trip:ext});
+    return say(`Feito! Agora fica assim: ${r.cidades.join(" · ")} noites. As datas dos voos continuam as mesmas${ext?", mas a volta mudou para "+fmtD(r.volta):""}.`,`Done! Now it's: ${r.cidades.join(" · ")} nights.${ext?" Return moved to "+fmtD(r.volta)+".":" Flight dates stay the same."}`,`¡Hecho! Ahora queda: ${r.cidades.join(" · ")} noches.${ext?" La vuelta pasó al "+fmtD(r.volta)+".":" Las fechas de los vuelos siguen igual."}`); }
+  m=n.match(/ (\d+|\w+) (noites|nights|noches|dias|days) (em|no|na|in|en) ([a-z ]+?) /);
+  if(m&&agN(m[1])&&T){ const r=await agRun("set_nights",{city:m[4],nights:agN(m[1])}); return say(`Feito! ${r.cidades.join(" · ")} noites.`,`Done! ${r.cidades.join(" · ")} nights.`,`¡Hecho! ${r.cidades.join(" · ")} noches.`); }
+  // gasto
+  m=q.match(/(gastei|paguei|spent|paid|gaste|gasté|pagué|pague)\s+(r\$|us\$|€|\$|£)?\s*([\d.,]+)\s*(reais|euros?|d[oó]lares|dollars|usd|eur|brl|libras|pounds)?\s*(?:em|no|na|num|numa|com|on|for|en|para)?\s*(.*)$/i);
+  if(m){ const cur=/r\$|reais|brl/i.test((m[2]||"")+(m[4]||""))?"BRL":/€|eur/i.test((m[2]||"")+(m[4]||""))?"EUR":/£|libra|pound/i.test((m[2]||"")+(m[4]||""))?"GBP":/\$|d[oó]lar|usd/i.test((m[2]||"")+(m[4]||""))?"USD":S.cur;
+    const desc=(m[5]||"").replace(/^(um|uma|o|a|the|un|una|el|la)\s+/i,"").replace(/[.!?]+$/,"").trim()||say("Gasto","Expense","Gasto"); const dn=norm(desc);
+    const cat=/(jantar|almoco|cafe|comida|restaurante|dinner|lunch|breakfast|food|cena|almuerzo|desayuno|pizza|sorvete|gelato)/.test(dn)?"food":/(hotel|hostel|airbnb|hosped)/.test(dn)?"hotel":/(trem|metro|onibus|uber|taxi|train|bus|tren|metro)/.test(dn)?"transport":/(ingresso|museu|tour|passeio|ticket|entrada|museo)/.test(dn)?"tours":/(voo|flight|vuelo|passagem)/.test(dn)?"flights":"shopping";
+    const r=await agRun("add_expense",{description:desc.charAt(0).toUpperCase()+desc.slice(1),amount:m[3].replace(/\.(?=\d{3})/g,""),currency:cur,category:cat});
+    return say(`Lancei **${r.lancado}**, pago por ${r.pagou} e dividido entre ${r.dividido_entre}. Total gasto até agora: ${r.total_gasto}.`,`Logged **${r.lancado}**, paid by ${r.pagou}, split ${r.dividido_entre} ways. Spent so far: ${r.total_gasto}.`,`Anoté **${r.lancado}**, pagado por ${r.pagou} y dividido entre ${r.dividido_entre}. Gastado hasta ahora: ${r.total_gasto}.`); }
+  // preços
+  if(/(cotar|cotacao|cotacoes|preco|precos|price|prices|quote|cotizar|precio|precios|reservar|book|comprar)/.test(n)&&T){ const what=/(voo|voos|passagem|passagens|flight|vuelo|aereo)/.test(n)?"flights":/(hotel|hoteis|hospedagem|hoteles|alojamiento)/.test(n)?"hotels":/(trem|onibus|train|tren|bus|trecho)/.test(n)?"transport":/(passeio|tour|ingresso|ticket|entrada)/.test(n)?"tours":"all";
+    await agRun("price_links",{what}); return say("Aqui estão as buscas com preços reais, já com as datas e o número de pessoas. Toque para abrir:","Here are live-price searches, already filled with your dates and party size. Tap to open:","Aquí tienes las búsquedas con precios reales, ya con las fechas y el número de personas. Toca para abrir:"); }
+  // dia
+  if(T){ let d=null; const k=T.dias.findIndex(x=>x.data===todayISO());
+    if(/(amanha|tomorrow|manana)/.test(n)) d=(k>=0?k+1:0)+1; else if(/( hoje | today | hoy )/.test(n)) d=(k>=0?k:0)+1;
+    else { const mm=n.match(/ (dia|day|el dia) (\d+) /); if(mm) d=+mm[2]; }
+    if(d){ d=Math.max(1,Math.min(T.dias.length,d)); const r=await agRun("get_day",{day:d}); await agRun("open_screen",{screen:"day",day:d});
+      return `**${say("Dia","Day","Día")} ${r.dia} · ${fmtD(r.data)} · ${r.cidade}**: ${r.titulo}\n${r.programa.map(x=>"- "+x).join("\n")}${r.clima?`\n${r.clima}`:""}${r.feriado.length?`\n🎌 ${r.feriado.join(", ")}`:""}`; }
+    const tabs=[["custos",/(custo|custos|gasto|gastos|orcamento|cost|costs|budget|expenses|presupuesto)/],["mala",/(mala|bagagem|bag|luggage|packing|maleta|equipaje)/],["guia",/(guia|guide|lugares|places|sitios)/],["calendar",/(calendario|calendar|roteiro|itinerary|itinerario)/],["overview",/(inicio|resumo|overview|resumen|home)/]];
+    if(/(abr|mostr|ver |veja|open|show|go to|abre|muestra|ir a|leva)/.test(n)) for(const [s,r] of tabs) if(r.test(n)){ await agRun("open_screen",{screen:s}); return say("Abri para você. 👇","Opened it for you. 👇","Te lo abrí. 👇"); }
+    try{ const a=localGuide(q); if(a) return a; }catch(e){} }
+  return say("Posso montar uma viagem nova, mudar noites, abrir um dia, lançar gastos ou mostrar preços. O que você quer fazer?","I can build a new trip, change nights, open a day, log expenses or show prices. What would you like?","Puedo armar un viaje nuevo, cambiar noches, abrir un día, anotar gastos o mostrar precios. ¿Qué quieres hacer?");
+}
+
+/* ---------- conversa ---------- */
+function agHist(){ // últimas trocas, só texto
+  const h=AG.msgs.filter(m=>m.t&&!m.sys).slice(-12).map(m=>({role:m.r==="u"?"user":"assistant",content:m.t}));
+  while(h.length&&h[0].role!=="user") h.shift(); return h; }
+async function agSend(text,opt={}){
+  text=String(text||"").trim(); if(!text||AG.busy) return; agStopSpeak();
+  AG.msgs.push({r:"u",t:text}); const bot={r:"a",t:"",acts:[],links:[],live:true}; AG.msgs.push(bot); AG.turn=bot; AG.busy=true; AG.keepOpen=false; agRender();
+  const ctl=new AbortController(); AG.ctl=ctl; const onText=t=>{ bot.t=t; agPaint(); };
+  const typewriter=async t=>{ const step=Math.max(2,Math.round(t.length/45)); for(let i=step;i<t.length+step;i+=step){ if(ctl.signal.aborted) break; bot.t=t.slice(0,i); agPaint(); await new Promise(r=>setTimeout(r,18)); } bot.t=t; };
+  try{
+    if(AG.brain==="claude"&&AG.sample){ bot.t=(await agClaude(agHist(),onText,ctl.signal))||bot.t; }
+    else if(AG.brain==="proxy"&&S.agUrl){ bot.t=(await agProxy(agHist(),onText,ctl.signal))||bot.t; }
+    else await typewriter(await agLocal(text));
+  }catch(e){
+    const code=e&&e.code;
+    if(code==="cancelled"||ctl.signal.aborted){ bot.t=(e&&e.text)||bot.t; }
+    else if(AG.brain!=="local"&&!bot.acts.length){ if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed","tools_unavailable"].includes(code)) AG.brain=S.agUrl?"proxy":"local";
+      try{ const t=await agLocal(text); bot.note=AT("fallback"); await typewriter(t); }catch(e2){ bot.t=(e2&&e2.message)?`⚠️ ${e2.message}`:AT("err"); } }
+    else bot.t=(e&&e.text)||((e&&e.message&&!code)?`⚠️ ${e.message}`:AT("err"));
+  }
+  bot.live=false; AG.busy=false; AG.ctl=null; AG.turn=null; if(!bot.t) bot.t="✓"; agRender();
+  try{ sessionStorage.setItem("sunny.ag",JSON.stringify(AG.msgs.slice(-30).map(({r,t,acts,links,note})=>({r,t,acts,links,note})))); }catch(e){}
+  if(opt.voice||AG.speak) agSpeak(bot.t);
+}
+/* ---------- voz ---------- */
+const AG_SR=typeof window!=="undefined"&&(window.SpeechRecognition||window.webkitSpeechRecognition);
+const agVoiceLang=()=>({pt:(S.home&&S.home.cc==="PT")?"pt-PT":"pt-BR",en:"en-US",es:(S.home&&S.home.cc==="ES")?"es-ES":"es-MX"})[AGL()];
+function agMic(){
+  agStopSpeak(); const inp=document.getElementById("agIn");
+  if(AG.rec){ try{ AG.rec.stop(); }catch(e){} return; }
+  if(!AG_SR){ agNote(AT("noMic")); return; }
+  const r=new AG_SR(); r.lang=agVoiceLang(); r.interimResults=true; r.continuous=false; r.maxAlternatives=1; let fin="", heard="";
+  r.onresult=e=>{ let interim=""; for(let i=e.resultIndex;i<e.results.length;i++){ const t=e.results[i][0].transcript; if(e.results[i].isFinal) fin+=t; else interim+=t; } heard=(fin+interim).trim(); if(inp){ inp.value=heard; agAutoGrow(inp); } };
+  r.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed") agNote(AT("micDenied")); else if(e.error!=="no-speech"&&e.error!=="aborted") agNote(AT("noMic")); };
+  r.onend=()=>{ AG.rec=null; agRender(); const t=(fin||heard).trim(); if(t){ if(inp) inp.value=""; agSend(t,{voice:true}); } };
+  try{ r.start(); AG.rec=r; agRender(); }catch(e){ AG.rec=null; agNote(AT("noMic")); }
+}
+const agPlain=t=>String(t||"").replace(/\*\*?|__|[#>`]/g,"").replace(/^- /gm,"").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu,"").replace(/\s+/g," ").trim();
+function agSpeak(t){ try{ if(!("speechSynthesis" in window)) return; const u=new SpeechSynthesisUtterance(agPlain(t).slice(0,600)); u.lang=agVoiceLang(); const vs=speechSynthesis.getVoices(); const v=vs.find(x=>x.lang===u.lang)||vs.find(x=>x.lang&&x.lang.slice(0,2)===u.lang.slice(0,2)); if(v) u.voice=v; u.rate=1.04; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+function agStopSpeak(){ try{ if("speechSynthesis" in window) speechSynthesis.cancel(); }catch(e){} }
+
+/* ---------- interface ---------- */
+function agMD(t){ let h=esc(t); h=h.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,!?)]|$)/g,"$1<i>$2</i>");
+  const lines=h.split("\n"); let out="", inL=false; lines.forEach(l=>{ if(/^\s*[-•] /.test(l)){ if(!inL){ out+="<ul>"; inL=true; } out+=`<li>${l.replace(/^\s*[-•] /,"")}</li>`; } else { if(inL){ out+="</ul>"; inL=false; } out+=l.trim()?`<p>${l}</p>`:""; } }); if(inL) out+="</ul>"; return out; }
+function agMsgHTML(m,i){
+  if(m.r==="u") return `<div class="agm u"><div class="agb">${esc(m.t)}</div></div>`;
+  const acts=(m.acts||[]).map(a=>`<span class="agact ${a.e==="⏳"?"run":a.e==="✓"?"ok":"bad"}">${a.e==="⏳"?`<i class="agspin"></i>`:a.e} ${esc(a.t)}</span>`).join("");
+  const links=(m.links||[]).map(l=>`<a class="aglink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span>↗</span></a>`).join("");
+  const body=m.t?agMD(m.t):(m.live?`<p class="agthink">${esc(AT("think"))}<span class="dots"><i></i><i></i><i></i></span></p>`:"");
+  return `<div class="agm a" data-agi="${i}">${SUN("agav")}<div class="agcol">${acts?`<div class="agacts">${acts}</div>`:""}${body?`<div class="agb${m.live?" live":""}">${body}</div>`:""}${links?`<div class="aglinks">${links}</div>`:""}${m.note?`<small class="agnote">${esc(m.note)}</small>`:""}</div></div>`;
+}
+function agChips(){ if(AG.busy) return ""; const T=S.trip; const list=T?AT("chipsTrip")(T.cidades[0]?T.cidades[0].nome:""):AT("chipsNo"); if(AG.msgs.filter(m=>m.r==="u").length>2) return "";
+  return `<div class="agchips">${list.map(c=>`<button class="agchip" data-agchip="${esc(c.replace(/^\S+\s/,""))}">${esc(c)}</button>`).join("")}</div>`; }
+function agRender(){
+  const P=document.getElementById("agPanel"), B=document.getElementById("agFab"); if(!P||!B) return;
+  B.hidden=AG.open||S.view==="gen"||!!document.getElementById("splash"); B.setAttribute("aria-label",AT("open"));
+  document.body.classList.toggle("agOpen",AG.open); P.hidden=!AG.open; if(!AG.open) return;
+  const brain=AG.brain==="claude"?AT("bC"):AG.brain==="proxy"?AT("bP"):AT("bL");
+  P.innerHTML=`<div class="agHead">${SUN("agHsun","happy")}<div class="agHt"><b>${esc(AT("name"))}</b><small><i class="agdot ${AG.brain}"></i>${esc(brain)}</small></div>
+      <button class="agIc ${AG.speak?"on":""}" data-agspk aria-pressed="${AG.speak}" aria-label="${esc(AT("speakOn"))}" title="${esc(AT("speakOn"))}">${AG.speak?"🔊":"🔈"}</button>
+      <button class="agIc" data-agnew aria-label="${esc(AT("clear"))}" title="${esc(AT("clear"))}">🗒️</button>
+      <button class="agIc" data-agx aria-label="${esc(AT("close"))}" title="${esc(AT("close"))}">✕</button></div>
+    <div class="agMsgs" id="agMsgs" aria-live="polite">${agMsgHTML({r:"a",t:AT("hello")},-1)}${AG.msgs.map(agMsgHTML).join("")}${agChips()}</div>
+    <form class="agBar" data-agform>
+      <button type="button" class="agMic ${AG.rec?"on":""}" data-agmic aria-label="${esc(AT("mic"))}" title="${esc(AT("mic"))}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+      <textarea id="agIn" rows="1" placeholder="${esc(AG.rec?AT("listen"):AT("ph"))}" aria-label="${esc(AT("ph"))}" enterkeyhint="send"></textarea>
+      ${AG.busy?`<button type="button" class="agSend stop" data-agstop aria-label="${esc(AT("stop"))}">■</button>`:`<button type="submit" class="agSend" aria-label="${esc(AT("send"))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button>`}
+    </form>${AG.rec?`<div class="agWave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>`:""}`;
+  const inp=document.getElementById("agIn"); if(inp){ inp.value=AG.draft||""; agAutoGrow(inp); }
+  agScroll();
+}
+function agPaint(){ // atualiza só a última resposta enquanto ela chega
+  const box=document.getElementById("agMsgs"); if(!box||!AG.open) return; const i=AG.msgs.length-1; const el=box.querySelector(`[data-agi="${i}"]`);
+  if(el){ const tmp=document.createElement("div"); tmp.innerHTML=agMsgHTML(AG.msgs[i],i); el.replaceWith(tmp.firstElementChild); } else agRender(); agScroll(); }
+function agScroll(){ const box=document.getElementById("agMsgs"); if(box) box.scrollTop=box.scrollHeight; }
+function agAutoGrow(t){ t.style.height="auto"; t.style.height=Math.min(120,t.scrollHeight)+"px"; }
+function agNote(t){ AG.msgs.push({r:"a",t,sys:true}); agRender(); }
+function agToggle(on){ AG.open=on!=null?on:!AG.open; if(!AG.open){ if(AG.rec) try{AG.rec.stop();}catch(e){} agStopSpeak(); } agRender(); if(AG.open) setTimeout(()=>{ const i=document.getElementById("agIn"); if(i&&matchMedia("(pointer:fine)").matches) i.focus(); },250); }
+function agSync(){ const B=document.getElementById("agFab"), tb=document.getElementById("tabs"); if(!B) return; B.hidden=AG.open||S.view==="gen"||!!document.getElementById("splash"); document.body.classList.toggle("hasTabs",!!tb&&!tb.hidden); }
+function agBoot(){
+  if(AG.boot) return; AG.boot=true;
+  try{ const old=JSON.parse(sessionStorage.getItem("sunny.ag")||"[]"); if(Array.isArray(old)) AG.msgs=old; }catch(e){}
+  AG.brain=S.agUrl?"proxy":"local";
+  const fab=document.createElement("button"); fab.id="agFab"; fab.className="notr"; fab.type="button"; fab.innerHTML=`${SUN("agFsun","happy")}<span class="agFtag">IA</span>`; fab.onclick=()=>agToggle(true);
+  const pan=document.createElement("section"); pan.id="agPanel"; pan.className="notr"; pan.hidden=true; pan.setAttribute("role","dialog"); pan.setAttribute("aria-label","Sunny");
+  document.body.append(fab,pan);
+  pan.addEventListener("click",e=>{ e.stopPropagation(); const b=e.target.closest("button,a"); if(!b) return; const D=b.dataset;
+    if("agx" in D) agToggle(false); else if("agmic" in D) agMic(); else if("agstop" in D){ if(AG.ctl) AG.ctl.abort(); }
+    else if("agspk" in D){ AG.speak=!AG.speak; if(!AG.speak) agStopSpeak(); agRender(); }
+    else if("agnew" in D){ if(AG.busy) return; AG.msgs=[]; try{ sessionStorage.removeItem("sunny.ag"); }catch(e){} agRender(); }
+    else if(D.agchip){ agSend(D.agchip); } });
+  pan.addEventListener("submit",e=>{ e.preventDefault(); e.stopPropagation(); const i=document.getElementById("agIn"); const t=i.value; AG.draft=""; i.value=""; agSend(t); });
+  pan.addEventListener("input",e=>{ e.stopPropagation(); if(e.target.id==="agIn"){ AG.draft=e.target.value; agAutoGrow(e.target); } });
+  pan.addEventListener("change",e=>e.stopPropagation());
+  pan.addEventListener("keydown",e=>{ if(e.target.id==="agIn"&&e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); pan.querySelector("form").requestSubmit(); } if(e.key==="Escape") agToggle(false); });
+  const _r=render; render=function(){ _r.apply(this,arguments); agSync(); };
+  agRender();
+  // Claude disponível? (quando o app roda dentro do Claude)
+  (async()=>{ try{ if(typeof window.claude==="undefined"||!window.claude.use) return; const s=await window.claude.use("sample"); if(!s) return; const lim=await s.limits().catch(()=>null); if(lim&&!lim.tools) return; AG.sample=s; AG.brain="claude"; agRender(); }catch(e){} })();
+}
+
 /* ===== Sunny Trip — interface ===== */
 const MESS={pt:["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"],en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],es:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]};
 const WDS={pt:["dom","seg","ter","qua","qui","sex","sáb"],en:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],es:["dom","lun","mar","mié","jue","vie","sáb"]};
@@ -1516,15 +1996,18 @@ const artOf=(name,attrs)=>{const id=cityIdByName(name);return id?artById(id,attr
 const LS="sunnytrip.v1";
 const S={cq:"",sq:{},ores:{},trips:[],cur:null,trip:null,tab:"inicio",day:0,dayOpen:false,view:"home",wz:0,theme:"auto",wx:{},fx:null,chat:[],
   form:{paises:[],cidades:[],ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"]}};
-function load(){ S.home=detectHome(); S.lang=S.home.lang; S.cur=S.home.cur; try{const j=JSON.parse(localStorage.getItem(LS)||"null"); if(j){ if(j.lang) S.lang=j.lang; if(j.cur) S.cur=j.cur;S.trips=j.trips||[];S.theme=j.theme||"auto";S.fx=j.fx||null;S.wx=j.wx||{}; S.hol=j.hol||{}; if(j.form) S.form=Object.assign(S.form,j.form);}}catch(e){}}
-function save(){try{localStorage.setItem(LS,JSON.stringify({lang:S.lang,cur:S.cur,trips:S.trips,theme:S.theme,fx:S.fx,wx:S.wx,form:S.form,hol:S.hol}));}catch(e){}}
+function load(){ S.home=detectHome(); S.lang=S.home.lang; S.cur=S.home.cur; try{const j=JSON.parse(localStorage.getItem(LS)||"null"); if(j){ if(j.lang) S.lang=j.lang; if(j.cur) S.cur=j.cur;S.trips=j.trips||[];S.theme=j.theme||"auto";S.fx=j.fx||null;S.wx=j.wx||{}; S.agUrl=j.agUrl||""; S.agModel=j.agModel||""; S.hol=j.hol||{}; if(j.form) S.form=Object.assign(S.form,j.form);}}catch(e){}}
+function save(){try{localStorage.setItem(LS,JSON.stringify({lang:S.lang,cur:S.cur,trips:S.trips,theme:S.theme,fx:S.fx,wx:S.wx,form:S.form,hol:S.hol,agUrl:S.agUrl||"",agModel:S.agModel||""}));}catch(e){}}
 function applyTheme(){ if(S.theme==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",S.theme); }
 const themeBtn=()=>`<button class="pillbtn" data-cfg aria-label="Ajustes">🌐 ${(S.lang||"pt").toUpperCase()} · ${esc(curSym(S.cur))}</button>`;
 function viewCfg(){
   return `<div class="wz v"><div class="dtop"><button class="pillbtn backb" data-back aria-label="Voltar">← Voltar</button><h2 style="font-size:22px">Ajustes</h2></div>
     <span class="k">Idioma</span><div class="opts">${[["pt","🇧🇷","Português"],["en","🇺🇸","English"],["es","🇪🇸","Español"]].map(([k,f,n])=>`<button class="opt ${S.lang===k?"on":""}" data-lang="${k}"><span class="e">${f}</span><b class="notr">${n}</b></button>`).join("")}</div>
     <label class="f"><span>Moeda</span><select data-cur>${[...new Set([S.cur,...CURS])].map(c=>`<option value="${c}" ${S.cur===c?"selected":""}>${curSym(c)} ${c}</option>`).join("")}</select></label>
-    <span class="k">Tema</span><div class="seg"><button class="${S.theme==="auto"?"on":""}" data-th="auto">🌓 Auto</button><button class="${S.theme==="light"?"on":""}" data-th="light">☀️ Claro</button><button class="${S.theme==="dark"?"on":""}" data-th="dark">🌙 Escuro</button></div></div>`;
+    <span class="k">Tema</span><div class="seg"><button class="${S.theme==="auto"?"on":""}" data-th="auto">🌓 Auto</button><button class="${S.theme==="light"?"on":""}" data-th="light">☀️ Claro</button><button class="${S.theme==="dark"?"on":""}" data-th="dark">🌙 Escuro</button></div></div>
+    <div class="glass card"><span class="k">🤖 Agente Sunny</span><span class="sub sm">Dentro do Claude, o agente usa o Claude. Fora dele, conecte seu servidor de IA para ter respostas completas; sem servidor, ele funciona no modo offline.</span>
+      <label class="f"><span>Endereço do servidor de IA (opcional)</span><input type="url" data-agurl value="${esc(S.agUrl||"")}" placeholder="https://sunny-ai.seunome.workers.dev" autocomplete="off" inputmode="url"></label>
+      <span class="sub xs">Status: ${AG.brain==="claude"?"usando o Claude":AG.brain==="proxy"?"conectado ao seu servidor":"modo offline"}</span></div>`;
 }
 
 /* ---------- início ---------- */
@@ -2217,7 +2700,7 @@ document.addEventListener("click",e=>{
 function keepForm(){ const f=document.querySelector("form[data-addg]"); if(!f) return; GF.desc=f.desc.value; GF.valor=f.valor.value; GF.moeda=f.moeda.value; GF.cat=f.cat.value; GF.pagou=+f.pagou.value; }
 function refreshNext(){ const b=document.querySelector("[data-wznext]"); if(b&&S.view==="wz") b.disabled=!WZ[S.wz].ok(S.form); }
 function alertMsg(m){ m=tr(m); const d=document.createElement("div"); d.className="err"; d.setAttribute("role","alert"); d.style.cssText="position:fixed;left:16px;right:16px;top:16px;z-index:50;max-width:560px;margin:0 auto"; d.textContent=m; document.body.appendChild(d); setTimeout(()=>d.remove(),4500); }
-document.addEventListener("change",e=>{
+document.addEventListener("change",e=>{ if(e.target.matches&&e.target.matches("[data-agurl]")){ const v=e.target.value.trim(); S.agUrl=/^https:\/\//.test(v)?v:""; if(AG.brain!=="claude") AG.brain=S.agUrl?"proxy":"local"; save(); render(); return; }
   const t=e.target, D=t.dataset, F=S.form;
   if("files" in D&&t.files&&t.files.length){ impFiles([...t.files]); return; }
   if(D.ie){ const [i,k]=D.ie.split("."); S.imp.items[+i][k]=t.value; return; }
@@ -2250,7 +2733,7 @@ document.addEventListener("submit",e=>{
 function alertIn(f,msg){ let el=f.querySelector(".err"); if(!el){el=document.createElement("div");el.className="err";el.setAttribute("role","alert");f.insertBefore(el,f.lastElementChild);} el.textContent=msg; }
 function ask(q){ S.chat.push({r:"m",t:q}); let a; try{a=localGuide(q);}catch(e){a="Não consegui responder agora. Tente perguntar de outro jeito.";} S.chat.push({r:"b",t:a}); render(); }
 
-load(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; render(); (function(){ const sp=document.getElementById("splash"); if(!sp){ document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })();
+load(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; render(); (function(){ const sp=document.getElementById("splash"); if(!sp){ document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })(); agBoot();
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></html>
