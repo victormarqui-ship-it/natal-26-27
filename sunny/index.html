@@ -326,15 +326,16 @@ nav.tabs button.on .ti{filter:none;opacity:1}
 @keyframes splOut{to{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){#splash,#splash *{animation-duration:.01s!important;animation-delay:0s!important}#splash{animation:splOut .3s ease 1.2s forwards!important}}
 /* ===== agente Sunny ===== */
-#agFab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:60;width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;padding:0;
-  background:radial-gradient(circle at 35% 30%,#fff3b0,#ffd23f 55%,#ffc21a);box-shadow:0 0 0 4px #fff,0 6px 0 4px #e5a400,0 12px 28px rgba(120,70,0,.3);display:grid;place-items:center;transition:transform .18s ease,bottom .25s ease;animation:agIn .5s cubic-bezier(.2,1.4,.4,1) both}
+#agFab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:60;height:58px;padding:0 20px 0 6px;border-radius:999px;border:0;cursor:pointer;
+  display:flex;align-items:center;gap:6px;font-family:var(--f);font-weight:900;font-size:17px;letter-spacing:-.01em;color:#3c2a00;
+  background:linear-gradient(180deg,#ffe066,#ffc800);box-shadow:0 0 0 3px #fff,0 5px 0 3px #e5a400,0 12px 28px rgba(120,70,0,.3);transition:transform .18s ease,bottom .25s ease;animation:agIn .5s cubic-bezier(.2,1.4,.4,1) both}
 body.hasTabs #agFab{bottom:calc(86px + env(safe-area-inset-bottom))}
-#agFab:hover{transform:translateY(-2px)} #agFab:active{transform:translateY(3px);box-shadow:0 0 0 4px #fff,0 2px 0 4px #e5a400,0 6px 14px rgba(120,70,0,.25)}
-#agFab::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:3px solid rgba(255,200,0,.55);animation:agRing 3.2s ease-out 1.2s infinite;pointer-events:none}
-#agFab .agFsun{width:50px;height:50px}
-.agFtag{position:absolute;top:-3px;right:-5px;background:#3c2a00;color:#ffe066;font-size:11px;font-weight:900;letter-spacing:.04em;padding:3px 6px;border-radius:9px;border:2px solid var(--bg)}
+#agFab:hover{transform:translateY(-2px)} #agFab:active{transform:translateY(3px);box-shadow:0 0 0 3px #fff,0 2px 0 3px #e5a400,0 6px 14px rgba(120,70,0,.25)}
+#agFab::before{content:"";position:absolute;inset:-8px;border-radius:999px;border:3px solid rgba(255,200,0,.55);animation:agRing 3.2s ease-out 1.2s infinite;pointer-events:none}
+#agFab .agFsun{width:46px;height:46px;flex:0 0 auto}
+.agFlbl{white-space:nowrap}
 @keyframes agIn{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
-@keyframes agRing{0%{transform:scale(.9);opacity:.9}70%,100%{transform:scale(1.35);opacity:0}}
+@keyframes agRing{0%{transform:scale(.95);opacity:.9}70%,100%{transform:scale(1.15,1.4);opacity:0}}
 #agPanel{position:fixed;z-index:70;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);overflow:hidden;
   left:0;right:0;bottom:0;top:max(10px,env(safe-area-inset-top));border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(60,40,0,.25);
   transform-origin:calc(100% - 48px) calc(100% - 48px);animation:agOpen .32s cubic-bezier(.2,1.1,.3,1) both}
@@ -1536,19 +1537,19 @@ function quoteCard(T){
 const AG={open:false,msgs:[],busy:false,ctl:null,rec:null,speak:false,brain:"local",sample:null,turn:null,boot:false};
 const AGL=()=>S.lang||"pt";
 const AGTX={
-  pt:{name:"Sunny",sub:"Seu agente de viagem",ph:"Escreva ou toque no microfone…",listen:"Ouvindo… pode falar",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Falar",close:"Fechar",open:"Abrir o agente Sunny",clear:"Nova conversa",
+  pt:{name:"Ask Sunny",sub:"Seu agente de viagem",ph:"Escreva ou toque no microfone…",listen:"Ouvindo… pode falar",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Falar",close:"Fechar",open:"Abrir o agente Sunny",clear:"Nova conversa",
     speakOn:"Ler respostas em voz alta",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"Este navegador não deixa usar o microfone aqui. Escreva sua mensagem.",micDenied:"O microfone foi bloqueado. Libere nas permissões do navegador ou escreva.",
     err:"Não consegui responder agora. Tente de novo.",fallback:"Não consegui falar com a IA agora, então respondi no modo offline.",
     hello:"Oi! Eu sou o **Sunny** ☀️ Me diga o que você quer e eu faço por você. Por exemplo: *“quero 20 dias de Lisboa para a Itália em maio, vamos em 3”*.\n\nTambém mudo noites, abro dias, lanço gastos, cotizo voos e hotéis e respondo dúvidas da viagem.",
     chipsNo:["✈️ 15 dias na Itália em maio, 2 pessoas","🏖️ 10 dias de praia na Grécia em julho, casal","🇯🇵 3 semanas no Japão em abril, 4 pessoas, econômico"],
     chipsTrip:c=>[`🌙 Mais uma noite em ${c}`,"📅 O que faço amanhã?","💶 Gastei 40 euros num jantar","🔎 Cotar hotéis"]},
-  en:{name:"Sunny",sub:"Your travel agent",ph:"Type or tap the mic…",listen:"Listening… go ahead",think:"Thinking…",stop:"Stop",send:"Send",mic:"Speak",close:"Close",open:"Open the Sunny agent",clear:"New chat",
+  en:{name:"Ask Sunny",sub:"Your travel agent",ph:"Type or tap the mic…",listen:"Listening… go ahead",think:"Thinking…",stop:"Stop",send:"Send",mic:"Speak",close:"Close",open:"Open the Sunny agent",clear:"New chat",
     speakOn:"Read replies aloud",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"This browser can't use the microphone here. Please type your message.",micDenied:"The microphone is blocked. Allow it in the browser settings or type instead.",
     err:"I couldn't answer right now. Please try again.",fallback:"I couldn't reach the AI just now, so I answered in offline mode.",
     hello:"Hi! I'm **Sunny** ☀️ Tell me what you want and I'll do it for you. For example: *“20 days from Lisbon to Italy in May, 3 of us”*.\n\nI can also change nights, open days, log expenses, find flight and hotel prices and answer questions about the trip.",
     chipsNo:["✈️ 15 days in Italy in May, 2 people","🏖️ 10 beach days in Greece in July, a couple","🇯🇵 3 weeks in Japan in April, 4 people, budget"],
     chipsTrip:c=>[`🌙 One more night in ${c}`,"📅 What do I do tomorrow?","💶 I spent 40 euros on dinner","🔎 Hotel prices"]},
-  es:{name:"Sunny",sub:"Tu agente de viajes",ph:"Escribe o toca el micrófono…",listen:"Escuchando… habla",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Hablar",close:"Cerrar",open:"Abrir el agente Sunny",clear:"Nueva conversación",
+  es:{name:"Ask Sunny",sub:"Tu agente de viajes",ph:"Escribe o toca el micrófono…",listen:"Escuchando… habla",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Hablar",close:"Cerrar",open:"Abrir el agente Sunny",clear:"Nueva conversación",
     speakOn:"Leer respuestas en voz alta",bC:"Agente de viajes · Claude",bP:"Agente de viajes · online",bL:"Agente de viajes · sin conexión",noMic:"Este navegador no permite usar el micrófono aquí. Escribe tu mensaje.",micDenied:"El micrófono está bloqueado. Permítelo en el navegador o escribe.",
     err:"No pude responder ahora. Inténtalo de nuevo.",fallback:"No pude hablar con la IA ahora, así que respondí en modo sin conexión.",
     hello:"¡Hola! Soy **Sunny** ☀️ Dime qué quieres y lo hago por ti. Por ejemplo: *“20 días de Madrid a Italia en mayo, vamos 3”*.\n\nTambién cambio noches, abro días, anoto gastos, cotizo vuelos y hoteles y respondo dudas del viaje.",
@@ -1929,8 +1930,8 @@ function agBoot(){
   if(AG.boot) return; AG.boot=true;
   try{ const old=JSON.parse(sessionStorage.getItem("sunny.ag")||"[]"); if(Array.isArray(old)) AG.msgs=old; }catch(e){}
   AG.brain=S.agUrl?"proxy":"local";
-  const fab=document.createElement("button"); fab.id="agFab"; fab.className="notr"; fab.type="button"; fab.innerHTML=`${SUN("agFsun","happy")}<span class="agFtag">IA</span>`; fab.onclick=()=>agToggle(true);
-  const pan=document.createElement("section"); pan.id="agPanel"; pan.className="notr"; pan.hidden=true; pan.setAttribute("role","dialog"); pan.setAttribute("aria-label","Sunny");
+  const fab=document.createElement("button"); fab.id="agFab"; fab.className="notr"; fab.type="button"; fab.innerHTML=`${SUN("agFsun","happy")}<span class="agFlbl">Ask Sunny</span>`; fab.onclick=()=>agToggle(true);
+  const pan=document.createElement("section"); pan.id="agPanel"; pan.className="notr"; pan.hidden=true; pan.setAttribute("role","dialog"); pan.setAttribute("aria-label","Ask Sunny");
   document.body.append(fab,pan);
   pan.addEventListener("click",e=>{ e.stopPropagation(); const b=e.target.closest("button,a"); if(!b) return; const D=b.dataset;
     if("agx" in D) agToggle(false); else if("agmic" in D) agMic(); else if("agstop" in D){ if(AG.ctl) AG.ctl.abort(); }
