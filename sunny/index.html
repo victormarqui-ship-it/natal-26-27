@@ -301,6 +301,9 @@ nav.tabs button.on .ti{filter:none;opacity:1}
 .cd.on .hol{position:absolute;left:3px;bottom:2px;font-size:12px;z-index:2;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
 .holl{display:flex;flex-direction:column;gap:4px;margin-top:10px;font-size:14px}
 .qlist{display:flex;flex-direction:column;gap:8px}
+.fbsun{display:flex;gap:6px}.fbsun button{font-size:30px;background:none;border:0;cursor:pointer;filter:grayscale(1) opacity(.35);padding:2px;transition:transform .15s}.fbsun button.on{filter:none}.fbsun button:active{transform:scale(1.2)}
+textarea{width:100%;font:inherit;border:2px solid var(--line);border-radius:16px;padding:12px 14px;background:var(--card);color:var(--ink);resize:vertical;box-sizing:border-box}
+.route .legs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.route .legs li{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:12px;background:var(--soft)}.route .legs b{font-size:14px}
 .qrow{display:flex;align-items:center;gap:12px;padding:10px 12px;border:2px solid var(--line,#e5e5e5);border-bottom-width:4px;border-radius:14px;text-decoration:none;color:inherit;background:var(--card,#fff)}
 .qrow:active{transform:translateY(2px);border-bottom-width:2px}
 .qrow .qe{font-size:24px}.qrow .qt{flex:1;display:flex;flex-direction:column;line-height:1.25}.qrow small{color:var(--sub,#777);font-size:13px}.qrow .qgo{font-weight:900;color:var(--acc)}
@@ -333,6 +336,8 @@ nav.tabs button.on .ti{filter:none;opacity:1}
   display:flex;align-items:center;gap:6px;font-family:var(--f);font-weight:900;font-size:17px;letter-spacing:-.01em;color:#3c2a00;
   background:linear-gradient(180deg,#ffe066,#ffc800);box-shadow:0 0 0 3px #fff,0 5px 0 3px #e5a400,0 12px 28px rgba(120,70,0,.3);transition:transform .18s ease,bottom .25s ease;animation:agIn .5s cubic-bezier(.2,1.4,.4,1) both}
 body.hasTabs #agFab{bottom:calc(86px + env(safe-area-inset-bottom))}
+body:has(.wzBar) #agFab{bottom:calc(96px + env(safe-area-inset-bottom));height:50px;padding:0 16px 0 4px}
+body:has(.wzBar) .wz{padding-bottom:180px}
 #agFab:hover{transform:translateY(-2px)} #agFab:active{transform:translateY(3px);box-shadow:0 0 0 3px #fff,0 2px 0 3px #e5a400,0 6px 14px rgba(120,70,0,.25)}
 #agFab::before{content:"";position:absolute;inset:-8px;border-radius:999px;border:3px solid rgba(255,200,0,.55);animation:agRing 3.2s ease-out 1.2s infinite;pointer-events:none}
 #agFab .agFsun{width:46px;height:46px;flex:0 0 auto}
@@ -961,7 +966,7 @@ const I18N_D=[
 ["Se faltar tempo, eu tiro as menos importantes.","If time is short, I'll drop the least important.","Si falta tiempo, quito las menos importantes."],
 ["Quantas noites em cada lugar?","How many nights in each place?","¿Cuántas noches en cada lugar?"],
 ["Tudo certo! Mexa à vontade: tire de um lugar e coloque em outro.","All set! Feel free to move nights from one place to another.","¡Listo! Mueve noches de un lugar a otro como quieras."],
-["Chegada ao destino","Arrival at destination","Llegada al destino"],["Data de volta","Return date","Fecha de vuelta"],["Só passar o dia","Just a day visit","Solo pasar el día"],["✓ Só passar o dia","✓ Just a day visit","✓ Solo pasar el día"],["☀️ Bate-volta","☀️ Day trip","☀️ Excursión"],["A viagem precisa ter pelo menos 4 noites.","The trip needs at least 4 nights.","El viaje debe tener al menos 4 noches."],["Use ▲▼ para escolher por onde chegar e por onde sair. Com 0 noites, a cidade sai do roteiro ou vira um bate-volta.","Use ▲▼ to choose where you arrive and where you leave. With 0 nights, a city is left out or becomes a day trip.","Usa ▲▼ para elegir por dónde llegar y por dónde salir. Con 0 noches, la ciudad sale del viaje o se vuelve una excursión."],["Fora do roteiro","Not in the trip","Fuera del viaje"],["Cidade com 0 noites fica fora do roteiro.","A city with 0 nights is left out.","Una ciudad con 0 noches queda fuera."],["A primeira noite é no avião.","The first night is on the plane.","La primera noche es en el avión."],
+["Chegada ao destino","Arrival at destination","Llegada al destino"],["Data de volta","Return date","Fecha de vuelta"],["Só passar o dia","Just a day visit","Solo pasar el día"],["✓ Só passar o dia","✓ Just a day visit","✓ Solo pasar el día"],["☀️ Bate-volta","☀️ Day trip","☀️ Excursión"],["A viagem precisa ter pelo menos 4 noites.","The trip needs at least 4 nights.","El viaje debe tener al menos 4 noches."],["Use ▲▼ para escolher por onde chegar e por onde sair. Com 0 noites, a cidade sai do roteiro ou vira um bate-volta.","Use ▲▼ to choose where you arrive and where you leave. With 0 nights, a city is left out or becomes a day trip.","Usa ▲▼ para elegir por dónde llegar y por dónde salir. Con 0 noches, la ciudad sale del viaje o se vuelve una excursión."],["Centro","City centre","Centro"],["🧭 Caminho do dia","🧭 Today's route","🧭 Ruta del día"],["Calculando as distâncias…","Working out distances…","Calculando las distancias…"],["✓ Esta já é a ordem mais curta.","✓ This is already the shortest order.","✓ Este ya es el orden más corto."],["Reordenar pelo caminho mais curto","Reorder by shortest route","Reordenar por el camino más corto"],["Sugestões","Feedback","Sugerencias"],["Conta pra gente: o que funcionou, o que faltou, o que confundiu?","Tell us: what worked, what was missing, what was confusing?","Cuéntanos: ¿qué funcionó, qué faltó, qué confundió?"],["Sua nota para o app","Your rating","Tu nota para la app"],["Sobre o quê?","About what?","¿Sobre qué?"],["🐞 Algo não funcionou","🐞 Something broke","🐞 Algo no funcionó"],["💡 Tenho uma ideia","💡 I have an idea","💡 Tengo una idea"],["🤔 Ficou confuso","🤔 It was confusing","🤔 Fue confuso"],["💛 Gostei muito","💛 Loved it","💛 Me encantó"],["Sua mensagem","Your message","Tu mensaje"],["Ex.: quero escolher por qual cidade chego e por qual saio","E.g. I want to choose which city I arrive in and leave from","Ej.: quiero elegir por qué ciudad llego y por cuál salgo"],["Incluir em que tela eu estava","Include which screen I was on","Incluir en qué pantalla estaba"],["Tela, idioma, aparelho e países da viagem. Sem nomes nem documentos.","Screen, language, device and trip countries. No names or documents.","Pantalla, idioma, dispositivo y países del viaje. Sin nombres ni documentos."],["Enviar sugestão","Send feedback","Enviar sugerencia"],["Obrigado! Sua sugestão ajuda a deixar o Sunny Trip melhor para todo mundo. ☀️","Thank you! Your feedback makes Sunny Trip better for everyone. ☀️","¡Gracias! Tu sugerencia ayuda a mejorar Sunny Trip para todos. ☀️"],["O texto foi copiado. Cole no WhatsApp ou no e-mail para a equipe do Sunny Trip.","The text was copied. Paste it into WhatsApp or an email to the Sunny Trip team.","El texto se copió. Pégalo en WhatsApp o en un e-mail al equipo de Sunny Trip."],["Mandar outra sugestão","Send another","Enviar otra sugerencia"],["💬 Enviar uma sugestão","💬 Send feedback","💬 Enviar una sugerencia"],["💬 Dar uma sugestão","💬 Give feedback","💬 Dar una sugerencia"],["Fora do roteiro","Not in the trip","Fuera del viaje"],["Cidade com 0 noites fica fora do roteiro.","A city with 0 nights is left out.","Una ciudad con 0 noches queda fuera."],["A primeira noite é no avião.","The first night is on the plane.","La primera noche es en el avión."],
 ["Quem vai na viagem?","Who's going?","¿Quién viaja?"],["Adultos","Adults","Adultos"],["18 a 59 anos","18 to 59 years","18 a 59 años"],["Idosos","Seniors","Mayores"],["60 anos ou mais","60 or older","60 años o más"],
 ["+ Criança","+ Child","+ Niño"],["Bebê","Baby","Bebé"],["Criança","Child","Niño"],["Adolescente","Teen","Adolescente"],["voa no colo","flies on lap","vuela en brazos"],["leve o carrinho","bring the stroller","lleva el carrito"],["meia-entrada","reduced ticket","entrada reducida"],["paga como adulto","pays as adult","paga como adulto"],["até 1 ano","under 1","menos de 1 año"],
 ["Vai levar um pet?","Bringing a pet?","¿Llevas mascota?"],["Não","No","No"],["Sim","Yes","Sí"],["Nome do pet","Pet's name","Nombre de la mascota"],
@@ -1171,6 +1176,10 @@ const NUMW={en:[" night"," nights"],es:[" noche"," noches"]};
 const pl=(n,a,b)=>(+n===1?a:b);
 /* padrões para frases com variáveis: [regex, (m, t)=>({en,es})] — t(x) traduz um pedaço */
 const I18N_P=[
+ [/^🚶 (\d+) min a pé$/,(m)=>({en:`🚶 ${m[1]} min walk`,es:`🚶 ${m[1]} min a pie`})],
+ [/^🚇 cerca de (\d+) min de transporte$/,(m)=>({en:`🚇 about ${m[1]} min by transit`,es:`🚇 unos ${m[1]} min en transporte`})],
+ [/^Dá para economizar cerca de (\d+) min$/,(m)=>({en:`You could save about ${m[1]} min`,es:`Se pueden ahorrar unos ${m[1]} min`})],
+ [/^Nova ordem: (.+)$/,(m,t)=>({en:`New order: ${m[1].split(" → ").map(x=>t(x)).join(" → ")}`,es:`Nuevo orden: ${m[1].split(" → ").map(x=>t(x)).join(" → ")}`})],
  [/^(\d+) (?:noite|noites) no destino · (\d+) dias$/,(m)=>({en:`${m[1]} ${pl(m[1],"night","nights")} at the destination · ${m[2]} days`,es:`${m[1]} ${pl(m[1],"noche","noches")} en el destino · ${m[2]} días`})],
  [/^(noite|noites) no destino · (\d+) dias$/,(m)=>({en:`${m[1]==="noite"?"night":"nights"} at the destination · ${m[2]} days`,es:`${m[1]==="noite"?"noche":"noches"} en el destino · ${m[2]} días`})],
  [/^Embarque provável em (.+), com voo noturno\.$/,(m,t)=>({en:`You'll probably fly out on ${t(m[1])}, on an overnight flight.`,es:`Salida probable el ${t(m[1])}, en vuelo nocturno.`})],
@@ -4568,6 +4577,77 @@ function offlineCard(T){
   return `<section class="sec"><div class="glass card" style="flex-direction:row;align-items:center;gap:12px"><span style="font-size:30px">📥</span><span style="flex:1"><b>${o?"Viagem salva para usar sem internet":"Usar sem internet"}</b><br><span class="sub sm">${busy?`Baixando… ${Math.round(S.offBusy*100)}%`:o?`${o.fotos} fotos, roteiro, mala e reservas no celular · ${fmtD(new Date(o.at).toISOString().slice(0,10))}`:"Baixe fotos, roteiro, mala e reservas antes de embarcar."}</span></span><button class="press ${o?"ghost":""}" data-offline ${busy?"disabled":""} style="padding:10px 14px">${o?"Atualizar":"Baixar"}</button></div></section>`;
 }
 
+/* ---------- caminho do dia: coordenadas dos lugares e ordem mais curta ---------- */
+const PGEOK="sunny.pgeo"; let PGEO=null;
+function pgeo(){ if(PGEO) return PGEO; try{ PGEO=JSON.parse(localStorage.getItem(PGEOK)||"{}"); }catch(e){ PGEO={}; } return PGEO; }
+function pgeoSave(){ try{ localStorage.setItem(PGEOK,JSON.stringify(PGEO)); }catch(e){} }
+async function placeLL(cid,name){
+  const C=KB[cid]; if(!C) return null; const key=cid+"|"+name; const G=pgeo(); if(key in G) return G[key];
+  const city=enName(cid); const en=name==="Centro histórico"?"Old Town":tr(name,"en");
+  const q=new URLSearchParams({action:"query",generator:"search",gsrsearch:`${en} ${city}`,gsrlimit:"3",prop:"coordinates",format:"json",origin:"*"});
+  let ll=null;
+  try{ const j=await jget("https://en.wikipedia.org/w/api.php?"+q.toString(),6000); const ps=j&&j.query?Object.values(j.query.pages).sort((a,b)=>a.index-b.index):[];
+    for(const p of ps){ const c=p.coordinates&&p.coordinates[0]; if(c&&km({lat:c.lat,lon:c.lon},C)<35){ ll=[+c.lat.toFixed(5),+c.lon.toFixed(5)]; break; } } }
+  catch(e){ return undefined; }
+  G[key]=ll; pgeoSave(); return ll;
+}
+function dayStops(T,d){ const g=T.guia.find(x=>x.cidade===d.cidade); if(!g) return [];
+  return d.itens.map(([h,t],ii)=>{ const v=g.ver.find(x=>t.startsWith(x[0])); return v&&!/^Bate-volta/.test(v[0])&&!["Museu principal da cidade","Mercado local","Mirante ou parque"].includes(v[0])?{ii,n:v[0]}:null; }).filter(Boolean); }
+const legKmLL=(a,b)=>km({lat:a[0],lon:a[1]},{lat:b[0],lon:b[1]});
+function legTxt(k){ const kmr=k*1.3; if(kmr<=2.5){ const m=Math.max(3,Math.round(kmr/4.5*60/5)*5||3); return `🚶 ${m} min a pé`; } const m=Math.round((kmr/18*60+8)/5)*5; return `🚇 cerca de ${m} min de transporte`; }
+const legMin=k=>{ const kmr=k*1.3; return kmr<=2.5?kmr/4.5*60:kmr/18*60+8; };
+function pathMin(pts){ let s=0; for(let i=1;i<pts.length;i++) s+=legMin(legKmLL(pts[i-1],pts[i])); return s; }
+function perms(a){ if(a.length<=1) return [a]; const out=[]; a.forEach((x,i)=>perms([...a.slice(0,i),...a.slice(i+1)]).forEach(p=>out.push([x,...p]))); return out; }
+function dayRoute(T,di){ const d=T.dias[di]; if(!d||d.tipo==="deslocamento") return null; const cid=cityIdByName(d.cidade); if(!cid) return null;
+  const st=dayStops(T,d); if(st.length<2) return null; const G=pgeo();
+  const miss=st.filter(s=>!((cid+"|"+s.n) in G)); if(miss.length) return {loading:true,cid,miss};
+  const ok=st.map(s=>({...s,ll:G[cid+"|"+s.n]})).filter(s=>s.ll); if(ok.length<2) return null;
+  const c0=[KB[cid].lat,KB[cid].lon]; const P=L=>pathMin([c0,...L.map(s=>s.ll)]);
+  const cur=P(ok); let best=ok, bm=cur; if(ok.length<=6) perms(ok).forEach(p=>{ const m=P(p); if(m<bm-0.5){ bm=m; best=p; } });
+  return {stops:ok,best,cur,bm,c0}; }
+const _rbusy={};
+function routeCard(T,di){
+  const R=dayRoute(T,di); if(!R) return "";
+  if(R.loading){ const k=T.id+":"+di; if(_rbusy[k]==="fail") return "";
+    if(!_rbusy[k]&&navigator.onLine!==false){ _rbusy[k]=1; Promise.all(R.miss.map(s=>placeLL(R.cid,s.n))).then(r=>{ _rbusy[k]=r.some(x=>x===undefined)?"fail":0; if(S.dayOpen&&S.day===di) render(); }); }
+    else if(navigator.onLine===false) return "";
+    return `<div class="glass card route"><span class="k">🧭 Caminho do dia</span><span class="sub sm">Calculando as distâncias…</span></div>`; }
+  const legs=[`<li><b>Centro → ${esc(R.stops[0].n)}</b><span class="sub sm">${legTxt(legKmLL(R.c0,R.stops[0].ll))}</span></li>`,...R.stops.slice(1).map((s,i)=>`<li><b>${esc(R.stops[i].n)} → ${esc(s.n)}</b><span class="sub sm">${legTxt(legKmLL(R.stops[i].ll,s.ll))}</span></li>`)].join("");
+  const save=Math.round(R.cur-R.bm);
+  return `<div class="glass card route"><span class="k">🧭 Caminho do dia</span><ul class="legs">${legs}</ul>${save>=8?`<div class="tip" style="margin:0"><span>💡</span><span><b>Dá para economizar cerca de ${save} min</b><br><span class="sm">Nova ordem: ${R.best.map(s=>esc(s.n)).join(" → ")}</span></span></div><button class="press green" data-reroute="${di}">Reordenar pelo caminho mais curto</button>`:`<span class="sub sm">✓ Esta já é a ordem mais curta.</span>`}</div>`;
+}
+function rerouteDay(T,di){ const R=dayRoute(T,di); if(!R||R.loading) return false; const d=T.dias[di];
+  const slots=R.stops.map(s=>s.ii).sort((a,b)=>a-b); const texts=R.best.map(s=>d.itens[s.ii][1]);
+  const ph=slots.map(ii=>d.itens[ii][0]); slots.forEach((ii,k)=>{ d.itens[ii]=[ph[k],texts[k]]; });
+  d.titulo=d.itens.find(([h,t])=>dayStops(T,d).some(s=>t.startsWith(s.n)))?.[1].split(".")[0]||d.titulo; return true; }
+
+/* ---------- sugestões e feedback dos viajantes ---------- */
+const FEEDBACK_TO=""; // e-mail que recebe as sugestões; vazio = o viajante escolhe como enviar (WhatsApp, e-mail…)
+const FB_CATS=[["bug","🐞","Algo não funcionou"],["ideia","💡","Tenho uma ideia"],["confuso","🤔","Ficou confuso"],["elogio","💛","Gostei muito"]];
+function fbDev(){ const u=navigator.userAgent||""; return /iPhone|iPad|iPod/.test(u)?"iPhone/iPad":/Android/.test(u)?"Android":/Mac/.test(u)?"Mac":/Windows/.test(u)?"Windows":"outro"; }
+function fbContext(){ const T=S.trip; const tela=S.fbBack==="trip"&&T?`viagem · aba ${S.tab}${S.dayOpen?` · dia ${S.day+1}`:""}`:S.fbBack==="wz"?`nova viagem · passo ${(WZ[S.wz]||{}).id}`:S.fbBack||"início";
+  const trip=T&&S.fbBack==="trip"?` · viagem: ${[...new Set(T.cityIds.map(c=>KB[c].pais))].join(", ")}, ${T.cidades.reduce((a,c)=>a+c.noites,0)} noites`:"";
+  return `tela: ${tela} · idioma: ${S.lang||"pt"} · ${fbDev()}${trip} · ${todayISO()}`; }
+function fbText(){ const F=S.fb; const cat=FB_CATS.find(c=>c[0]===F.c);
+  return `Sunny Trip — sugestão\n${F.r?`Nota: ${"☀️".repeat(F.r)} (${F.r}/5)\n`:""}${cat?`Tipo: ${cat[2]}\n`:""}\n${(F.t||"").trim()}\n${F.ctx!==false?`\n— ${fbContext()}`:""}`; }
+function viewFb(){ const F=S.fb=S.fb||{r:0,c:"",t:"",ctx:true};
+  if(F.sent) return `<div class="wz v"><div class="dtop"><button class="pillbtn backb" data-back aria-label="Voltar">← Voltar</button></div>
+    <div class="say">${SUN("","love")}<div class="bubble">Obrigado! Sua sugestão ajuda a deixar o Sunny Trip melhor para todo mundo. ☀️</div></div>
+    ${F.copied?`<div class="tip"><span>📋</span><span>O texto foi copiado. Cole no WhatsApp ou no e-mail para a equipe do Sunny Trip.</span></div>`:""}
+    <button class="press ghost" data-fbnew>Mandar outra sugestão</button></div>`;
+  return `<div class="wz v"><div class="dtop"><button class="pillbtn backb" data-back aria-label="Voltar">← Voltar</button><h2 style="font-size:22px">Sugestões</h2></div>
+    <div class="say">${SUN()}<div class="bubble">Conta pra gente: o que funcionou, o que faltou, o que confundiu?</div></div>
+    <span class="k">Sua nota para o app</span><div class="fbsun">${[1,2,3,4,5].map(k=>`<button class="${F.r>=k?"on":""}" data-fbr="${k}" aria-label="Nota ${k} de 5">☀️</button>`).join("")}</div>
+    <span class="k">Sobre o quê?</span><div class="chips">${FB_CATS.map(([k,e,n])=>`<button class="chip ${F.c===k?"on":""}" data-fbc="${k}">${e} ${n}</button>`).join("")}</div>
+    <label class="f"><span>Sua mensagem</span><textarea data-fbt rows="5" placeholder="Ex.: quero escolher por qual cidade chego e por qual saio">${esc(F.t||"")}</textarea></label>
+    <button class="opt ${F.ctx!==false?"on":""}" data-fbctx><span class="e">${F.ctx!==false?"✅":"⬜"}</span><span><b>Incluir em que tela eu estava</b><small>Tela, idioma, aparelho e países da viagem. Sem nomes nem documentos.</small></span></button>
+    <div class="wzBar"><div class="in"><button class="press green" data-fbsend ${(F.t||"").trim().length>=3||F.r?"":"disabled"}>Enviar sugestão</button></div></div></div>`; }
+async function fbSend(){ const F=S.fb; const text=fbText(); try{ const L=JSON.parse(localStorage.getItem("sunny.fb")||"[]"); L.push({at:Date.now(),text}); localStorage.setItem("sunny.fb",JSON.stringify(L.slice(-30))); }catch(e){}
+  if(FEEDBACK_TO){ location.href=`mailto:${FEEDBACK_TO}?subject=${encodeURIComponent("Sunny Trip — sugestão")}&body=${encodeURIComponent(text)}`; F.sent=true; render(); return; }
+  try{ if(navigator.share){ await navigator.share({title:"Sunny Trip — sugestão",text}); F.sent=true; render(); return; } }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(text); F.copied=true; }catch(e){ F.copied=false; }
+  F.sent=true; render(); }
+
 /* ===== Sunny — agente de IA do app (texto + voz + ações) =====
    Cérebros, em ordem: 1) Claude (quando o app roda dentro do Claude: capability "sample", com ferramentas)
                        2) servidor próprio configurado (proxy da API da Anthropic, com ferramentas e streaming)
@@ -4637,7 +4717,7 @@ async function agCreateTrip(a){
   if(!a._qualified){ const miss=[]; if(!a.user_confirmed) miss.push("the user's explicit confirmation of the summary"); if(!a.start_date) miss.push("travel dates or month"); if(!a.end_date&&!a.days) miss.push("trip length");
     if(a.adults==null) miss.push("who is travelling (adults, children's ages, 60+, pets)"); if(!a.origin) miss.push("departure city"); if(!(+a.budget>0)&&!a.style) miss.push("budget or travel style"); if(!a.pace) miss.push("pace"); if(!a.interests||!a.interests.length) miss.push("interests");
     if(miss.length) throw new Error("Not qualified yet. Before building, ask the user (one or two questions at a time, with offer_choices) about: "+miss.join("; ")+". Then show a summary and get a yes."); }
-  const F={paises:[],cidades:[],gx:{},ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"],modo:"sug",bmode:"estilo"};
+  const F={chegada:true,paises:[],cidades:[],gx:{},ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"],modo:"sug",bmode:"estilo"};
   const home=(S.home&&S.home.cc)||"BR"; const notes=[];
   if(a.origin){ const p=agPlace(String(a.origin),home); if(p&&p.city) F.origemCity=agMeta(p.city); else if(p&&p.cc){ const c=agCapital(p.cc); if(c) F.origemCity=agMeta(c); } else notes.push(`origem "${a.origin}" não encontrada; usei ${origOf(S.form).nome}`); }
   if(!F.origemCity&&S.form&&S.form.origemCity) F.origemCity=S.form.origemCity;
@@ -4674,6 +4754,12 @@ async function agCreateTrip(a){
   F.noites=defaultNoites(F);
   if(a.nights_per_city&&typeof a.nights_per_city==="object"){ const fixed=[]; Object.entries(a.nights_per_city).forEach(([k,v])=>{ const p=agPlace(k,F.paises[0]); const id=p&&p.city&&ids.find(x=>x===p.city.id||norm(KB[x].nome)===norm(p.city.nome)||norm(KB[x].gname||"")===norm(p.city.name)); if(id){ F.noites[id]=Math.max(0,Math.round(+v||0)); fixed.push(id); } });
     if(fixed.length&&!agRebalance(F,ids,fixed)){ F.noites=defaultNoites(F); notes.push("as noites pedidas não fecham com as datas; usei a divisão sugerida"); } }
+  // por onde chegam, por onde saem e bate-voltas
+  const findId=nm=>{ if(!nm) return null; const p=agPlace(String(nm),F.paises[0]); const n=norm(String(nm)); return ids.find(x=>(p&&p.city&&(x===p.city.id||norm(KB[x].gname||"")===norm(p.city.name)))||norm(KB[x].nome)===n||norm(KB[x].gname||"")===n)||null; };
+  const bt=[].concat(a.day_trips||[]).map(findId).filter(Boolean);
+  if(bt.length&&bt.length<ids.length){ F.bate={}; bt.forEach(id=>{ F.bate[id]=true; F.noites[id]=0; }); if(!agRebalance(F,ids,bt)) { F.noites=defaultNoites(F); F.bate={}; notes.push("não deu para fazer esses bate-voltas com as datas; mantive as noites sugeridas"); } }
+  const arr=findId(a.arrive_city), lv=findId(a.leave_city);
+  if(arr||lv){ const on=ids.filter(id=>(F.noites[id]||0)>0); let o=orderCities(on,origOf(F)); if(arr&&o.includes(arr)) o=[arr,...o.filter(x=>x!==arr)]; if(lv&&o.includes(lv)&&lv!==o[0]) o=[...o.filter(x=>x!==lv),lv]; F.ordem=o; }
   S.form=JSON.parse(JSON.stringify(F)); save();
   await enrichAll(ids,F);
   const T=generate(F,ids); S.trips.unshift(T); AG.keepOpen=true; openTrip(0);
@@ -4698,6 +4784,7 @@ function agOpen(a){
   const sc=String(a.screen||"").toLowerCase();
   if(a.trip_number){ const i=Math.round(+a.trip_number)-1; if(!S.trips[i]) throw new Error("Essa viagem não existe."); AG.keepOpen=true; openTrip(i); }
   if(sc==="home"){ S.view="home"; S.trip=null; S.ti=null; render(); return {ok:true,tela:"inicio do app"}; }
+  if(sc==="feedback"){ S.fbBack=S.view; S.view="fb"; render(); return {ok:true,tela:"sugestões"}; }
   if(sc==="settings"){ S.cfgBack=S.view; S.view="cfg"; render(); return {ok:true,tela:"ajustes"}; }
   if(sc==="new_trip"){ S.view="wz"; S.wz=0; render(); return {ok:true,tela:"assistente de nova viagem"}; }
   if(sc==="import"){ S.imp={back:S.view}; S.view="imp"; render(); return {ok:true,tela:"importar reservas"}; }
@@ -4736,11 +4823,11 @@ function agPrefs(a){ const out={};
   save(); render(); agRender(); return {ok:true,...out}; }
 const AG_TOOLS=[
   {name:"create_trip",act:"mk",done:"mkd",description:"Creates a new trip in the app and opens it (itinerary day by day, budget, packing list). ONLY call it after the full qualification and after the user confirmed your summary (user_confirmed=true). Never invent dates, people or budget. Returns the trip summary.",
-    inputSchema:{type:"object",properties:{origin:{type:"string",description:"Departure city (or country)"},return_to:{type:"string",description:"Only if returning to a different city"},destinations:{type:"array",items:{type:"string"},description:"Cities and/or countries, any language. A country alone lets the app pick its best cities."},start_date:{type:"string",description:"YYYY-MM-DD"},end_date:{type:"string",description:"YYYY-MM-DD (return flight date)"},days:{type:"integer",description:"Trip length in days, if no end_date"},adults:{type:"integer"},seniors:{type:"integer",description:"People 60+"},children_ages:{type:"array",items:{type:"integer"}},pet_name:{type:"string"},budget:{type:"number",description:"Total budget for the whole group"},budget_currency:{type:"string",description:"ISO code, e.g. BRL, EUR, USD"},budget_includes_flights:{type:"boolean"},style:{type:"string",enum:["Conforto","Médio","Econômico","Super econômico"]},pace:{type:"string",enum:["Tranquilo","Equilibrado","Intenso"]},interests:{type:"array",items:{type:"string",enum:["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"]}},nights_per_city:{type:"object",description:"Optional {city: nights}",additionalProperties:{type:"integer"}},free_days:{type:"boolean",description:"true = leave days empty for the user to fill"},must_do:{type:"string",description:"Something the user said they can't miss"},accessibility:{type:"boolean",description:"Someone has reduced mobility / wheelchair"},diet:{type:"array",items:{type:"string",enum:["veg","vegan","gluten","lactose","allergy","nopork"]}},user_confirmed:{type:"boolean",description:"true ONLY after you showed the full summary and the user said yes"}},required:["destinations","user_confirmed"]},
+    inputSchema:{type:"object",properties:{origin:{type:"string",description:"Departure city (or country)"},return_to:{type:"string",description:"Only if returning to a different city"},destinations:{type:"array",items:{type:"string"},description:"Cities and/or countries, any language. A country alone lets the app pick its best cities."},start_date:{type:"string",description:"YYYY-MM-DD"},end_date:{type:"string",description:"YYYY-MM-DD (return flight date)"},days:{type:"integer",description:"Trip length in days, if no end_date"},adults:{type:"integer"},seniors:{type:"integer",description:"People 60+"},children_ages:{type:"array",items:{type:"integer"}},pet_name:{type:"string"},budget:{type:"number",description:"Total budget for the whole group"},budget_currency:{type:"string",description:"ISO code, e.g. BRL, EUR, USD"},budget_includes_flights:{type:"boolean"},style:{type:"string",enum:["Conforto","Médio","Econômico","Super econômico"]},pace:{type:"string",enum:["Tranquilo","Equilibrado","Intenso"]},interests:{type:"array",items:{type:"string",enum:["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"]}},nights_per_city:{type:"object",description:"Optional {city: nights}",additionalProperties:{type:"integer"}},arrive_city:{type:"string",description:"City where the trip starts (arrival), if the user said"},leave_city:{type:"string",description:"City where the trip ends (departure flight), if the user said"},day_trips:{type:"array",items:{type:"string"},description:"Cities to visit only for the day from a nearby base city (0 nights)"},free_days:{type:"boolean",description:"true = leave days empty for the user to fill"},must_do:{type:"string",description:"Something the user said they can't miss"},accessibility:{type:"boolean",description:"Someone has reduced mobility / wheelchair"},diet:{type:"array",items:{type:"string",enum:["veg","vegan","gluten","lactose","allergy","nopork"]}},user_confirmed:{type:"boolean",description:"true ONLY after you showed the full summary and the user said yes"}},required:["destinations","user_confirmed"]},
     run:agCreateTrip},
   {name:"set_nights",act:"nt",done:"ntd",description:"Changes how many nights the open trip spends in one city and rebuilds the itinerary. By default keeps the same flight dates (takes/gives nights from other cities); extend_trip=true moves the return date instead.",
     inputSchema:{type:"object",properties:{city:{type:"string"},nights:{type:"integer",description:"New total nights in that city"},delta:{type:"integer",description:"Or +1/-1 relative change"},extend_trip:{type:"boolean"}},required:["city"]},run:agSetNights},
-  {name:"open_screen",act:"op",description:"Navigates the app. screen: home | new_trip | import | settings | overview | itinerary | calendar | day | costs | bag | guide. For 'day' pass day (1-based) or date.",
+  {name:"open_screen",act:"op",description:"Navigates the app. screen: home | new_trip | import | settings | feedback (send a suggestion or report a problem to the Sunny Trip team) | overview | itinerary | calendar | day | costs | bag | guide. For 'day' pass day (1-based) or date.",
     inputSchema:{type:"object",properties:{screen:{type:"string"},day:{type:"integer"},date:{type:"string"},trip_number:{type:"integer",description:"Open a saved trip (1-based)"}},required:["screen"]},run:agOpen},
   {name:"get_day",act:"day",description:"Returns the full plan of one day of the open trip: schedule, tip, weather, holiday, reservations.",
     inputSchema:{type:"object",properties:{day:{type:"integer"},date:{type:"string"}}},run:agDay},
@@ -4763,6 +4850,7 @@ PLANNING A NEW TRIP — always qualify first, like a great human travel agent:
    b) dates: do they have fixed dates, only a month, or are they flexible (then help pick the best season);
    c) trip length in days (if no return date);
    d) departure city;
+   d2) with 2+ cities: which city they arrive in and which they leave from, and whether any city is just a day trip from a base city (no overnight);
    e) who travels: adults, children and their ages, people 60+, pets;
    e2) special needs: reduced mobility, dietary restrictions (vegetarian, vegan, gluten-free, lactose-free, allergy, no pork), baby;
    f) budget: a total amount (with or without flights, currency) or a style (budget / mid-range / comfort);
@@ -5037,7 +5125,7 @@ function qExtract(text,stage){
   const y0=+todayISO().slice(0,4);
   const mk=(d,mo,y)=>{ let yy=y?(+y<100?2000+ +y:+y):y0; let iso=`${yy}-${String(mo+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`; if(!y&&iso<=todayISO()) iso=`${yy+1}${iso.slice(4)}`; return iso; };
   const dm=[...text.matchAll(/(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?/g)]; const en=AGL()==="en";
-  const pick=x=>en?[+x[2],+x[1]-1,x[3]]:[+x[1],+x[2]-1,x[3]];
+  const us=en&&/US|PH/.test((navigator.language||"")+(S.home&&S.home.cc||"")); const pick=x=>{ const a1=+x[1], b1=+x[2]; let m=us; if(a1>12) m=false; else if(b1>12) m=true; return m?[b1,a1-1,x[3]]:[a1,b1-1,x[3]]; };
   if(dm.length){ const [d1,m1,yy1]=pick(dm[0]); if(m1>=0&&m1<12&&d1>=1&&d1<=31){ o.ida=mk(d1,m1,yy1); if(dm[1]){ const [d2,m2,yy2]=pick(dm[1]); if(m2>=0&&m2<12&&d2>=1&&d2<=31){ o.volta=mk(d2,m2,yy2); if(o.volta<=o.ida) o.volta=mk(d2,m2,String(+o.ida.slice(0,4)+1)); } } } }
   if(!o.ida){ const ex=[...n.matchAll(/ (\d{1,2}) (?:de )?([a-z]+)(?= )/g)].filter(x=>AG_MON[x[2]]!=null&&(x[2].length>3||x[2]==="may")&&+x[1]>=1&&+x[1]<=31);
     if(ex[0]){ o.ida=mk(+ex[0][1],AG_MON[ex[0][2]]); if(ex[1]){ o.volta=mk(+ex[1][1],AG_MON[ex[1][2]]); if(o.volta<=o.ida) o.volta=mk(+ex[1][1],AG_MON[ex[1][2]],String(+o.ida.slice(0,4)+1)); } } }
@@ -5085,6 +5173,8 @@ function qExtract(text,stage){
 }
 function qMerge(q,o,stage){
   const s=q.s;
+  if(["arrive","leave","bate"].includes(stage)){ const ids=[...(o.places||[]),...(o.origin?[o.origin]:[])].filter(p=>p.city).map(p=>s.cities.find(c=>c.id===p.city.id||norm(c.nome)===norm(p.city.nome)||norm(c.name)===norm(p.city.name))).filter(Boolean).map(c=>c.id);
+    if(stage==="arrive") s.arrive=ids[0]||null; else if(stage==="leave") s.leave=ids[0]||null; else s.bate=ids.filter(id=>id!==s.arrive&&id!==s.leave); return; }
   if(o.origin){ const p=o.origin; s.origin=p.city?agMeta(p.city):agMeta(agCapital(p.cc)); s.originName=p.city?p.city.nome:countryName(p.cc); }
   if(o.places&&o.places.length&&stage!=="origin"&&stage!=="must"){ o.places.forEach(p=>{ if(p.cc){ if(!s.ccs.includes(p.cc)) s.ccs.push(p.cc); } else { if(!s.cities.some(c=>c.id===p.city.id)) s.cities.push(p.city); if(!s.ccs.includes(p.city.cc)) s.ccs.push(p.city.cc); } }); }
   if(o.ida){ s.ida=o.ida; s.month=null; if(o.volta) s.volta=o.volta; }
@@ -5119,6 +5209,9 @@ function qSummary(s){
   const pace=({"Tranquilo":["tranquilo","relaxed","tranquilo"],"Equilibrado":["equilibrado","balanced","equilibrado"],"Intenso":["intenso","packed","intenso"]})[s.pace||"Equilibrado"][qLi()];
   const lines=[`- **${QW("Destino","Destination","Destino")}:** ${dest}`,`- **${QW("Datas","Dates","Fechas")}:** ${fmtD(ida)} – ${fmtD(volta)} (${N} ${QW("dias","days","días")})${s.ida?"":QW(" · datas sugeridas"," · suggested dates"," · fechas sugeridas")}`,`- **${QW("Saída","From","Salida")}:** ${tr(s.originName||origOf(S.form).nome)}`,`- **${QW("Quem vai","Travellers","Quiénes van")}:** ${ppl}`,`- **${QW("Orçamento","Budget","Presupuesto")}:** ${bud}`,`- **${QW("Gostam de","Into","Les gusta")}:** ${inter||"—"}`,`- **${QW("Ritmo","Pace","Ritmo")}:** ${pace}`];
   if(s.acess||(s.dieta&&s.dieta.length)) lines.push(`- **${QW("Precisa de","Needs","Necesita")}:** ${[s.acess?QW("mobilidade reduzida","reduced mobility","movilidad reducida"):"",...(s.dieta||[]).map(k=>{ const d=DIETS.find(x=>x[0]===k); return d?tr(d[2]).toLowerCase():k; })].filter(Boolean).join(", ")}`);
+  const cnm=id=>{ const c=s.cities.find(x=>x.id===id); return c?tr(c.nome):""; };
+  if(s.arrive||s.leave) lines.push(`- **${QW("Rota","Route","Ruta")}:** ${s.arrive?QW("chegada por ","arrive in ","llegada por ")+cnm(s.arrive):""}${s.arrive&&s.leave?" · ":""}${s.leave?QW("saída por ","leave from ","salida por ")+cnm(s.leave):""}`);
+  if(s.bate&&s.bate.length) lines.push(`- **${QW("Só passar o dia","Day visits only","Solo pasar el día")}:** ${s.bate.map(cnm).join(", ")}`);
   if(s.must) lines.push(`- **${QW("Não pode faltar","Must-do","No puede faltar")}:** ${s.must}`);
   return lines.join("\n");
 }
@@ -5145,6 +5238,13 @@ function qAsk(q){
   if(!s.volta&&!s.days){ q.stage="days"; return {t:say("Quantos dias de viagem vocês têm, contando ida e volta?","How many days do you have, counting travel days?","¿Cuántos días de viaje tienen, contando ida y vuelta?"),opts:[7,10,14,21].map(d=>({l:QW(`${d} dias`,`${d} days`,`${d} días`),v:`@d${d}`}))}; }
   if(!s.origin&&!q.asked.origin){ q.asked.origin=true; q.stage="origin"; const def=origOf(S.form);
     return {t:say("De onde vocês saem?","Where are you flying from?","¿Desde dónde salen?"),opts:[{l:`📍 ${tr(def.nome)}`,v:"@defOrigin"}]}; }
+  if(s.cities.length>=2&&!q.asked.arrive){ q.asked.arrive=true; q.stage="arrive";
+    return {t:say("Por qual cidade vocês chegam?","Which city do you arrive in?","¿Por qué ciudad llegan?"),opts:[...s.cities.map(c=>({l:`🛬 ${tr(c.nome)}`,v:`@ar:${c.id}`})),qO("Tanto faz, eu escolho a melhor rota","Any, pick the best route","Da igual, elige la mejor ruta","@arAny")]}; }
+  if(s.cities.length>=2&&!q.asked.leave){ q.asked.leave=true; q.stage="leave";
+    return {t:say("E por qual cidade vocês saem para voltar?","And which city do you leave from?","¿Y por qué ciudad salen para volver?"),opts:[...s.cities.filter(c=>c.id!==s.arrive).map(c=>({l:`🛫 ${tr(c.nome)}`,v:`@lv:${c.id}`})),...(s.arrive?[qO("A mesma da chegada","Same as arrival","La misma de la llegada",`@lv:${s.arrive}`)]:[]),qO("Tanto faz","Any","Da igual","@lvAny")]}; }
+  if(s.cities.length>=2&&!q.asked.bate){ q.asked.bate=true; q.stage="bate";
+    return {t:say("Vão dormir em todas essas cidades, ou alguma é só para passar o dia, saindo de uma cidade-base? Marque as de bate-volta.","Will you sleep in all these cities, or is any just a day visit from a base city? Tick the day trips.","¿Dormirán en todas estas ciudades, o alguna es solo para pasar el día desde una ciudad base? Marca las excursiones."),
+      opts:[...s.cities.filter(c=>c.id!==s.arrive&&c.id!==s.leave).map(c=>({l:`☀️ ${tr(c.nome)}`,v:c.name})),qO("Dormir em todas","Sleep in all of them","Dormir en todas","@btNone")],multi:true}; }
   if(s.adults==null&&q.stage==="groupN") return {t:say("Quantas pessoas vão no total?","How many people in total?","¿Cuántas personas van en total?"),opts:[3,4,5,6,8].map(k=>({l:String(k),v:`@n${k}`}))};
   if(s.adults==null){ q.stage="who"; return {t:say("Quem vai na viagem?","Who's travelling?","¿Quiénes van al viaje?"),opts:[qO("Só eu","Just me","Solo yo","@w1"),qO("Casal","A couple","Pareja","@w2"),qO("Casal com filhos","Couple with kids","Pareja con hijos","@w2k"),qO("Família com avós","Family with grandparents","Familia con abuelos","@w2s"),qO("Grupo de amigos","Group of friends","Grupo de amigos","@wg")]}; }
   if(s.kids===-1||(s.kids>0&&!s.ages)){ q.stage="ages"; return {t:say("Quantas crianças vão e quantos anos elas têm? Por exemplo: 2 crianças, de 4 e 9 anos.","How many children and how old are they? E.g. 2 kids, aged 4 and 9.","¿Cuántos niños van y qué edades tienen? Por ejemplo: 2 niños, de 4 y 9 años.")}; }
@@ -5162,6 +5262,9 @@ function qAsk(q){
 /* respostas dos botões */
 function qChip(q,v){ const s=q.s; let m;
   if(v==="@unknown"){ q.asked.dest=true; return; }
+  if((m=v.match(/^@ar:(.+)$/))){ s.arrive=m[1]; return; } if(v==="@arAny"){ s.arrive=null; return; }
+  if((m=v.match(/^@lv:(.+)$/))){ s.leave=m[1]; return; } if(v==="@lvAny"){ s.leave=null; return; }
+  if((m=v.match(/^@bt:(.+)$/))){ s.bate=[...new Set([...(s.bate||[]),m[1]])]; return; } if(v==="@btNone"){ s.bate=[]; return; }
   if(v==="@suggest"){ s.suggest=true; return; }
   if(v==="@has"){ q.stage="dates"; return "dates"; }
   if(v==="@month"){ q.stage="month"; return; }
@@ -5184,6 +5287,8 @@ async function qBuild(q){
   const s=q.s; const ida=s.ida||qFirstSat(s.month); const volta=s.volta||addDays(ida,(s.days||10)-1);
   const a={destinations:[...s.cities.map(c=>c.name),...s.ccs.filter(cc=>!s.cities.some(c=>c.cc===cc)).map(cc=>countryNameL(cc,"en"))],start_date:ida,end_date:volta,adults:s.adults||2,seniors:s.seniors||0,
     children_ages:s.kids>0?(s.ages||Array(s.kids).fill(8)):[],pace:s.pace||"Equilibrado",interests:s.inter.length?s.inter:undefined,_qualified:true};
+  const cn=id=>{ const c=s.cities.find(x=>x.id===id); return c&&c.name; };
+  if(s.arrive) a.arrive_city=cn(s.arrive); if(s.leave) a.leave_city=cn(s.leave); if(s.bate&&s.bate.length) a.day_trips=s.bate.map(cn).filter(Boolean);
   if(s.origin) a.origin=s.origin.name; if(s.pet) a.pet_name="Pet"; if(s.acess) a.accessibility=true; if(s.dieta&&s.dieta.length) a.diet=s.dieta;
   if(s.budget){ a.budget=s.budget; a.budget_currency=s.cur; a.budget_includes_flights=s.bvoo!==false; } else a.style=s.style||"Médio";
   if(s.origin) S.form.origemCity=s.origin;
@@ -5292,7 +5397,8 @@ function viewCfg(){
     <span class="k">Tema</span><div class="seg"><button class="${S.theme==="auto"?"on":""}" data-th="auto">🌓 Auto</button><button class="${S.theme==="light"?"on":""}" data-th="light">☀️ Claro</button><button class="${S.theme==="dark"?"on":""}" data-th="dark">🌙 Escuro</button></div></div>
     <div class="glass card"><span class="k">🤖 Agente Sunny</span><span class="sub sm">Dentro do Claude, o agente usa o Claude. Fora dele, conecte seu servidor de IA para ter respostas completas; sem servidor, ele funciona no modo offline.</span>
       <label class="f"><span>Endereço do servidor de IA (opcional)</span><input type="url" data-agurl value="${esc(S.agUrl||"")}" placeholder="https://sunny-ai.seunome.workers.dev" autocomplete="off" inputmode="url"></label>
-      <span class="sub xs">Status: ${AG.brain==="claude"?"usando o Claude":AG.brain==="proxy"?"conectado ao seu servidor":"modo offline"}</span></div>`;
+      <span class="sub xs">Status: ${AG.brain==="claude"?"usando o Claude":AG.brain==="proxy"?"conectado ao seu servidor":"modo offline"}</span></div>
+    <button class="press ghost" data-fb>💬 Enviar uma sugestão</button>`;
 }
 
 /* ---------- início ---------- */
@@ -5305,6 +5411,7 @@ function viewHome(){
     <button class="press green" data-start style="margin-top:10px">Começar</button>
     <button class="press ghost" data-imp>📎 Já tenho passagens e hotéis</button>
     <button class="press ghost" data-example>Ver um exemplo</button>
+    <button class="link" data-fb style="align-self:center">💬 Dar uma sugestão</button>
     <p class="sub xs" style="text-align:center;margin:10px 0 0">Cidades: GeoNames (CC BY 4.0) · Lugares e fotos: Wikipédia e Wikimedia Commons · Clima: Open-Meteo · Câmbio: Frankfurter</p>
   </div>`;
   return `<div class="v col" style="padding-top:16px;gap:16px">
@@ -5312,6 +5419,7 @@ function viewHome(){
     <div class="say">${SUN("bob")}<div class="bubble">Bem-vindo de volta! Qual viagem vamos abrir?</div></div>
     <section class="glass" style="overflow:hidden">${S.trips.map((t,i)=>S.delAsk===i?`<div class="tripRow" style="cursor:default;background:#ffe4e4;color:#8a1c1c"><span style="flex:1"><b>Excluir “${esc(t.titulo)}”?</b><br><span class="sm">Some deste aparelho e não dá para desfazer.</span></span><button class="press" style="--c:var(--red);--d:var(--red-d);color:#fff;padding:10px 12px;font-size:13px" data-deltrip="${i}">Excluir</button><button class="pillbtn" data-delno>Não</button></div>`:`<div class="row" style="flex-wrap:nowrap;gap:0;border-top:${i?"2px solid var(--line)":"0"}"><button class="tripRow" style="border:0" data-open="${i}"><span class="th phw" data-ph="c:${esc(t.cityIds[0])}">${artById(t.cityIds[0],'preserveAspectRatio="xMidYMid slice"')}</span><span style="flex:1"><b>${esc(t.titulo)}</b><br><span class="sub sm">${fmtD(t.ida)} – ${fmtD(t.volta)}</span></span><span class="sub" aria-hidden="true">›</span></button><button class="pillbtn" style="margin-right:10px;box-shadow:none" data-delask="${i}" aria-label="Excluir ${esc(t.titulo)}">🗑️</button></div>`).join("")}</section>
     <button class="press green" data-start>Nova viagem</button>
+    <button class="link" data-fb style="align-self:center">💬 Dar uma sugestão</button>
     <button class="press ghost" data-imp>📎 Montar com passagens e hotéis</button>
     <button class="press ghost" data-example>Ver um exemplo</button>
     <p class="sub xs" style="text-align:center;margin:10px 0 0">Cidades: GeoNames (CC BY 4.0) · Lugares e fotos: Wikipédia e Wikimedia Commons · Clima: Open-Meteo · Câmbio: Frankfurter</p>
@@ -5736,6 +5844,7 @@ function dayDetail(){
     <div class="row sb"><span class="k">Programa do dia</span><button class="chip ${S.dayEdit?"on":""}" data-dayedit>${S.dayEdit?"✓ Pronto":"✏️ Editar dia"}</button></div>
     <ul class="tl">${d.itens.map(([h,t],ii)=>{ const g=T.guia.find(x=>x.cidade===d.cidade); const v=g&&g.ver.find(x=>t.startsWith(x[0])); return `<li style="grid-template-columns:${v?"64px":"44px"} 1fr${S.dayEdit?" 36px":""}">${v?`<span class="h phw tlph" data-ph="p:${esc(d.cidade)}|${esc(v[0])}" ${v[2]?`data-src="${esc(v[2])}"`:""}>${slotEmo(h)}</span>`:`<span class="h">${slotEmo(h)}</span>`}<span class="tx"><small>${esc(h)}</small>${esc(t)}</span>${S.dayEdit?`<button class="x" data-delit="${ii}" aria-label="Tirar" style="border:0;background:none;font-size:22px;color:var(--red);cursor:pointer">×</button>`:""}</li>`; }).join("")}</ul>
     ${S.dayEdit?dayAdd(T,d):""}
+    ${typeof routeCard==="function"?routeCard(T,S.day):""}
     ${d.dica?`<div class="tip"><span>💡</span><span>${esc(d.dica)}</span></div>`:""}
     ${d.passos?`<div class="glass card"><span class="k">Passo a passo</span><ol class="steps">${d.passos.map(([h,t],i)=>`<li><i>${i+1}</i><span><b>${esc(h)}</b><br><span class="sm sub">${esc(t)}</span></span></li>`).join("")}</ol></div>`:""}
     <div class="g2" style="margin-top:4px"><button class="press ghost" data-day="${S.day-1}" ${S.day===0?"disabled":""}>Anterior</button><button class="press green" data-day="${S.day+1}" ${S.day===n-1?"disabled":""}>Próximo dia</button></div>
@@ -5884,6 +5993,7 @@ function render(){
   else if(S.view==="gen") app.innerHTML=viewGen();
   else if(S.view==="imp") app.innerHTML=viewImp();
   else if(S.view==="cfg") app.innerHTML=viewCfg();
+  else if(S.view==="fb") app.innerHTML=viewFb();
   else if(S.view==="nights") app.innerHTML=`<div class="wz"><div class="dtop"><button class="pillbtn backb" data-back aria-label="Voltar">← Voltar</button><h2 style="font-size:22px">Ajustar noites</h2></div>
     <div class="say">${SUN()}<div class="bubble">Quer ficar mais um dia em algum lugar? É só mexer aqui.</div></div><div id="nrows" class="col">${noitesRows(S.nf)}</div></div>
     <div class="wzBar"><div class="in"><button class="press green" data-nsave ${noitesOk(S.nf,prepCities(S.nf))?"":"disabled"}>Salvar e refazer roteiro</button></div></div>`;
@@ -5917,6 +6027,7 @@ function goBack(){
   else if(S.view==="imp"){ S.view=(S.imp&&S.imp.back)||"home"; if(S.view==="trip"&&!S.trip) S.view="home"; }
   else if(S.view==="nights"){ S.view="trip"; }
   else if(S.view==="cfg"){ S.view=S.cfgBack||"home"; if(S.view==="trip"&&!S.trip) S.view="home"; }
+  else if(S.view==="fb"){ S.view=S.fbBack||"home"; if(S.view==="trip"&&!S.trip) S.view="home"; if(S.fb&&S.fb.sent) S.fb=null; }
   else if(S.view==="trip"){ if(S.delAsk!=null) S.delAsk=null; else if(S.dayOpen){ S.dayOpen=false; S.dayEdit=false; } else if(S.tab!=="inicio") S.tab="inicio"; else { S.view="home"; S.trip=null; S.ti=null; GF=null; } }
   else if(S.view==="gen") return;
   else return false;
@@ -5926,6 +6037,12 @@ window.addEventListener("popstate",()=>{ if(typeof AG!=="undefined"){ if(AG._ski
 document.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b||b.disabled) return; const D=b.dataset, F=S.form;
   if("back" in D){ goBack(); return; }
+  if("fb" in D){ S.fbBack=S.view==="cfg"?(S.cfgBack||"home"):S.view; S.view="fb"; render(); window.scrollTo(0,0); return; }
+  if(D.fbr){ S.fb.r=+D.fbr; render(); return; }
+  if(D.fbc){ S.fb.c=S.fb.c===D.fbc?"":D.fbc; render(); return; }
+  if("fbctx" in D){ S.fb.ctx=S.fb.ctx===false; render(); return; }
+  if("fbsend" in D){ fbSend(); return; }
+  if("fbnew" in D){ S.fb={r:0,c:"",t:"",ctx:true}; render(); return; }
   if("cfg" in D){ S.cfgBack=S.view; S.view="cfg"; render(); window.scrollTo(0,0); return; }
   if(D.lang){ S.lang=D.lang; save(); render(); return; }
   if(D.th){ S.theme=D.th; save(); render(); return; }
@@ -5996,6 +6113,7 @@ document.addEventListener("click",e=>{
   if(D.open){ openTrip(+D.open); return; }
   if("home" in D){ S.view="home"; S.trip=null; S.ti=null; GF=null; render(); window.scrollTo(0,0); return; }
   if(D.tab){ S.tab=D.tab; S.dayOpen=false; GF=null; render(); window.scrollTo({top:0}); return; }
+  if(D.reroute!=null){ if(rerouteDay(S.trip,+D.reroute)){ persistTrip(); render(); } return; }
   if(D.goday){ S.day=+D.goday; S.tab="roteiro"; S.dayOpen=true; render(); window.scrollTo({top:0}); return; }
   if(D.openday){ S.dayEdit=false; S.day=+D.openday; S.dayOpen=true; render(); window.scrollTo({top:0}); return; }
   if("closeday" in D){ S.dayOpen=false; render(); const nd=document.querySelector(`[data-openday="${S.day}"]`); nd&&nd.scrollIntoView({block:"center"}); return; }
@@ -6020,7 +6138,7 @@ document.addEventListener("change",e=>{ if(e.target.matches&&e.target.matches("[
   if(D.task){ const T=S.trip; T.tasks=T.tasks||{}; T.tasks[D.task]=t.checked; persistTrip(); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
   if(D.ck){ S.trip.checks[D.ck]=t.checked; persistTrip(); const total=S.trip.mala.todos.length+S.trip.mala.por_pessoa.reduce((a,p)=>a+p.itens.length,0); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
 });
-document.addEventListener("input",e=>{ const D=e.target.dataset;
+document.addEventListener("input",e=>{ const D=e.target.dataset; if("fbt" in D&&S.fb){ S.fb.t=e.target.value; const sb=document.querySelector("[data-fbsend]"); if(sb) sb.disabled=!(S.fb.t.trim().length>=3||S.fb.r); return; }
   if(D.f==="petNome"){ S.form.petNome=e.target.value; save(); refreshNext(); return; }
   if(D.f==="ida"||D.f==="volta"){ onDate(e.target); return; }
   if(D.icity!=null){ const i=D.icity; const r=searchAllCities(e.target.value,6); const el=document.getElementById("icres-"+i); if(el) el.innerHTML=`<div class="chips">${r.map(c=>`<button class="chip" data-icpick="${i}:${esc(c.cc+":"+c.name)}">${flag(c.cc)} ${esc(c.nome)}</button>`).join("")}</div>`; return; }
