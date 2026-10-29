@@ -3058,7 +3058,7 @@ async function agSend(text,opt={}){
     else bot.t=(e&&e.text)||((e&&e.message&&!code)?`⚠️ ${e.message}`:AT("err"));
   }
   bot.live=false; AG.busy=false; AG.ctl=null; AG.turn=null; if(!bot.t) bot.t="✓"; agRender();
-  try{ sessionStorage.setItem("sunny.ag",JSON.stringify(AG.msgs.slice(-30).map(({r,t,acts,links,note,opts,multi})=>({r,t,acts,links,note,opts,multi})))); }catch(e){}
+  try{ localStorage.setItem("sunny.ag",JSON.stringify(AG.msgs.slice(-30).map(({r,t,acts,links,note,opts,multi})=>({r,t,acts,links,note,opts,multi})))); }catch(e){} if(typeof navSave==="function") navSave();
   if(opt.voice||AG.speak) agSpeak(bot.t);
 }
 /* ---------- voz ---------- */
@@ -3117,11 +3117,12 @@ function agScroll(){ const box=document.getElementById("agMsgs"); if(box) box.sc
 function agAutoGrow(t){ t.style.height="auto"; t.style.height=Math.min(120,t.scrollHeight)+"px"; }
 function agNote(t){ AG.msgs.push({r:"a",t,sys:true}); agRender(); }
 function agSendOpts(m){ const ch=m.sel.map(k=>m.opts[k]); m.opts=null; agSend(ch.map(o=>o.l).join(", "),{val:(AG.brain==="local"||AG.q)?"@multi:"+ch.map(o=>o.v).join("|"):null}); }
-function agToggle(on){ AG.open=on!=null?on:!AG.open; if(!AG.open){ if(AG.rec) try{AG.rec.stop();}catch(e){} agStopSpeak(); } agRender(); if(AG.open) setTimeout(()=>{ const i=document.getElementById("agIn"); if(i&&matchMedia("(pointer:fine)").matches) i.focus(); },250); }
-function agSync(){ const B=document.getElementById("agFab"), tb=document.getElementById("tabs"); if(!B) return; B.hidden=AG.open||S.view==="gen"||!!document.getElementById("splash"); document.body.classList.toggle("hasTabs",!!tb&&!tb.hidden); }
+function agToggle(on,fromPop){ const was=AG.open; AG.open=on!=null?on:!AG.open;
+  try{ if(AG.open&&!was) history.pushState({sunnyAg:1},""); else if(!AG.open&&was&&!fromPop&&history.state&&history.state.sunnyAg){ AG._skipPop=true; history.back(); } }catch(e){} if(typeof navSave==="function") setTimeout(navSave,0); if(!AG.open){ if(AG.rec) try{AG.rec.stop();}catch(e){} agStopSpeak(); } agRender(); if(AG.open) setTimeout(()=>{ const i=document.getElementById("agIn"); if(i&&matchMedia("(pointer:fine)").matches) i.focus(); },250); }
+function agSync(){ if(typeof navSave==="function") navSave(); const B=document.getElementById("agFab"), tb=document.getElementById("tabs"); if(!B) return; B.hidden=AG.open||S.view==="gen"||!!document.getElementById("splash"); document.body.classList.toggle("hasTabs",!!tb&&!tb.hidden); }
 function agBoot(){
   if(AG.boot) return; AG.boot=true;
-  try{ const old=JSON.parse(sessionStorage.getItem("sunny.ag")||"[]"); if(Array.isArray(old)) AG.msgs=old; }catch(e){}
+  try{ const old=JSON.parse(localStorage.getItem("sunny.ag")||"[]"); if(Array.isArray(old)) AG.msgs=old; }catch(e){}
   AG.brain=S.agUrl?"proxy":"local";
   const fab=document.createElement("button"); fab.id="agFab"; fab.className="notr"; fab.type="button"; fab.innerHTML=`${SUN("agFsun","happy")}<span class="agFlbl">Ask Sunny</span>`; fab.onclick=()=>agToggle(true);
   const pan=document.createElement("section"); pan.id="agPanel"; pan.className="notr"; pan.hidden=true; pan.setAttribute("role","dialog"); pan.setAttribute("aria-label","Ask Sunny");
@@ -3129,7 +3130,7 @@ function agBoot(){
   pan.addEventListener("click",e=>{ e.stopPropagation(); const b=e.target.closest("button,a"); if(!b) return; const D=b.dataset;
     if("agx" in D) agToggle(false); else if("agmic" in D) agMic(); else if("agstop" in D){ if(AG.ctl) AG.ctl.abort(); }
     else if("agspk" in D){ AG.speak=!AG.speak; if(!AG.speak) agStopSpeak(); agRender(); }
-    else if("agnew" in D){ if(AG.busy) return; AG.msgs=[]; try{ sessionStorage.removeItem("sunny.ag"); }catch(e){} agRender(); }
+    else if("agnew" in D){ if(AG.busy) return; AG.msgs=[]; try{ localStorage.removeItem("sunny.ag"); AG.q=null; }catch(e){} agRender(); }
     else if(D.agchip){ agSend(D.agchip); }
     else if(D.agopt!=null){ const m=AG.msgs[AG.msgs.length-1]; if(!m||!m.opts) return; const k=+D.agopt, o=m.opts[k];
       if(m.multi){ m.sel=m.sel||[]; const j=m.sel.indexOf(k); if(j>=0) m.sel.splice(j,1); else { if(String(o.v).startsWith("@")) m.sel=[]; else m.sel=m.sel.filter(x=>!String(m.opts[x].v).startsWith("@")); m.sel.push(k); } if(String(o.v).startsWith("@")&&m.sel.length){ agSendOpts(m); return; } agPaint(); }
@@ -4033,7 +4034,7 @@ function goBack(){
   else return false;
   render(); window.scrollTo(0,0); return true;
 }
-window.addEventListener("popstate",()=>{ if(S.view!=="home"){ goBack(); } });
+window.addEventListener("popstate",()=>{ if(typeof AG!=="undefined"){ if(AG._skipPop){ AG._skipPop=false; return; } if(AG.open){ agToggle(false,true); return; } } if(S.view!=="home"){ goBack(); } });
 document.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b||b.disabled) return; const D=b.dataset, F=S.form;
   if("back" in D){ goBack(); return; }
@@ -4143,7 +4144,20 @@ document.addEventListener("submit",e=>{
 function alertIn(f,msg){ let el=f.querySelector(".err"); if(!el){el=document.createElement("div");el.className="err";el.setAttribute("role","alert");f.insertBefore(el,f.lastElementChild);} el.textContent=msg; }
 function ask(q){ S.chat.push({r:"m",t:q}); let a; try{a=localGuide(q);}catch(e){a="Não consegui responder agora. Tente perguntar de outro jeito.";} S.chat.push({r:"b",t:a}); render(); }
 
-load(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; render(); (function(){ const sp=document.getElementById("splash"); if(!sp){ document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })(); agBoot();
+/* ---------- voltar para onde parou (ao voltar de um link externo o celular pode reiniciar o app) ---------- */
+const NAVK="sunnytrip.nav";
+function navSave(){ try{ if(S.view==="gen") return; const v=S.view==="nights"?"trip":S.view==="imp"?((S.imp&&S.imp.back)||"home"):S.view;
+  localStorage.setItem(NAVK,JSON.stringify({at:Date.now(),view:v,tid:S.trip&&S.trip.id,tab:S.tab,day:S.day,dayOpen:S.dayOpen,rv:S.rv,wz:S.wz,cfgBack:S.cfgBack,y:Math.round(window.scrollY||0),ag:typeof AG!=="undefined"?{open:AG.open,q:AG.q}:null})); }catch(e){} }
+function navRestore(){ let n=null; try{ n=JSON.parse(localStorage.getItem(NAVK)||"null"); }catch(e){} if(!n||Date.now()-n.at>24*36e5) return null;
+  if(n.view==="trip"){ const i=S.trips.findIndex(t=>t.id===n.tid); if(i<0) return null; S.ti=i; S.trip=S.trips[i]; S.view="trip"; S.tab=n.tab||"inicio"; S.day=Math.min(n.day||0,S.trip.dias.length-1); S.dayOpen=!!n.dayOpen; S.rv=n.rv; }
+  else if(n.view==="wz"){ S.view="wz"; S.wz=Math.max(0,Math.min(n.wz||0,WZ.length-1)); }
+  else if(n.view==="cfg"){ S.view="cfg"; S.cfgBack=n.cfgBack||"home"; }
+  else if(n.view!=="home") return null;
+  return n; }
+window.addEventListener("pagehide",navSave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") navSave(); });
+let _navT=null; window.addEventListener("scroll",()=>{ clearTimeout(_navT); _navT=setTimeout(navSave,400); },{passive:true});
+document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest('a[target="_blank"]'); if(a) navSave(); },true);
+load(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; const RESUME=navRestore(); const resumed=!!RESUME&&(RESUME.view!=="home"||(RESUME.ag&&RESUME.ag.open)); render(); if(resumed&&RESUME.y) setTimeout(()=>window.scrollTo(0,RESUME.y),60); if(resumed&&S.view==="trip") fetchLive(); (function(){ const sp=document.getElementById("splash"); if(!sp||resumed){ if(sp) sp.remove(); document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })(); agBoot(); if(RESUME&&RESUME.ag){ if(RESUME.ag.q) AG.q=RESUME.ag.q; if(RESUME.ag.open) agToggle(true); }
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></html>
