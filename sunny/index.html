@@ -371,6 +371,12 @@ body.hasTabs #agFab{bottom:calc(86px + env(safe-area-inset-bottom))}
 .aglink{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);border-bottom-width:4px;background:var(--card);color:inherit;text-decoration:none;font-size:14px;font-weight:900}
 .aglink span{color:var(--acc)} .aglink:active{transform:translateY(2px);border-bottom-width:2px}
 .agnote{color:var(--sub);font-size:12px;font-weight:700}
+.agopts{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.agopt{border:2px solid var(--sel-b);border-bottom-width:4px;background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:14.5px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:6px;animation:pop .25s ease both}
+.agopt:active{transform:translateY(2px);border-bottom-width:2px}
+.agopt i{font-style:normal;width:18px;height:18px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:12px}
+.agopt.on{background:#ffd23f;border-color:#e5a400;color:#3c2a00}.agopt.on i{background:#3c2a00;color:#ffe066}
+.agopt.go{background:#3c2a00;color:#ffe066;border-color:#3c2a00}.agopt.go:disabled{opacity:.45;cursor:default}
 .agchips{display:flex;flex-direction:column;gap:8px;padding-left:38px}
 .agchip{text-align:left;border:2px solid var(--line);border-bottom-width:4px;background:var(--card);color:var(--ink);border-radius:14px;padding:9px 12px;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
 .agchip:active{transform:translateY(2px);border-bottom-width:2px}
@@ -739,7 +745,7 @@ const allCountries=()=>Object.keys(GEO).map(cc=>({cc,nome:countryName(cc)})).sor
 function km(a,b){ const R=6371,r=x=>x*Math.PI/180; const dl=r(b.lat-a.lat), dn=r(b.lon-a.lon); const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 /* sugestões: as mais importantes de cada país, sem pegar subúrbio de cidade já escolhida */
 function topCities(cc,n,avoid=[]){
-  const out=[]; for(const c of [...citiesOf(cc)].sort((a,b)=>b.score-a.score)){ if(out.length>=n) break; if(out.some(o=>km(o,c)<45)||avoid.some(o=>km(o,c)<45)) continue; out.push(c); }
+  const out=[]; for(const c of [...citiesOf(cc)].sort((a,b)=>b.score-a.score)){ if(out.length>=n) break; const cur=typeof CUR!=="undefined"&&CUR[c.name+"|"+c.cc]; if((!cur&&out.some(o=>km(o,c)<45))||avoid.some(o=>km(o,c)<(cur?10:45))) continue; out.push(c); }
   return out;
 }
 function suggestWorld(paises,N,avoid=[]){
@@ -1120,7 +1126,7 @@ function trMaps(){
 }
 function nameMap(){
   if(_NM) return _NM; _NM={en:new Map(),es:new Map()};
-  Object.entries(PTN).forEach(([en,pt])=>{ if(!_NM.en.has(pt)) _NM.en.set(pt,ENN[en]||en); if(!_NM.es.has(pt)) _NM.es.set(pt,ESN[en]||ESN[ENN[en]]||pt); });
+  Object.entries(PTN).forEach(([en,pt])=>{ if(!_NM.en.has(pt)) _NM.en.set(pt,ENN[en]||en); if(!_NM.es.has(pt)) _NM.es.set(pt,ESN[en]||ESN[ENN[en]]||ENN[en]||en); });
   try{ const dp=new Intl.DisplayNames(["pt-BR"],{type:"region"}), de=new Intl.DisplayNames(["en"],{type:"region"}), ds=new Intl.DisplayNames(["es"],{type:"region"});
     Object.keys(GEO).forEach(cc=>{ const p=dp.of(cc); if(p&&!_NM.en.has(p)){ _NM.en.set(p,de.of(cc)); _NM.es.set(p,ds.of(cc)); } }); _NM.en.set("Europa","Europe"); _NM.es.set("Europa","Europa"); }catch(e){}
   return _NM;
@@ -2707,20 +2713,20 @@ const AGTX={
   pt:{name:"Ask Sunny",sub:"Seu agente de viagem",ph:"Escreva ou toque no microfone…",listen:"Ouvindo… pode falar",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Falar",close:"Fechar",open:"Abrir o agente Sunny",clear:"Nova conversa",
     speakOn:"Ler respostas em voz alta",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"Este navegador não deixa usar o microfone aqui. Escreva sua mensagem.",micDenied:"O microfone foi bloqueado. Libere nas permissões do navegador ou escreva.",
     err:"Não consegui responder agora. Tente de novo.",fallback:"Não consegui falar com a IA agora, então respondi no modo offline.",
-    hello:"Oi! Eu sou o **Sunny** ☀️ Me diga o que você quer e eu faço por você. Por exemplo: *“quero 20 dias de Lisboa para a Itália em maio, vamos em 3”*.\n\nTambém mudo noites, abro dias, lanço gastos, cotizo voos e hotéis e respondo dúvidas da viagem.",
-    chipsNo:["✈️ 15 dias na Itália em maio, 2 pessoas","🏖️ 10 dias de praia na Grécia em julho, casal","🇯🇵 3 semanas no Japão em abril, 4 pessoas, econômico"],
+    hello:"Oi! Eu sou o **Sunny** ☀️ Me conte a viagem que vocês sonham e eu faço as perguntas certas para montar um roteiro 100% do seu jeito: datas, quem vai, orçamento, o que vocês gostam.\n\nDepois, também mudo noites, abro dias, lanço gastos e mostro preços de voos e hotéis.",
+    chipsNo:["✈️ Quero planejar uma viagem","🇮🇹 Quero conhecer a Itália","🤔 Ainda não sei para onde ir"],
     chipsTrip:c=>[`🌙 Mais uma noite em ${c}`,"📅 O que faço amanhã?","💶 Gastei 40 euros num jantar","🔎 Cotar hotéis"]},
   en:{name:"Ask Sunny",sub:"Your travel agent",ph:"Type or tap the mic…",listen:"Listening… go ahead",think:"Thinking…",stop:"Stop",send:"Send",mic:"Speak",close:"Close",open:"Open the Sunny agent",clear:"New chat",
     speakOn:"Read replies aloud",bC:"Agente de viagem · Claude",bP:"Agente de viagem · online",bL:"Agente de viagem · offline",noMic:"This browser can't use the microphone here. Please type your message.",micDenied:"The microphone is blocked. Allow it in the browser settings or type instead.",
     err:"I couldn't answer right now. Please try again.",fallback:"I couldn't reach the AI just now, so I answered in offline mode.",
-    hello:"Hi! I'm **Sunny** ☀️ Tell me what you want and I'll do it for you. For example: *“20 days from Lisbon to Italy in May, 3 of us”*.\n\nI can also change nights, open days, log expenses, find flight and hotel prices and answer questions about the trip.",
-    chipsNo:["✈️ 15 days in Italy in May, 2 people","🏖️ 10 beach days in Greece in July, a couple","🇯🇵 3 weeks in Japan in April, 4 people, budget"],
+    hello:"Hi! I'm **Sunny** ☀️ Tell me about the trip you dream of and I'll ask the right questions to build an itinerary that's 100% yours: dates, who's going, budget, what you love.\n\nAfterwards I can change nights, open days, log expenses and show flight and hotel prices.",
+    chipsNo:["✈️ I want to plan a trip","🇮🇹 I want to visit Italy","🤔 I don't know where to go yet"],
     chipsTrip:c=>[`🌙 One more night in ${c}`,"📅 What do I do tomorrow?","💶 I spent 40 euros on dinner","🔎 Hotel prices"]},
   es:{name:"Ask Sunny",sub:"Tu agente de viajes",ph:"Escribe o toca el micrófono…",listen:"Escuchando… habla",think:"Pensando…",stop:"Parar",send:"Enviar",mic:"Hablar",close:"Cerrar",open:"Abrir el agente Sunny",clear:"Nueva conversación",
     speakOn:"Leer respuestas en voz alta",bC:"Agente de viajes · Claude",bP:"Agente de viajes · online",bL:"Agente de viajes · sin conexión",noMic:"Este navegador no permite usar el micrófono aquí. Escribe tu mensaje.",micDenied:"El micrófono está bloqueado. Permítelo en el navegador o escribe.",
     err:"No pude responder ahora. Inténtalo de nuevo.",fallback:"No pude hablar con la IA ahora, así que respondí en modo sin conexión.",
-    hello:"¡Hola! Soy **Sunny** ☀️ Dime qué quieres y lo hago por ti. Por ejemplo: *“20 días de Madrid a Italia en mayo, vamos 3”*.\n\nTambién cambio noches, abro días, anoto gastos, cotizo vuelos y hoteles y respondo dudas del viaje.",
-    chipsNo:["✈️ 15 días en Italia en mayo, 2 personas","🏖️ 10 días de playa en Grecia en julio, pareja","🇯🇵 3 semanas en Japón en abril, 4 personas, económico"],
+    hello:"¡Hola! Soy **Sunny** ☀️ Cuéntame el viaje que sueñan y haré las preguntas correctas para armar un itinerario 100% a su medida: fechas, quiénes van, presupuesto, lo que les gusta.\n\nDespués también cambio noches, abro días, anoto gastos y muestro precios de vuelos y hoteles.",
+    chipsNo:["✈️ Quiero planear un viaje","🇮🇹 Quiero conocer Italia","🤔 Aún no sé a dónde ir"],
     chipsTrip:c=>[`🌙 Una noche más en ${c}`,"📅 ¿Qué hago mañana?","💶 Gasté 40 euros en una cena","🔎 Cotizar hoteles"]}};
 const AT=k=>(AGTX[AGL()]||AGTX.pt)[k];
 const agSay={ // frases das ações (no idioma do app)
@@ -2763,6 +2769,9 @@ function agRebalance(F,ids,fixed){ // mantém o total de noites, tirando/pondo n
     const id=others.find(x=>dif>0||F.noites[x]>1); if(!id) break; F.noites[id]+=dif>0?1:-1; dif+=dif>0?-1:1; }
   return dif===0; }
 async function agCreateTrip(a){
+  if(!a._qualified){ const miss=[]; if(!a.user_confirmed) miss.push("the user's explicit confirmation of the summary"); if(!a.start_date) miss.push("travel dates or month"); if(!a.end_date&&!a.days) miss.push("trip length");
+    if(a.adults==null) miss.push("who is travelling (adults, children's ages, 60+, pets)"); if(!a.origin) miss.push("departure city"); if(!(+a.budget>0)&&!a.style) miss.push("budget or travel style"); if(!a.pace) miss.push("pace"); if(!a.interests||!a.interests.length) miss.push("interests");
+    if(miss.length) throw new Error("Not qualified yet. Before building, ask the user (one or two questions at a time, with offer_choices) about: "+miss.join("; ")+". Then show a summary and get a yes."); }
   const F={paises:[],cidades:[],gx:{},ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"],modo:"sug",bmode:"estilo"};
   const home=(S.home&&S.home.cc)||"BR"; const notes=[];
   if(a.origin){ const p=agPlace(String(a.origin),home); if(p&&p.city) F.origemCity=agMeta(p.city); else if(p&&p.cc){ const c=agCapital(p.cc); if(c) F.origemCity=agMeta(c); } else notes.push(`origem "${a.origin}" não encontrada; usei ${origOf(S.form).nome}`); }
@@ -2802,6 +2811,7 @@ async function agCreateTrip(a){
   S.form=JSON.parse(JSON.stringify(F)); save();
   await enrichAll(ids,F);
   const T=generate(F,ids); S.trips.unshift(T); AG.keepOpen=true; openTrip(0);
+  if(a.must_do&&!a._qualified){ const k=T.dias.findIndex(d=>d.tipo!=="deslocamento"); if(k>=0){ addToDay(T.dias[k],"⭐ "+String(a.must_do).slice(0,120)); persistTrip(); } }
   return {ok:true,...agTripSummary(T),avisos:notes};
 }
 function agCityId(T,name){ const p=agPlace(String(name||""),KB[T.cityIds[0]].pais); if(!p||!p.city) { const n=norm(name); return T.cityIds.find(id=>norm(KB[id].nome).includes(n)||norm(KB[id].gname||"").includes(n)); }
@@ -2859,8 +2869,8 @@ function agPrefs(a){ const out={};
   if(a.theme&&["auto","light","dark"].includes(a.theme)){ S.theme=a.theme; out.tema=a.theme; }
   save(); render(); agRender(); return {ok:true,...out}; }
 const AG_TOOLS=[
-  {name:"create_trip",act:"mk",done:"mkd",description:"Creates a new trip in the app and opens it (builds itinerary day by day, budget, packing list). Call it as soon as you know the destination; use sensible defaults for anything missing (2 adults, departure = user's default city, ~10 days, start ~2 months from today). Returns the trip summary.",
-    inputSchema:{type:"object",properties:{origin:{type:"string",description:"Departure city (or country)"},return_to:{type:"string",description:"Only if returning to a different city"},destinations:{type:"array",items:{type:"string"},description:"Cities and/or countries, any language. A country alone lets the app pick its best cities."},start_date:{type:"string",description:"YYYY-MM-DD"},end_date:{type:"string",description:"YYYY-MM-DD (return flight date)"},days:{type:"integer",description:"Trip length in days, if no end_date"},adults:{type:"integer"},seniors:{type:"integer",description:"People 60+"},children_ages:{type:"array",items:{type:"integer"}},pet_name:{type:"string"},budget:{type:"number",description:"Total budget for the whole group"},budget_currency:{type:"string",description:"ISO code, e.g. BRL, EUR, USD"},budget_includes_flights:{type:"boolean"},style:{type:"string",enum:["Conforto","Médio","Econômico","Super econômico"]},pace:{type:"string",enum:["Tranquilo","Equilibrado","Intenso"]},interests:{type:"array",items:{type:"string",enum:["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"]}},nights_per_city:{type:"object",description:"Optional {city: nights}",additionalProperties:{type:"integer"}},free_days:{type:"boolean",description:"true = leave days empty for the user to fill"}},required:["destinations"]},
+  {name:"create_trip",act:"mk",done:"mkd",description:"Creates a new trip in the app and opens it (itinerary day by day, budget, packing list). ONLY call it after the full qualification and after the user confirmed your summary (user_confirmed=true). Never invent dates, people or budget. Returns the trip summary.",
+    inputSchema:{type:"object",properties:{origin:{type:"string",description:"Departure city (or country)"},return_to:{type:"string",description:"Only if returning to a different city"},destinations:{type:"array",items:{type:"string"},description:"Cities and/or countries, any language. A country alone lets the app pick its best cities."},start_date:{type:"string",description:"YYYY-MM-DD"},end_date:{type:"string",description:"YYYY-MM-DD (return flight date)"},days:{type:"integer",description:"Trip length in days, if no end_date"},adults:{type:"integer"},seniors:{type:"integer",description:"People 60+"},children_ages:{type:"array",items:{type:"integer"}},pet_name:{type:"string"},budget:{type:"number",description:"Total budget for the whole group"},budget_currency:{type:"string",description:"ISO code, e.g. BRL, EUR, USD"},budget_includes_flights:{type:"boolean"},style:{type:"string",enum:["Conforto","Médio","Econômico","Super econômico"]},pace:{type:"string",enum:["Tranquilo","Equilibrado","Intenso"]},interests:{type:"array",items:{type:"string",enum:["História","Arte e museus","Gastronomia","Natureza","Praia","Vinho","Compras","Vida noturna","Com crianças"]}},nights_per_city:{type:"object",description:"Optional {city: nights}",additionalProperties:{type:"integer"}},free_days:{type:"boolean",description:"true = leave days empty for the user to fill"},must_do:{type:"string",description:"Something the user said they can't miss"},user_confirmed:{type:"boolean",description:"true ONLY after you showed the full summary and the user said yes"}},required:["destinations","user_confirmed"]},
     run:agCreateTrip},
   {name:"set_nights",act:"nt",done:"ntd",description:"Changes how many nights the open trip spends in one city and rebuilds the itinerary. By default keeps the same flight dates (takes/gives nights from other cities); extend_trip=true moves the return date instead.",
     inputSchema:{type:"object",properties:{city:{type:"string"},nights:{type:"integer",description:"New total nights in that city"},delta:{type:"integer",description:"Or +1/-1 relative change"},extend_trip:{type:"boolean"}},required:["city"]},run:agSetNights},
@@ -2874,22 +2884,34 @@ const AG_TOOLS=[
     inputSchema:{type:"object",properties:{description:{type:"string"},amount:{type:"number"},currency:{type:"string"},category:{type:"string",enum:["flights","hotel","transport","food","tours","shopping"]},paid_by:{type:"string"},split_with:{type:"array",items:{type:"string"}}},required:["description","amount"]},run:agExpense},
   {name:"price_links",act:"q",description:"Shows buttons with live-price searches (Google Flights, Booking, Rome2Rio, GetYourGuide) already filled with the trip dates and people. Use it whenever the user asks for prices or to book.",
     inputSchema:{type:"object",properties:{what:{type:"string",enum:["all","flights","hotels","transport","tours"]},city:{type:"string"}}},run:agQuotes},
+  {name:"offer_choices",act:"ch",description:"Shows tappable answer buttons under your next message (2–7 short options in the user's language). Use it with every qualification question so the user can answer with one tap. multi=true lets them pick several (e.g. interests, cities).",
+    inputSchema:{type:"object",properties:{options:{type:"array",items:{type:"string"}},multi:{type:"boolean"}},required:["options"]},run:a=>{ const o=[].concat(a.options||[]).map(String).filter(Boolean).slice(0,8); if(AG.turn){ AG.turn.opts=o.map(l=>({l,v:l})); AG.turn.multi=!!a.multi; } return {ok:true,shown:o.length}; }},
   {name:"set_preferences",act:"cfg",description:"Changes app language (pt, en, es), display currency (ISO code) or theme (auto, light, dark).",
     inputSchema:{type:"object",properties:{language:{type:"string"},currency:{type:"string"},theme:{type:"string"}}},run:agPrefs}];
 
-const AG_RULES=()=>`You are Sunny, the AI travel agent inside the "Sunny Trip" app. You can act inside the app with your tools: create trips, change nights per city, open screens and days, edit day plans, log expenses, show price links and change settings.
-Rules:
-- Reply in ${({pt:"Portuguese (Brazil)",en:"English",es:"Spanish"})[AGL()]}. Be warm and brief: 1–4 short sentences, plain text, at most a short "- " list. You may use **bold**. No tables, no URLs.
-- When the user wants something the tools can do, DO IT right away with the tools instead of explaining. Use sensible defaults and mention them; ask at most one short question, only if the destination is missing.
-- Dates: today is ${todayISO()}. Resolve relative dates ("em maio", "next month") to future dates. "20 dias" = days:20.
-- After acting, say in one sentence what changed and suggest one next step.
-- Never invent prices, schedules or availability; for prices call price_links. For deleting a trip, tell the user to use the trash icon.
-- The app state below is current; trust it over the chat history.`;
+const AG_RULES=()=>`You are Sunny, the AI travel agent inside the "Sunny Trip" app. You plan 100% personalised trips and can act inside the app with your tools.
+Language: reply in ${({pt:"Portuguese (Brazil)",en:"English",es:"Spanish"})[AGL()]}. Warm, brief, plain text; you may use **bold** and short "- " lists. No tables, no URLs.
+PLANNING A NEW TRIP — always qualify first, like a great human travel agent:
+1. Never build a trip from a vague request ("I want to go to Italy"). First understand the traveller. Ask ONE or TWO short questions per message, in this order, skipping what the user already told you:
+   a) destination (country/region) and must-see cities, or whether you should suggest them;
+   b) dates: do they have fixed dates, only a month, or are they flexible (then help pick the best season);
+   c) trip length in days (if no return date);
+   d) departure city;
+   e) who travels: adults, children and their ages, people 60+, pets;
+   f) budget: a total amount (with or without flights, currency) or a style (budget / mid-range / comfort);
+   g) interests (history, food, beach, nature, art, wine, shopping, nightlife, kids);
+   h) pace (relaxed / balanced / packed);
+   i) anything they can't miss (a show, restaurant, special date).
+2. With EVERY question call offer_choices with 2–7 tappable answers (multi=true for interests and cities), plus a free-text answer is always allowed.
+3. When everything is known, show a short bullet summary and ask for confirmation. Only after a clear yes call create_trip with user_confirmed=true and all the details. If create_trip says something is missing, ask about it.
+4. After building, say what you built in one or two sentences and offer next steps (adjust nights, swap activities, see prices) with offer_choices.
+OTHER REQUESTS (trip already open): act right away with the tools (set_nights, edit_day, add_expense, price_links, open_screen, get_day, set_preferences) and confirm in one sentence.
+Rules: today is ${todayISO()}; dates must be in the future. Never invent prices or availability (use price_links). For deleting a trip, tell the user to use the trash icon. The app state below is current; trust it over the chat history.`;
 
 /* ---------- execução de ferramenta com recibo na conversa ---------- */
 async function agRun(name,input){
   const t=AG_TOOLS.find(x=>x.name===name); if(!t) throw new Error("Ferramenta desconhecida");
-  const SCN={pt:{home:"início",new_trip:"nova viagem",import:"reservas",settings:"ajustes",overview:"resumo",itinerary:"roteiro",calendar:"calendário",day:"dia",costs:"custos",bag:"mala",guide:"guia"},en:{home:"home",new_trip:"new trip",import:"bookings",settings:"settings",overview:"overview",itinerary:"itinerary",calendar:"calendar",day:"day",costs:"costs",bag:"bag",guide:"guide"},es:{home:"inicio",new_trip:"nuevo viaje",import:"reservas",settings:"ajustes",overview:"resumen",itinerary:"itinerario",calendar:"calendario",day:"día",costs:"costos",bag:"maleta",guide:"guía"}}[AGL()]; const sc=input&&input.screen; const act={e:"⏳",t:AS(t.act)+(name==="open_screen"&&sc?` · ${(SCN[sc]||sc)}${sc==="day"&&input.day?" "+input.day:""}`:"")}; if(AG.turn){ AG.turn.acts.push(act); agPaint(); }
+  const SCN={pt:{home:"início",new_trip:"nova viagem",import:"reservas",settings:"ajustes",overview:"resumo",itinerary:"roteiro",calendar:"calendário",day:"dia",costs:"custos",bag:"mala",guide:"guia"},en:{home:"home",new_trip:"new trip",import:"bookings",settings:"settings",overview:"overview",itinerary:"itinerary",calendar:"calendar",day:"day",costs:"costs",bag:"bag",guide:"guide"},es:{home:"inicio",new_trip:"nuevo viaje",import:"reservas",settings:"ajustes",overview:"resumen",itinerary:"itinerario",calendar:"calendario",day:"día",costs:"costos",bag:"maleta",guide:"guía"}}[AGL()]; const sc=input&&input.screen; const act={e:"⏳",t:AS(t.act)+(name==="open_screen"&&sc?` · ${(SCN[sc]||sc)}${sc==="day"&&input.day?" "+input.day:""}`:"")}; if(AG.turn&&name!=="offer_choices"){ AG.turn.acts.push(act); agPaint(); }
   try{ const r=await t.run(input||{}); act.e="✓"; if(t.done) act.t=AS(t.done); if(name==="create_trip"&&r.titulo) act.t+=` · ${r.titulo}`; agPaint(); return r; }
   catch(e){ act.e="⚠️"; act.t+=` · ${e.message||e}`; agPaint(); throw e; }
 }
@@ -2971,20 +2993,21 @@ function agParseTrip(q){
   if(/(tranquil|calma|relax|devagar|slow)/.test(n)) a.pace="Tranquilo"; if(/(intens|corrid|ver tudo|see everything|todo lo posible)/.test(n)) a.pace="Intenso";
   const ints=[]; [["História",/(histor)/],["Arte e museus",/(museu|museo|museum|arte|art )/],["Gastronomia",/(gastro|comida|food|comer)/],["Natureza",/(natureza|nature|naturaleza|trilha|hike|montanha|mountain)/],["Praia",/(praia|beach|playa)/],["Vinho",/(vinho|wine|vino)/],["Compras",/(compras|shopping)/],["Vida noturna",/(balada|noite|nightlife|fiesta|bares)/]].forEach(([k,r])=>{ if(r.test(n)) ints.push(k); }); if(ints.length) a.interests=ints;
   return a; }
-async function agLocal(text){
+async function agLocal(text,val){
   const q=text, n=agClean(q); const L=AGL(); const T=S.trip; const R={pt:{},en:{},es:{}};
   const say=(pt,en,es)=>({pt,en,es})[L]||pt;
   // idioma / moeda
   const lg=/(em ingles|in english|en ingles)/.test(n)?"en":/(em espanhol|in spanish|en espanol)/.test(n)?"es":/(em portugues|in portuguese|en portugues)/.test(n)?"pt":null;
   if(lg&&/(mude|muda|troque|change|switch|cambia|cambiar|fala|habla|speak|idioma|language|lingua)/.test(n)){ await agRun("set_preferences",{language:lg}); return ({pt:"Pronto! O app agora está em português.",en:"Done! The app is now in English.",es:"¡Listo! La app ahora está en español."})[lg]; }
-  // criar viagem
+  // criar viagem: sempre com qualificação antes
+  if(val==="@prices"&&T){ await agRun("price_links",{what:"all"}); return say("Aqui estão as buscas com preços reais, já com as datas e o número de pessoas. Toque para abrir:","Here are live-price searches with your dates and party size. Tap to open:","Aquí tienes las búsquedas con precios reales, con tus fechas y personas. Toca para abrir:"); }
+  if(val==="@nights"&&T){ await agRun("open_screen",{screen:"itinerary"}); return {t:say("Em qual cidade você quer mudar as noites? Por exemplo: “mais uma noite em "+(T.cidades[0]||{}).nome+"”.","Which city should change? E.g. “one more night in "+(T.cidades[0]||{}).nome+"”.","¿En qué ciudad cambio las noches? Por ejemplo: “una noche más en "+(T.cidades[0]||{}).nome+"”."),opts:T.cidades.map(c=>({l:say(`🌙 +1 em ${c.nome}`,`🌙 +1 in ${c.nome}`,`🌙 +1 en ${c.nome}`),v:say(`mais uma noite em ${c.nome}`,`one more night in ${c.nome}`,`una noche mas en ${c.nome}`)}))}; }
+  if(val==="@cal"&&T){ await agRun("open_screen",{screen:"calendar"}); return say("Abri o calendário da viagem. 👇","Opened the trip calendar. 👇","Abrí el calendario del viaje. 👇"); }
+  if(val&&!val.startsWith("@")&&!AG.q){ return agLocal(val); }
   const wantsTrip=/(viagem|viajar|roteiro|ferias|trip|travel|vacation|holiday|itinerary|viaje|vacaciones|quero ir|queria ir|want to go|quiero ir| dias | days | semanas | weeks |planej|plan )/.test(n);
-  if(wantsTrip||!T){ const a=agParseTrip(q); if(a){ const r=await agRun("create_trip",a);
-      const ppl=(a.adults||2)+(a.seniors||0)+((a.children_ages||[]).length);
-      return say(`Pronto! Montei **${r.titulo}**, de ${fmtD(r.ida)} a ${fmtD(r.volta)}, para ${ppl} ${ppl>1?"pessoas":"pessoa"}: ${r.cidades.join(" · ")} noites. Estimativa: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nQuer que eu ajuste alguma cidade ou mostre os preços de voos e hotéis?`,
-        `Done! I built **${r.titulo}**, ${fmtD(r.ida)} to ${fmtD(r.volta)}, for ${ppl} ${ppl>1?"people":"person"}: ${r.cidades.join(" · ")} nights. Estimate: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nWant me to adjust a city or show flight and hotel prices?`,
-        `¡Listo! Armé **${r.titulo}**, del ${fmtD(r.ida)} al ${fmtD(r.volta)}, para ${ppl} ${ppl>1?"personas":"persona"}: ${r.cidades.join(" · ")} noches. Estimación: ${r.estimativa}.${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\n¿Ajusto alguna ciudad o te muestro precios de vuelos y hoteles?`); }
-    if(!T) return say("Para onde vocês querem ir? Me diga o destino, quantos dias e quantas pessoas, por exemplo: *“12 dias em Portugal em setembro, 2 pessoas”*.","Where would you like to go? Tell me the destination, how many days and how many people, e.g. *“12 days in Portugal in September, 2 people”*.","¿A dónde quieren ir? Dime el destino, cuántos días y cuántas personas, por ejemplo: *“12 días en Portugal en septiembre, 2 personas”*."); }
+  const newTrip=/(nova viagem|new trip|nuevo viaje|outra viagem|another trip|otro viaje)/.test(n);
+  const outside=T&&agFindPlaces(q).some(p=>p.cc?!T.cityIds.some(id=>KB[id].pais===p.cc):!T.cityIds.some(id=>KB[id].nome===p.city.nome||KB[id].gname===p.city.name));
+  if(AG.q||!T||newTrip||(wantsTrip&&outside)){ if((newTrip||(wantsTrip&&outside))&&AG.q&&!AG.q.stage) AG.q=null; return agQualify(q,val); }
   // noites
   let m=n.match(/ (mais|menos|one more|one less|extra|una noche mas|un dia mas|otro dia|otra noche|una noche menos|un dia menos) (um |uma |1 )?(dia|noite|day|night|dias|noites)? ?(em|no|na|in|en) ([a-z ]+?) $/)||n.match(/ (mais|menos) (um|uma|1) (dia|noite) (em|no|na) ([a-z ]+?) /)||n.match(/ (una noche mas|un dia mas|una noche menos|un dia menos|one more night|one more day|one less night|one less day) (en|in) ([a-z ]+?) /);
   if(m){ const city=m[m.length-1].trim(); const minus=/(menos|less)/.test(m[0]); const ext=/(estend|aument|extend|alarg|sem tirar|without)/.test(n);
@@ -3026,16 +3049,16 @@ async function agSend(text,opt={}){
   try{
     if(AG.brain==="claude"&&AG.sample){ bot.t=(await agClaude(agHist(),onText,ctl.signal))||bot.t; }
     else if(AG.brain==="proxy"&&S.agUrl){ bot.t=(await agProxy(agHist(),onText,ctl.signal))||bot.t; }
-    else await typewriter(await agLocal(text));
+    else { const res=await agLocal(text,opt.val); if(res&&typeof res==="object"){ bot.opts=res.opts||null; bot.multi=!!res.multi; await typewriter(res.t); } else await typewriter(res); }
   }catch(e){
     const code=e&&e.code;
     if(code==="cancelled"||ctl.signal.aborted){ bot.t=(e&&e.text)||bot.t; }
     else if(AG.brain!=="local"&&!bot.acts.length){ if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed","tools_unavailable"].includes(code)) AG.brain=S.agUrl?"proxy":"local";
-      try{ const t=await agLocal(text); bot.note=AT("fallback"); await typewriter(t); }catch(e2){ bot.t=(e2&&e2.message)?`⚠️ ${e2.message}`:AT("err"); } }
+      try{ const res=await agLocal(text,opt.val); bot.note=AT("fallback"); if(res&&typeof res==="object"){ bot.opts=res.opts||null; bot.multi=!!res.multi; await typewriter(res.t); } else await typewriter(res); }catch(e2){ bot.t=(e2&&e2.message)?`⚠️ ${e2.message}`:AT("err"); } }
     else bot.t=(e&&e.text)||((e&&e.message&&!code)?`⚠️ ${e.message}`:AT("err"));
   }
   bot.live=false; AG.busy=false; AG.ctl=null; AG.turn=null; if(!bot.t) bot.t="✓"; agRender();
-  try{ sessionStorage.setItem("sunny.ag",JSON.stringify(AG.msgs.slice(-30).map(({r,t,acts,links,note})=>({r,t,acts,links,note})))); }catch(e){}
+  try{ sessionStorage.setItem("sunny.ag",JSON.stringify(AG.msgs.slice(-30).map(({r,t,acts,links,note,opts,multi})=>({r,t,acts,links,note,opts,multi})))); }catch(e){}
   if(opt.voice||AG.speak) agSpeak(bot.t);
 }
 /* ---------- voz ---------- */
@@ -3063,9 +3086,11 @@ function agMsgHTML(m,i){
   const acts=(m.acts||[]).map(a=>`<span class="agact ${a.e==="⏳"?"run":a.e==="✓"?"ok":"bad"}">${a.e==="⏳"?`<i class="agspin"></i>`:a.e} ${esc(a.t)}</span>`).join("");
   const links=(m.links||[]).map(l=>`<a class="aglink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span>↗</span></a>`).join("");
   const body=m.t?agMD(m.t):(m.live?`<p class="agthink">${esc(AT("think"))}<span class="dots"><i></i><i></i><i></i></span></p>`:"");
-  return `<div class="agm a" data-agi="${i}">${SUN("agav")}<div class="agcol">${acts?`<div class="agacts">${acts}</div>`:""}${body?`<div class="agb${m.live?" live":""}">${body}</div>`:""}${links?`<div class="aglinks">${links}</div>`:""}${m.note?`<small class="agnote">${esc(m.note)}</small>`:""}</div></div>`;
+  const last=i===AG.msgs.length-1&&!AG.busy&&!m.live; const sel=m.sel||[];
+  const opts=last&&m.opts&&m.opts.length?`<div class="agopts${m.multi?" multi":""}">${m.opts.map((o,k)=>`<button class="agopt${sel.includes(k)?" on":""}" data-agopt="${k}" aria-pressed="${sel.includes(k)}">${m.multi?`<i>${sel.includes(k)?"✓":"+"}</i>`:""}${esc(o.l)}</button>`).join("")}${m.multi?`<button class="agopt go" data-agoptgo ${sel.length?"":"disabled"}>${esc(QW("Continuar ➜","Continue ➜","Continuar ➜"))}</button>`:""}</div>`:"";
+  return `<div class="agm a" data-agi="${i}">${SUN("agav")}<div class="agcol">${acts?`<div class="agacts">${acts}</div>`:""}${body?`<div class="agb${m.live?" live":""}">${body}</div>`:""}${links?`<div class="aglinks">${links}</div>`:""}${m.note?`<small class="agnote">${esc(m.note)}</small>`:""}${opts}</div></div>`;
 }
-function agChips(){ if(AG.busy) return ""; const T=S.trip; const list=T?AT("chipsTrip")(T.cidades[0]?T.cidades[0].nome:""):AT("chipsNo"); if(AG.msgs.filter(m=>m.r==="u").length>2) return "";
+function agChips(){ if(AG.busy) return ""; const lm=AG.msgs[AG.msgs.length-1]; if(lm&&lm.opts&&lm.opts.length) return ""; if(AG.q) return ""; const T=S.trip; const list=T?AT("chipsTrip")(T.cidades[0]?T.cidades[0].nome:""):AT("chipsNo"); if(AG.msgs.filter(m=>m.r==="u").length>2) return "";
   return `<div class="agchips">${list.map(c=>`<button class="agchip" data-agchip="${esc(c.replace(/^\S+\s/,""))}">${esc(c)}</button>`).join("")}</div>`; }
 function agRender(){
   const P=document.getElementById("agPanel"), B=document.getElementById("agFab"); if(!P||!B) return;
@@ -3091,6 +3116,7 @@ function agPaint(){ // atualiza só a última resposta enquanto ela chega
 function agScroll(){ const box=document.getElementById("agMsgs"); if(box) box.scrollTop=box.scrollHeight; }
 function agAutoGrow(t){ t.style.height="auto"; t.style.height=Math.min(120,t.scrollHeight)+"px"; }
 function agNote(t){ AG.msgs.push({r:"a",t,sys:true}); agRender(); }
+function agSendOpts(m){ const ch=m.sel.map(k=>m.opts[k]); m.opts=null; agSend(ch.map(o=>o.l).join(", "),{val:(AG.brain==="local"||AG.q)?"@multi:"+ch.map(o=>o.v).join("|"):null}); }
 function agToggle(on){ AG.open=on!=null?on:!AG.open; if(!AG.open){ if(AG.rec) try{AG.rec.stop();}catch(e){} agStopSpeak(); } agRender(); if(AG.open) setTimeout(()=>{ const i=document.getElementById("agIn"); if(i&&matchMedia("(pointer:fine)").matches) i.focus(); },250); }
 function agSync(){ const B=document.getElementById("agFab"), tb=document.getElementById("tabs"); if(!B) return; B.hidden=AG.open||S.view==="gen"||!!document.getElementById("splash"); document.body.classList.toggle("hasTabs",!!tb&&!tb.hidden); }
 function agBoot(){
@@ -3104,7 +3130,11 @@ function agBoot(){
     if("agx" in D) agToggle(false); else if("agmic" in D) agMic(); else if("agstop" in D){ if(AG.ctl) AG.ctl.abort(); }
     else if("agspk" in D){ AG.speak=!AG.speak; if(!AG.speak) agStopSpeak(); agRender(); }
     else if("agnew" in D){ if(AG.busy) return; AG.msgs=[]; try{ sessionStorage.removeItem("sunny.ag"); }catch(e){} agRender(); }
-    else if(D.agchip){ agSend(D.agchip); } });
+    else if(D.agchip){ agSend(D.agchip); }
+    else if(D.agopt!=null){ const m=AG.msgs[AG.msgs.length-1]; if(!m||!m.opts) return; const k=+D.agopt, o=m.opts[k];
+      if(m.multi){ m.sel=m.sel||[]; const j=m.sel.indexOf(k); if(j>=0) m.sel.splice(j,1); else { if(String(o.v).startsWith("@")) m.sel=[]; else m.sel=m.sel.filter(x=>!String(m.opts[x].v).startsWith("@")); m.sel.push(k); } if(String(o.v).startsWith("@")&&m.sel.length){ agSendOpts(m); return; } agPaint(); }
+      else { m.opts=null; agSend(o.l,{val:AG.brain==="local"||AG.q?o.v:null}); } }
+    else if("agoptgo" in D){ const m=AG.msgs[AG.msgs.length-1]; if(m&&m.sel&&m.sel.length) agSendOpts(m); } });
   pan.addEventListener("submit",e=>{ e.preventDefault(); e.stopPropagation(); const i=document.getElementById("agIn"); const t=i.value; AG.draft=""; i.value=""; agSend(t); });
   pan.addEventListener("input",e=>{ e.stopPropagation(); if(e.target.id==="agIn"){ AG.draft=e.target.value; agAutoGrow(e.target); } });
   pan.addEventListener("change",e=>e.stopPropagation());
@@ -3113,6 +3143,216 @@ function agBoot(){
   agRender();
   // Claude disponível? (quando o app roda dentro do Claude)
   (async()=>{ try{ if(typeof window.claude==="undefined"||!window.claude.use) return; const s=await window.claude.use("sample"); if(!s) return; const lim=await s.limits().catch(()=>null); if(lim&&!lim.tools) return; AG.sample=s; AG.brain="claude"; agRender(); }catch(e){} })();
+}
+
+/* ===== Sunny — qualificação: entender a viagem antes de montar (modo offline) =====
+   O agente pergunta destino, cidades, datas, duração, saída, quem vai, orçamento, interesses, ritmo e o que não pode faltar.
+   Só monta depois de mostrar o resumo e o viajante confirmar. */
+const QW=(pt,en,es)=>({pt,en,es})[AGL()]||pt;
+const qO=(pt,en,es,v)=>({l:QW(pt,en,es),v:v==null?QW(pt,en,es):v});
+const MONTHS_L={pt:["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],en:["January","February","March","April","May","June","July","August","September","October","November","December"],es:["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]};
+const INTER_L={"História":["História","History","Historia"],"Arte e museus":["Arte e museus","Art and museums","Arte y museos"],"Gastronomia":["Gastronomia","Food","Gastronomía"],"Natureza":["Natureza","Nature","Naturaleza"],"Praia":["Praia","Beach","Playa"],"Vinho":["Vinho","Wine","Vino"],"Compras":["Compras","Shopping","Compras"],"Vida noturna":["Vida noturna","Nightlife","Vida nocturna"],"Com crianças":["Com crianças","With kids","Con niños"]};
+const qLi=()=>({pt:0,en:1,es:2})[AGL()]||0;
+const qMonthName=m=>MONTHS_L[AGL()][m];
+const qNew=()=>({s:{dests:[],ccs:[],cities:[],inter:[]},asked:{},stage:null});
+const qYes=n=>/ (sim|yes|si|pode|podes|bora|ok|okay|vamos|claro|monta|montar|build|go ahead|dale|perfeito|isso|confirmo|confirm|adelante|arma|armar|listo) /.test(n);
+const qNoWord=n=>/ (nao|no|nope|nada|nenhum|nenhuma|ninguem|none|nothing|ninguno|ninguna) /.test(n);
+const qNum=w=>{ const k=agN(w); return k==null?null:k; };
+/* extrai o que der da frase (vale em qualquer etapa) */
+function qExtract(text,stage){
+  const n=agClean(text), o={}; const places=agFindPlaces(text);
+  // origem: "saindo de X", "de X para Y", ou qualquer lugar quando a pergunta foi a origem
+  places.forEach((p,i)=>{ const nx=places[i+1];
+    const isOrig=stage==="origin"||/(saindo|partindo|saliendo|from|desde|saio|salgo|moro|vivo|live)( de| do| da| del| em| en| in)?$/.test(p.before)||(/(^| )(de|do|da|from|desde)$/.test(p.before)&&nx&&/ (para|pra|a|ao|à|ate|to|hacia|rumo) /.test(" "+n.slice(n.indexOf(p.txt)+p.txt.length,n.indexOf(nx.txt))+" "));
+    if(isOrig&&!o.origin) o.origin=p; else (o.places=o.places||[]).push(p); });
+  // datas
+  const y0=+todayISO().slice(0,4);
+  const mk=(d,mo,y)=>{ let yy=y?(+y<100?2000+ +y:+y):y0; let iso=`${yy}-${String(mo+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`; if(!y&&iso<=todayISO()) iso=`${yy+1}${iso.slice(4)}`; return iso; };
+  const dm=[...text.matchAll(/(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?/g)]; const en=AGL()==="en";
+  const pick=x=>en?[+x[2],+x[1]-1,x[3]]:[+x[1],+x[2]-1,x[3]];
+  if(dm.length){ const [d1,m1,yy1]=pick(dm[0]); if(m1>=0&&m1<12&&d1>=1&&d1<=31){ o.ida=mk(d1,m1,yy1); if(dm[1]){ const [d2,m2,yy2]=pick(dm[1]); if(m2>=0&&m2<12&&d2>=1&&d2<=31){ o.volta=mk(d2,m2,yy2); if(o.volta<=o.ida) o.volta=mk(d2,m2,String(+o.ida.slice(0,4)+1)); } } } }
+  if(!o.ida){ const ex=[...n.matchAll(/ (\d{1,2}) (?:de )?([a-z]+)(?= )/g)].filter(x=>AG_MON[x[2]]!=null&&(x[2].length>3||x[2]==="may")&&+x[1]>=1&&+x[1]<=31);
+    if(ex[0]){ o.ida=mk(+ex[0][1],AG_MON[ex[0][2]]); if(ex[1]){ o.volta=mk(+ex[1][1],AG_MON[ex[1][2]]); if(o.volta<=o.ida) o.volta=mk(+ex[1][1],AG_MON[ex[1][2]],String(+o.ida.slice(0,4)+1)); } } }
+  if(!o.ida){ const words=n.trim().split(" "); const mw=words.find(w=>AG_MON[w]!=null&&(w.length>3||w==="may")&&!["marco"].includes(w)||w==="marco"&&/ (em|no|in|en|de|para|pra) marco /.test(n)); if(mw!=null) o.month=AG_MON[mw]; }
+  if(/ (natal|christmas|navidad) /.test(n)&&o.month==null&&!o.ida) o.month=11;
+  if(/ (reveillon|ano novo|new year|ano nuevo|fim de ano|fin de ano) /.test(n)&&o.month==null&&!o.ida) o.month=11;
+  if(/ (flexivel|flexible|nao sei|no se|don t know|dont know|qualquer|anytime|tanto faz|sem data|no date|sin fecha) /.test(n)) o.flex=true;
+  // duração
+  let m=n.match(/ (\d+|[a-z]+) (dias|days|diaz|noites|nights|noches|semanas|semana|weeks|week) /);
+  if(m){ const k=qNum(m[1])||((/^(uma|una|a|one)$/.test(m[1]))?1:null); if(k){ o.days=/seman|week/.test(m[2])?k*7:/noit|night|noch/.test(m[2])?k+1:k; } }
+  if(stage==="days"&&o.days==null){ const k=n.match(/ (\d{1,2}) /); if(k) o.days=+k[1]; }
+  // pessoas
+  m=n.match(/ (\d+|[a-z]+) (adultos|adulto|adults|adult|pessoas|pessoa|people|persons|personas|persona|viajantes|of us|de nosotros|amigos|friends) /); if(m&&qNum(m[1])) o.adults=qNum(m[1]);
+  m=n.match(/ (vamos|somos|we are|seremos|iremos|vao|van) (em |en |in )?(\d+|[a-z]+) /); if(o.adults==null&&m&&qNum(m[3])) o.adults=qNum(m[3]);
+  if(o.adults==null&&/ (casal|couple|pareja|eu e minha|eu e meu|me and my|mi esposa|mi marido|minha esposa|meu marido|minha mulher|my wife|my husband|namorad|novio|novia|girlfriend|boyfriend) /.test(n)) o.adults=2;
+  if(o.adults==null&&/ (sozinho|sozinha|alone|solo|sola|so eu|just me|only me) /.test(n)) o.adults=1;
+  m=n.match(/ (\d+|[a-z]+) (criancas|crianca|filhos|filho|filhas|filha|kids|kid|children|child|ninos|nino|hijos|hijo|hijas) /);
+  if(/ (sem|sin|without|no|nenhum|nenhuma|zero) (as |os |los |las )?(criancas|crianca|filhos|filho|kids|children|ninos|hijos|bebe|baby) /.test(n)) o.kids=0;
+  else if(m&&qNum(m[1])) o.kids=qNum(m[1]);
+  else if(/ (filhos|filho|criancas|crianca|kids|children|ninos|hijos|com filhos|with kids|con ninos|bebe|baby) /.test(n)) o.kidsUnknown=true;
+  const ages=[...n.matchAll(/ (\d{1,2}) (anos|ano|years|year|yo|anos de idade|meses|months|mes)(?= )/g)].map(x=>/mes|month/.test(x[2])?0:+x[1]).filter(a=>a<18);
+  if(stage==="ages"){ const nums=[...n.matchAll(/ (\d{1,2})(?= )/g)].map(x=>+x[1]); const kc=n.match(/ (\d+) (criancas|crianca|filhos|filho|kids|children|ninos|hijos)/);
+    if(kc){ o.kids=+kc[1]; o.ages=nums.filter((x,i)=>!(i===0&&x===o.kids)).filter(a=>a<18); }
+    else if(nums.length>1&&nums[0]===nums.length-1){ o.kids=nums[0]; o.ages=nums.slice(1).filter(a=>a<18); }
+    else if(nums.length) o.ages=nums.filter(a=>a<18); if(o.ages&&!o.ages.length) delete o.ages; }
+  else if(ages.length) o.ages=ages; else if(false){ const nums=[...n.matchAll(/ (\d{1,2})(?= )/g)].map(x=>+x[1]).filter(a=>a<18); if(nums.length) o.ages=nums; }
+  m=n.match(/ (\d+|[a-z]+) (idosos|idoso|seniors|senior|mayores|avos|avo|abuelos) /); if(m&&qNum(m[1])) o.seniors=qNum(m[1]);
+  else if(/ (sogra|sogro|avo|avos|grandma|grandpa|grandmother|grandfather|abuela|abuelo|suegra|suegro|mae|pai|mother in law|father in law|minha mae|meu pai) /.test(n)) o.seniors=1;
+  if(/ (cachorro|cao|cachorra|gato|gata|pet|dog|cat|perro|perrita|perrito|chihuahua|gatinho) /.test(n)) o.pet=true;
+  if(stage==="pet"&&!o.pet){ if(qYes(n)) o.pet=true; else if(qNoWord(n)) o.pet=false; }
+  // orçamento
+  m=text.match(/(r\$|us\$|u\$s|€|\$|£)\s*([\d.,]+)\s*(mil|k)?/i)||text.match(/([\d.,]+)\s*(mil|k)?\s*(reais|euros?|d[oó]lares|dollars|usd|eur|brl|libras|pounds|gbp)/i);
+  if(m){ const symFirst=/[^\d.,\s]/.test(m[1]); const sym=(symFirst?m[1]:m[3]||"").toLowerCase(); const num=symFirst?m[2]:m[1]; const mult=/mil|k/i.test(symFirst?(m[3]||""):(m[2]||""))?1000:1;
+    o.budget=parseFloat(String(num).replace(/\.(?=\d{3})/g,"").replace(",","."))*mult; o.cur=/r\$|reais|brl/.test(sym)?"BRL":/€|eur/.test(sym)?"EUR":/£|libra|pound|gbp/.test(sym)?"GBP":/us\$|u\$s|usd|dol/.test(sym)?"USD":/\$/.test(sym)?(S.cur==="BRL"?"BRL":S.cur):S.cur; }
+  else if(stage==="budgetVal"){ const k=n.match(/ ([\d.,]+) ?(mil|k)? /); if(k){ o.budget=parseFloat(k[1].replace(/\.(?=\d{3})/g,"").replace(",","."))*(k[2]?1000:1); o.cur=S.cur; } }
+  if(/ (sem passage|sem voo|without flight|sin vuelo|sin pasaje|fora as passagens|excluding flights) /.test(n)) o.bvoo=false;
+  if(/(super econom|mochil|backpack|hostel|bem barat|muito barat|very cheap)/.test(n)) o.style="Super econômico"; else if(/(econom|barat|cheap|budget|low cost|ahorr)/.test(n)) o.style="Econômico"; else if(/(luxo|luxury|lujo|conforto|comfort|confort|5 estrelas|five star)/.test(n)) o.style="Conforto"; else if(/ (medio|medium|moderate|moderado|intermediario|mid range) /.test(n)) o.style="Médio";
+  // ritmo e interesses
+  if(/(tranquil|calma|relax|devagar|slow|despacio|sem pressa)/.test(n)) o.pace="Tranquilo"; else if(/(intens|corrid|ver tudo|see everything|todo lo posible|maximo|maximum|agitad)/.test(n)) o.pace="Intenso"; else if(/(equilibr|balanced|moderad)/.test(n)) o.pace="Equilibrado";
+  const ints=[]; [["História",/(histor)/],["Arte e museus",/(museu|museo|museum| arte | art |arquitet|architect)/],["Gastronomia",/(gastro|comida|food|comer|restaurant|culinar)/],["Natureza",/(natureza|nature|naturaleza|trilha|hike|trek|montanha|mountain|montana|parque natural)/],["Praia",/(praia|beach|playa|mar |sea )/],["Vinho",/(vinho|wine|vino|vinicola|winery|bodega)/],["Compras",/(compras|shopping|outlet)/],["Vida noturna",/(balada|nightlife|fiesta|bares|night out|vida noturna|vida nocturna)/],["Com crianças",/(com criancas|with kids|con ninos|parque tematico|theme park|disney)/]].forEach(([k,r])=>{ if(r.test(n)) ints.push(k); }); if(ints.length) o.inter=ints;
+  return o;
+}
+function qMerge(q,o,stage){
+  const s=q.s;
+  if(o.origin){ const p=o.origin; s.origin=p.city?agMeta(p.city):agMeta(agCapital(p.cc)); s.originName=p.city?p.city.nome:countryName(p.cc); }
+  if(o.places&&o.places.length&&stage!=="origin"&&stage!=="must"){ o.places.forEach(p=>{ if(p.cc){ if(!s.ccs.includes(p.cc)) s.ccs.push(p.cc); } else { if(!s.cities.some(c=>c.id===p.city.id)) s.cities.push(p.city); if(!s.ccs.includes(p.city.cc)) s.ccs.push(p.city.cc); } }); }
+  if(o.ida){ s.ida=o.ida; s.month=null; if(o.volta) s.volta=o.volta; }
+  if(o.month!=null&&!s.ida){ s.month=o.month; }
+  if(o.flex) s.flex=true;
+  if(o.days) s.days=Math.min(40,Math.max(3,o.days));
+  if(o.adults!=null) s.adults=Math.max(1,o.adults);
+  if(o.kids!=null){ s.kids=o.kids; if(!o.ages&&!(s.ages&&s.ages.length===o.kids)) s.ages=null; }
+  if(o.kidsUnknown&&s.kids==null) s.kids=-1;
+  if(o.ages){ s.ages=o.ages; if(s.kids==null||s.kids<0) s.kids=o.ages.length; }
+  if(o.seniors!=null) s.seniors=o.seniors;
+  if(o.pet!=null) s.pet=o.pet;
+  if(o.budget>0){ s.budget=o.budget; s.cur=o.cur||S.cur; s.style=null; }
+  if(o.bvoo!=null) s.bvoo=o.bvoo;
+  if(o.style&&!(o.budget>0)){ s.style=o.style; if(stage==="budget") s.budget=null; }
+  if(o.pace) s.pace=o.pace;
+  if(o.inter&&stage!=="must") s.inter=[...new Set([...(stage==="inter"?[]:s.inter),...o.inter])];
+}
+function qNextMonths(k=6){ const t=pd(todayISO()); const out=[]; for(let i=1;i<=k;i++){ const d=new Date(Date.UTC(t.getUTCFullYear(),t.getUTCMonth()+i,1)); out.push(d.getUTCMonth()); } return out; }
+function qFirstSat(month){ const t=todayISO(); let y=+t.slice(0,4); if(`${y}-${String(month+1).padStart(2,"0")}-25`<t) y++; const d=new Date(Date.UTC(y,month,1)); if(d.toISOString().slice(0,10)<=t) d.setUTCDate(pd(t).getUTCDate()+7); while(d.getUTCDay()!==6) d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0,10); }
+function qBestMonth(s){ const cc=s.ccs[0]; const lat=(s.cities[0]||agCapital(cc)||{lat:40}).lat; const prefs=lat<-15?[10,2,3,9]:lat<15?[6,7,0,1]:[4,8,5,9]; const up=qNextMonths(12); return up.find(m=>prefs.includes(m)); }
+const qInspire={Praia:["GR","BR","TH","MX","PT"],Natureza:["IS","AR","NZ","CH","CL"],História:["IT","GR","PE","EG","TR"],Gastronomia:["IT","JP","ES","PE","FR"],"Arte e museus":["FR","IT","ES","NL","GB"],Vinho:["PT","AR","FR","IT","ZA"],Compras:["US","AE","JP","GB","FR"],"Vida noturna":["ES","DE","BR","TH","US"],"Com crianças":["US","JP","FR","DK","BR"]};
+function qPeople(s){ const k=s.kids>0?s.kids:0; return (s.adults||0)+(s.seniors||0)+k; }
+function qSummary(s){
+  const L=AGL(); const dest=[...s.cities.map(c=>tr(c.nome)),...s.ccs.filter(cc=>!s.cities.some(c=>c.cc===cc)).map(cc=>countryName(cc))].join(", ")+(s.suggest?QW(" (cidades sugeridas por mim)"," (cities picked by me)"," (ciudades sugeridas por mí)"):"");
+  const ida=s.ida||qFirstSat(s.month), volta=s.volta||addDays(ida,(s.days||10)-1); const N=nightsBetween(ida,volta)+1;
+  const ppl=[s.adults?`${s.adults} ${QW(s.adults>1?"adultos":"adulto",s.adults>1?"adults":"adult",s.adults>1?"adultos":"adulto")}`:"",s.seniors?`${s.seniors} ${QW(s.seniors>1?"pessoas com 60+":"pessoa com 60+",s.seniors>1?"people aged 60+":"person aged 60+",s.seniors>1?"personas de 60+":"persona de 60+")}`:"",s.kids>0?`${s.kids} ${QW(s.kids>1?"crianças":"criança",s.kids>1?"children":"child",s.kids>1?"niños":"niño")}${s.ages?` (${s.ages.join(", ")} ${QW("anos","y/o","años")})`:""}`:"",s.pet?QW("e um pet 🐶","and a pet 🐶","y una mascota 🐶"):""].filter(Boolean).join(", ");
+  const bud=s.budget?`${money(s.budget,s.cur)} ${s.bvoo===false?QW("sem passagens","without flights","sin pasajes"):QW("com passagens","with flights","con pasajes")}`:QW(`estilo ${(s.style||"Médio").toLowerCase()}`,`${({"Conforto":"comfort","Médio":"mid-range","Econômico":"budget","Super econômico":"shoestring"})[s.style||"Médio"]} style`,`estilo ${({"Conforto":"confort","Médio":"medio","Econômico":"económico","Super econômico":"súper económico"})[s.style||"Médio"]}`);
+  const inter=s.inter.map(k=>(INTER_L[k]||[k,k,k])[qLi()]).join(", ");
+  const pace=({"Tranquilo":["tranquilo","relaxed","tranquilo"],"Equilibrado":["equilibrado","balanced","equilibrado"],"Intenso":["intenso","packed","intenso"]})[s.pace||"Equilibrado"][qLi()];
+  const lines=[`- **${QW("Destino","Destination","Destino")}:** ${dest}`,`- **${QW("Datas","Dates","Fechas")}:** ${fmtD(ida)} – ${fmtD(volta)} (${N} ${QW("dias","days","días")})${s.ida?"":QW(" · datas sugeridas"," · suggested dates"," · fechas sugeridas")}`,`- **${QW("Saída","From","Salida")}:** ${tr(s.originName||origOf(S.form).nome)}`,`- **${QW("Quem vai","Travellers","Quiénes van")}:** ${ppl}`,`- **${QW("Orçamento","Budget","Presupuesto")}:** ${bud}`,`- **${QW("Gostam de","Into","Les gusta")}:** ${inter||"—"}`,`- **${QW("Ritmo","Pace","Ritmo")}:** ${pace}`];
+  if(s.must) lines.push(`- **${QW("Não pode faltar","Must-do","No puede faltar")}:** ${s.must}`);
+  return lines.join("\n");
+}
+/* qual a próxima pergunta? */
+function qAsk(q){
+  const s=q.s; const say=QW;
+  if(!s.ccs.length){ q.stage="dest";
+    if(q.asked.dest&&q.asked.inspire&&s.inter.length){ const ls=s.inter.map(k=>qInspire[k]||[]); const ccs=[]; for(let i=0;i<5;i++) ls.forEach(l=>{ if(l[i]&&!ccs.includes(l[i])) ccs.push(l[i]); }); ccs.splice(6); q.stage="dest"; return {t:say(`Pelo que vocês gostam, eu iria para um destes. Algum te chama atenção?`,`Based on what you like, I'd pick one of these. Any catch your eye?`,`Por lo que les gusta, iría a uno de estos. ¿Alguno te llama?`),opts:ccs.map(cc=>({l:`${flag(cc)} ${countryName(cc)}`,v:countryNameL(cc,"en")}))}; }
+    if(q.asked.dest){ q.asked.inspire=true; q.stage="inspire"; return {t:say("Sem problema, eu ajudo a escolher! O que vocês mais querem nessa viagem?","No problem, I'll help you choose! What do you want most from this trip?","¡Sin problema, te ayudo a elegir! ¿Qué buscan en este viaje?"),opts:["Praia","Natureza","História","Gastronomia","Compras","Com crianças"].map(k=>({l:INTER_L[k][qLi()],v:INTER_L[k][1]})),multi:true}; }
+    q.asked.dest=true;
+    return {t:say("Que bom planejar com você! ☀️ Para onde vocês querem ir? Pode ser um país, uma região ou cidades específicas.","Lovely to plan this with you! ☀️ Where would you like to go? A country, a region or specific cities.","¡Qué bueno planear contigo! ☀️ ¿A dónde quieren ir? Puede ser un país, una región o ciudades concretas."),opts:[qO("Ainda não sei","I'm not sure yet","Aún no lo sé","@unknown")]}; }
+  const noCityCC=s.ccs.filter(cc=>!s.cities.some(c=>c.cc===cc));
+  if(noCityCC.length&&!s.suggest&&!q.asked.cities){ q.asked.cities=true; q.stage="cities"; const cc=noCityCC[0];
+    const top=topCities(cc,6,[origOf({origemCity:s.origin})]).slice(0,6);
+    const ack=!q.ackDest; q.ackDest=true;
+    return {t:say(`${ack?`${flag(cc)} ${countryName(cc)}, ótima escolha! `:""}Tem alguma cidade que não pode faltar por lá? Escolha quantas quiser, ou deixe que eu sugiro as melhores para o perfil de vocês.`,`${ack?`${flag(cc)} ${countryName(cc)}, great choice! `:""}Any cities there you can't miss? Pick as many as you like, or let me suggest the best ones for you.`,`${ack?`${flag(cc)} ${countryName(cc)}, ¡gran elección! `:""}¿Alguna ciudad que no puede faltar? Elige las que quieras, o deja que te sugiera las mejores para ustedes.`),
+      opts:[...top.map(c=>({l:tr(c.nome),v:c.name})),qO("Pode sugerir","You pick","Sugiere tú","@suggest")],multi:true}; }
+  if(!s.ida&&s.month==null){
+    if(!q.asked.when){ q.asked.when=true; q.stage="when"; return {t:say("Vocês já têm as datas da viagem?","Do you already have your travel dates?","¿Ya tienen las fechas del viaje?"),opts:[qO("Sim, tenho as datas","Yes, I have dates","Sí, tengo las fechas","@has"),qO("Só sei o mês","Just the month","Solo sé el mes","@month"),qO("Ainda não, sou flexível","Not yet, I'm flexible","Aún no, soy flexible","@flex")]}; }
+    if(q.stage==="dates") return {t:say("Me diga a ida e a volta, por exemplo: 10/05 a 24/05.","Tell me the outbound and return dates, e.g. 05/10 to 05/24.","Dime la ida y la vuelta, por ejemplo: 10/05 a 24/05.")};
+    q.stage="month"; const best=qBestMonth(s);
+    return {t:s.flex?say("Sem problema! Em que época vocês pensam em ir? Se quiser, eu escolho a melhor época para o destino.","No problem! When are you thinking of going? I can also pick the best season for the destination.","¡Sin problema! ¿En qué época piensan ir? También puedo elegir la mejor época para el destino."):say("Em que mês?","Which month?","¿En qué mes?"),
+      opts:[...(s.flex&&best!=null?[qO(`Melhor época (${qMonthName(best)})`,`Best season (${qMonthName(best)})`,`Mejor época (${qMonthName(best)})`,`@m${best}`)]:[]),...qNextMonths(9).map(m=>({l:qMonthName(m).replace(/^./,c=>c.toUpperCase()),v:`@m${m}`}))]}; }
+  if(!s.volta&&!s.days){ q.stage="days"; return {t:say("Quantos dias de viagem vocês têm, contando ida e volta?","How many days do you have, counting travel days?","¿Cuántos días de viaje tienen, contando ida y vuelta?"),opts:[7,10,14,21].map(d=>({l:QW(`${d} dias`,`${d} days`,`${d} días`),v:`@d${d}`}))}; }
+  if(!s.origin&&!q.asked.origin){ q.asked.origin=true; q.stage="origin"; const def=origOf(S.form);
+    return {t:say("De onde vocês saem?","Where are you flying from?","¿Desde dónde salen?"),opts:[{l:`📍 ${tr(def.nome)}`,v:"@defOrigin"}]}; }
+  if(s.adults==null&&q.stage==="groupN") return {t:say("Quantas pessoas vão no total?","How many people in total?","¿Cuántas personas van en total?"),opts:[3,4,5,6,8].map(k=>({l:String(k),v:`@n${k}`}))};
+  if(s.adults==null){ q.stage="who"; return {t:say("Quem vai na viagem?","Who's travelling?","¿Quiénes van al viaje?"),opts:[qO("Só eu","Just me","Solo yo","@w1"),qO("Casal","A couple","Pareja","@w2"),qO("Casal com filhos","Couple with kids","Pareja con hijos","@w2k"),qO("Família com avós","Family with grandparents","Familia con abuelos","@w2s"),qO("Grupo de amigos","Group of friends","Grupo de amigos","@wg")]}; }
+  if(s.kids===-1||(s.kids>0&&!s.ages)){ q.stage="ages"; return {t:say("Quantas crianças vão e quantos anos elas têm? Por exemplo: 2 crianças, de 4 e 9 anos.","How many children and how old are they? E.g. 2 kids, aged 4 and 9.","¿Cuántos niños van y qué edades tienen? Por ejemplo: 2 niños, de 4 y 9 años.")}; }
+  if(s.pet==null&&!q.asked.pet){ q.asked.pet=true; q.stage="pet"; return {t:say("Vai algum pet junto? 🐶","Is a pet coming along? 🐶","¿Viaja alguna mascota? 🐶"),opts:[qO("Não","No","No","@petno"),qO("Sim, vai um pet","Yes, a pet is coming","Sí, viene una mascota","@petyes")]}; }
+  if(q.stage==="budgetVal"&&!s.budget) return {t:say(`Qual o valor total, para todos? Por exemplo: ${money(15000,S.cur)} com passagens.`,`What's the total for everyone? E.g. ${money(15000,S.cur)} including flights.`,`¿Cuál es el total para todos? Por ejemplo: ${money(15000,S.cur)} con pasajes.`)};
+  if(!s.budget&&!s.style){ q.stage="budget"; return {t:say("Qual o orçamento para a viagem? Pode ser um valor total ou um estilo.","What's your budget? A total amount or a travel style.","¿Cuál es el presupuesto? Puede ser un monto total o un estilo."),opts:[qO("Econômico","Budget","Económico","@sEconômico"),qO("Médio","Mid-range","Medio","@sMédio"),qO("Conforto","Comfort","Confort","@sConforto"),qO("Tenho um valor","I have an amount","Tengo un monto","@val")]}; }
+  if(!s.inter.length&&!q.asked.inter){ q.asked.inter=true; q.stage="inter"; return {t:say("Do que vocês mais gostam numa viagem? Pode escolher vários.","What do you enjoy most when travelling? Pick as many as you like.","¿Qué es lo que más disfrutan en un viaje? Elige varios."),opts:INTER.map(([k,e])=>({l:`${e} ${INTER_L[k][qLi()]}`,v:INTER_L[k][1]})),multi:true}; }
+  if(!s.pace){ q.stage="pace"; return {t:say("E o ritmo da viagem?","And the pace?","¿Y el ritmo del viaje?"),opts:[qO("🐢 Tranquilo, poucos passeios por dia","🐢 Relaxed, few sights a day","🐢 Tranquilo, pocas visitas al día","@pTranquilo"),qO("🚶 Equilibrado","🚶 Balanced","🚶 Equilibrado","@pEquilibrado"),qO("🏃 Intenso, ver o máximo","🏃 Packed, see as much as possible","🏃 Intenso, ver lo máximo","@pIntenso")]}; }
+  if(s.must==null&&!q.asked.must){ q.asked.must=true; q.stage="must"; return {t:say("Tem algo que não pode faltar? Um passeio, um restaurante, um show, uma data especial…","Anything you can't miss? A sight, a restaurant, a show, a special date…","¿Algo que no puede faltar? Una visita, un restaurante, un espectáculo, una fecha especial…"),opts:[qO("Nada específico","Nothing specific","Nada en especial","@none")]}; }
+  q.stage="confirm";
+  return {t:say(`Perfeito, entendi a viagem de vocês:\n${qSummary(s)}\n\nPosso montar o roteiro?`,`Perfect, here's your trip:\n${qSummary(s)}\n\nShall I build the itinerary?`,`Perfecto, así es su viaje:\n${qSummary(s)}\n\n¿Armo el itinerario?`),opts:[qO("✨ Sim, montar a viagem","✨ Yes, build it","✨ Sí, armar el viaje","@go"),qO("✏️ Quero mudar algo","✏️ I want to change something","✏️ Quiero cambiar algo","@change")]};
+}
+/* respostas dos botões */
+function qChip(q,v){ const s=q.s; let m;
+  if(v==="@unknown"){ q.asked.dest=true; return; }
+  if(v==="@suggest"){ s.suggest=true; return; }
+  if(v==="@has"){ q.stage="dates"; return "dates"; }
+  if(v==="@month"){ q.stage="month"; return; }
+  if(v==="@flex"){ s.flex=true; return; }
+  if((m=v.match(/^@m(\d+)$/))){ s.month=+m[1]; return; }
+  if((m=v.match(/^@d(\d+)$/))){ s.days=+m[1]; return; }
+  if(v==="@defOrigin"){ const d=origOf(S.form); s.origin=d; s.originName=d.nome; return; }
+  if(v==="@w1"){ s.adults=1; return; } if(v==="@w2"){ s.adults=2; return; }
+  if(v==="@w2k"){ s.adults=2; s.kids=-1; return; } if(v==="@w2s"){ s.adults=2; s.seniors=Math.max(1,s.seniors||0); return; }
+  if((m=v.match(/^@n(\d+)$/))){ s.adults=+m[1]; return; }
+  if(v==="@wg"){ q.stage="groupN"; return "groupN"; }
+  if(v==="@petno"){ s.pet=false; return; } if(v==="@petyes"){ s.pet=true; return; }
+  if((m=v.match(/^@s(.+)$/))){ s.style=m[1]; s.budget=null; return; }
+  if(v==="@val"){ q.stage="budgetVal"; return "budgetVal"; }
+  if((m=v.match(/^@p(.+)$/))){ s.pace=m[1]; return; }
+  if(v==="@none"){ s.must=""; return; }
+}
+async function qBuild(q){
+  const s=q.s; const ida=s.ida||qFirstSat(s.month); const volta=s.volta||addDays(ida,(s.days||10)-1);
+  const a={destinations:[...s.cities.map(c=>c.name),...s.ccs.filter(cc=>!s.cities.some(c=>c.cc===cc)).map(cc=>countryNameL(cc,"en"))],start_date:ida,end_date:volta,adults:s.adults||2,seniors:s.seniors||0,
+    children_ages:s.kids>0?(s.ages||Array(s.kids).fill(8)):[],pace:s.pace||"Equilibrado",interests:s.inter.length?s.inter:undefined,_qualified:true};
+  if(s.origin) a.origin=s.origin.name; if(s.pet) a.pet_name="Pet";
+  if(s.budget){ a.budget=s.budget; a.budget_currency=s.cur; a.budget_includes_flights=s.bvoo!==false; } else a.style=s.style||"Médio";
+  if(s.origin) S.form.origemCity=s.origin;
+  const r=await agRun("create_trip",a);
+  if(s.must){ const T=S.trip; const n=norm(s.must); const id=T.cityIds.find(c=>n.includes(norm(KB[c].nome))||(KB[c].gname&&n.includes(norm(KB[c].gname))));
+    const k=T.dias.findIndex(d=>d.tipo!=="deslocamento"&&(!id||d.cidade===KB[id].nome)); if(k>=0){ addToDay(T.dias[k],"⭐ "+s.must.charAt(0).toUpperCase()+s.must.slice(1)); persistTrip(); r.must_day=k+1; } }
+  return r;
+}
+/* um passo da conversa de qualificação */
+async function agQualify(text,val){
+  const q=AG.q||(AG.q=qNew()); let n=agClean(text); const say=QW; const stage=q.stage;
+  if(/ (cancelar|cancela|cancel|esquece|forget it|olvidalo|parar|stop) /.test(n)&&!val){ AG.q=null; return {t:say("Tudo bem, cancelei. Quando quiser, é só me chamar. ☀️","Okay, cancelled. Call me whenever you like. ☀️","Vale, cancelado. Llámame cuando quieras. ☀️")}; }
+  if(val&&val.startsWith("@multi:")){ const vs=val.slice(7).split("|").filter(Boolean); let st=null; vs.filter(v=>v.startsWith("@")).forEach(v=>{ st=qChip(q,v)||st; }); const txt=" "+vs.filter(v=>!v.startsWith("@")).join(", ")+" ";
+    if(txt.trim()){ const o=qExtract(txt,stage); qMerge(q,o,stage); if(stage==="inspire"&&o.inter) q.s.inter=o.inter; }
+    if(stage==="cities"&&!q.s.cities.length) q.s.suggest=true; if(stage==="inter"&&!q.s.inter.length) q.asked.inter=true;
+    return qAsk(q); }
+  if(val&&!val.startsWith("@")){ text=val; n=agClean(text); val=null; }
+  if(val){ const st=qChip(q,val); if(st) return qAsk(q);
+    if(val==="@go") { /* segue para montar */ } else if(val==="@change"){ q.stage="change"; return {t:say("Claro! O que você quer mudar? Pode escrever do seu jeito, por exemplo: “são 3 adultos” ou “de 5 a 20 de maio”.","Sure! What would you like to change? Just write it, e.g. “3 adults” or “May 5 to 20”.","¡Claro! ¿Qué quieres cambiar? Escríbelo, por ejemplo: “somos 3 adultos” o “del 5 al 20 de mayo”.")}; }
+    else if(stage==="cities"||stage==="inter"||stage==="inspire"||stage==="dest"){ qMerge(q,qExtract(text,stage),stage); }
+  } else {
+    if(stage==="confirm"&&qYes(n)) val="@go";
+    else { const o=qExtract(text,stage); qMerge(q,o,stage);
+      if((stage==="dest"||!stage)&&!q.s.ccs.length&&/ (nao sei|not sure|no se|don t know|dont know|qualquer|anywhere|sugere|sugira|suggest|sugiere|surpreenda|surprise) /.test(n)) q.asked.dest=true;
+      if(stage==="cities"&&/ (sugir|sugere|sugest|suggest|you pick|voce escolhe|tanto faz|sugiere|elige tu|pode escolher) /.test(n)) q.s.suggest=true;
+      if(stage==="cities"&&!o.places) q.s.suggest=true;
+      if(stage==="groupN"){ const k=n.match(/ (\d+|[a-z]+) /g); const num=k&&k.map(x=>qNum(x.trim())).find(x=>x); if(num) q.s.adults=num; }
+      if(stage==="must"){ q.s.must=qNoWord(n)&&n.trim().split(" ").length<=3?"":text.trim().replace(/[.!]+$/,""); }
+      if(stage==="when"){ if(o.flex) q.s.flex=true; else if(o.month==null&&!o.ida&&qYes(n)){ q.stage="dates"; return qAsk(q); } }
+      if(stage==="inspire"&&o.inter) { q.s.inter=o.inter; }
+      if(stage==="budget"&&/ (valor|amount|monto|tenho|have) /.test(n)&&!o.budget){ q.stage="budgetVal"; return qAsk(q); }
+      if(stage==="ages"&&q.s.kids===-1&&!o.ages){ const k=n.match(/ (\d+|[a-z]+) /); if(k&&qNum(k[1].trim())) q.s.kids=qNum(k[1].trim()); }
+      if(stage==="change"){ q.stage="confirm"; } } }
+  if(val==="@go"){ const s=q.s; if(!s.ccs.length) return qAsk(q);
+    try{ const r=await qBuild(q); AG.q=null;
+      return {t:say(`Pronto! Montei **${r.titulo}**, de ${fmtD(r.ida)} a ${fmtD(r.volta)}: ${r.cidades.join(" · ")} noites. Estimativa: ${r.estimativa}${S.trip.budget?(S.trip.budget.ok?`, dentro do orçamento de ${money(S.trip.budget.valor,S.trip.budget.moeda)}`:`, acima do orçamento de ${money(S.trip.budget.valor,S.trip.budget.moeda)} — posso sugerir onde economizar`):""}.${r.must_day?` Coloquei o que não pode faltar no dia ${r.must_day}.`:""}${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nQuer ajustar as noites de alguma cidade, trocar um passeio ou ver os preços de voos e hotéis?`,
+        `Done! I built **${r.titulo}**, ${fmtD(r.ida)} to ${fmtD(r.volta)}: ${r.cidades.join(" · ")} nights. Estimate: ${r.estimativa}${S.trip.budget?(S.trip.budget.ok?`, within your ${money(S.trip.budget.valor,S.trip.budget.moeda)} budget`:`, above your ${money(S.trip.budget.valor,S.trip.budget.moeda)} budget — I can suggest savings`):""}.${r.must_day?` Your must-do is on day ${r.must_day}.`:""}${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\nWant to adjust nights, swap an activity or see flight and hotel prices?`,
+        `¡Listo! Armé **${r.titulo}**, del ${fmtD(r.ida)} al ${fmtD(r.volta)}: ${r.cidades.join(" · ")} noches. Estimación: ${r.estimativa}${S.trip.budget?(S.trip.budget.ok?`, dentro del presupuesto de ${money(S.trip.budget.valor,S.trip.budget.moeda)}`:`, por encima del presupuesto de ${money(S.trip.budget.valor,S.trip.budget.moeda)} — puedo sugerir dónde ahorrar`):""}.${r.must_day?` Lo que no puede faltar está en el día ${r.must_day}.`:""}${r.avisos.length?` (${r.avisos.join("; ")})`:""}\n\n¿Ajusto noches, cambio una visita o te muestro precios de vuelos y hoteles?`),
+        opts:[qO("🔎 Ver preços","🔎 See prices","🔎 Ver precios","@prices"),qO("🌙 Ajustar noites","🌙 Adjust nights","🌙 Ajustar noches","@nights"),qO("📅 Abrir o calendário","📅 Open the calendar","📅 Abrir el calendario","@cal")]}; }
+    catch(e){ q.stage="change"; return {t:say(`Não consegui montar: ${e.message||e}. O que você quer ajustar?`,`I couldn't build it: ${e.message||e}. What should we adjust?`,`No pude armarlo: ${e.message||e}. ¿Qué ajustamos?`)}; } }
+  const nx=qAsk(q);
+  // reconhece o que já entendeu, para a conversa ficar natural
+  const got=[]; const s=q.s; if(!stage&&s.ccs.length&&(s.cities.length||q.stage!=="cities")) got.push(s.cities.length?s.cities.map(c=>tr(c.nome)).join(", "):s.ccs.map(countryName).join(", "));
+  if(!stage&&(s.ida||s.month!=null)) got.push(s.ida?fmtD(s.ida):qMonthName(s.month)); if(!stage&&s.days) got.push(QW(`${s.days} dias`,`${s.days} days`,`${s.days} días`)); if(!stage&&s.adults) got.push(QW(`${qPeople(s)} ${qPeople(s)>1?"pessoas":"pessoa"}`,`${qPeople(s)} ${qPeople(s)>1?"people":"person"}`,`${qPeople(s)} ${qPeople(s)>1?"personas":"persona"}`));
+  if(!stage&&q.stage!=="confirm") nx.t=(got.length?QW(`Anotado: ${got.join(", ")}. `,`Noted: ${got.join(", ")}. `,`Anotado: ${got.join(", ")}. `):"")+QW("Para montar uma viagem 100% do jeito de vocês, vou fazer algumas perguntas rápidas.\n\n","To build a trip that's 100% yours, I'll ask a few quick questions.\n\n","Para armar un viaje 100% a su medida, haré unas preguntas rápidas.\n\n")+nx.t.replace(/^Que bom planejar com você! ☀️ |^Lovely to plan this with you! ☀️ |^¡Qué bueno planear contigo! ☀️ /,"");
+  return nx;
 }
 
 /* ===== Sunny Trip — interface ===== */
