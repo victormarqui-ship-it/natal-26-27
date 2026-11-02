@@ -20,11 +20,11 @@ await p.evaluate(()=>{ S.trip.viajantes[0].nome="Victor"; S.trip.viajantes[1].no
 await shot("08-inicio");
 await p.evaluate(()=>{ const el=document.querySelector(".cdx"); if(el) el.scrollIntoView({block:"start"}); window.scrollBy(0,-20); }); await shot("09-frase");
 await p.evaluate(()=>{ S.tab="roteiro"; S.rv="path"; render(); window.scrollTo(0,330); }); await shot("10-caminho");
-const di=await p.evaluate(()=>S.trip.dias.findIndex(d=>d.tipo==="livre"&&d.cidade==="Roma"));
+const di=await p.evaluate(()=>(()=>{let i=S.trip.dias.findIndex(d=>d.tipo==="livre"&&/Roma|Rome/.test(d.cidade||""));return i<0?1:i;})());
 await p.evaluate(i=>{ S.tab="roteiro"; S.dayOpen=true; S.day=i; render(); const el=document.querySelector(".dh"); el.scrollIntoView({block:"start"}); window.scrollBy(0,-10); },di); await shot("11-dia"); await p.evaluate(()=>{ const el=document.querySelector(".tbar"); el.scrollIntoView({block:"center"}); }); await shot("11b-tempo");
 await p.evaluate(()=>{ S.dayAddOpen=true; render(); const el=document.querySelector(".picker"); el.scrollIntoView({block:"start"}); }); await shot("12-picker");
 await p.evaluate(()=>{ S.dayAddOpen=false; S.mvOpen=true; render(); const el=document.querySelector(".mvc"); el.scrollIntoView({block:"start"}); window.scrollBy(0,-20); }); await shot("13-chegar");
-const bv=await p.evaluate(()=>S.trip.dias.findIndex(d=>d.tipo==="bate-volta"&&/Modena/.test(d.titulo)));
+const bv=await p.evaluate(()=>(()=>{let i=S.trip.dias.findIndex(d=>d.tipo==="bate-volta"&&/Modena/.test((d.titulo||"")+(d.cidade||"")));if(i<0)i=S.trip.dias.findIndex(d=>d.tipo==="bate-volta");if(i<0)i=S.trip.dias.findIndex(d=>/Modena/.test(JSON.stringify(d)));return i<0?3:i;})());
 await p.evaluate(i=>{ S.day=i; S.mvOpen=false; render(); window.scrollTo(0,0); },bv); await shot("14-modena");
 await p.evaluate(()=>{ S.dayOpen=false; S.tab="mala"; render(); window.scrollTo(0,0); }); await shot("15-mala");
 await p.evaluate(()=>{ const T=S.trip; T.gastos=[{id:"g1",desc:"Jantar em Trastevere",valor:86,moeda:"EUR",cat:"Comida",pagou:0,entre:[0,1]},{id:"g2",desc:"Ingressos Coliseu",valor:58,moeda:"EUR",cat:"Passeios",pagou:1,entre:[0,1]},{id:"g3",desc:"Gelato",valor:12,moeda:"EUR",cat:"Comida",pagou:0,entre:[0,1]}]; persistTrip(); S.tab="custos"; render(); window.scrollTo(0,0); }); await shot("16-custos");
@@ -38,4 +38,4 @@ await p.evaluate(()=>{ AG.listen=false; agToggle(false); S.pass={extra:["JP","PE
 await shot("20-passaporte");
 await p.evaluate(()=>{ S.view="plus"; render(); window.scrollTo(0,0); }); await shot("21-plus");
 await p.evaluate(()=>{ S.view="home"; render(); window.scrollTo(0,0); }); await shot("22-home2");
-console.log(errs); await b.close(); })();
+console.log(errs); await p.evaluate(()=>console.log(JSON.stringify(S.trip.dias.map(d=>[d.tipo,d.cidade,d.titulo])))); await b.close(); })();
