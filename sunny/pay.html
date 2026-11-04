@@ -6,11 +6,11 @@
 a{color:var(--ink);font-weight:600}.top{display:flex;justify-content:space-between;align-items:center}.tag{background:#ffc800;border-radius:99px;padding:3px 10px;font-size:13px;font-weight:600}
 #targetElement{margin-top:12px;min-height:260px}.foot{margin-top:18px;font-size:13px;color:var(--sub)}</style></head>
 <body><div class="w"><div class="top"><a id="back" href="./">‹ Voltar</a><span class="tag" id="mode" hidden>Modo de teste</span></div>
-<h1 id="h">Pagamento seguro</h1><p id="p">O pagamento é processado pelo nosso parceiro de hotéis. O Sunny Trip não vê nem guarda os dados do seu cartão.</p>
+<h1 id="h">Pagamento seguro</h1><p id="p">O pagamento é processado pelo nosso parceiro de reservas. O Sunny Trip não vê nem guarda os dados do seu cartão.</p>
 <div id="targetElement"></div><p class="foot" id="f">Depois de pagar, você volta para o Sunny e a reserva é confirmada.</p></div>
 <script>
 const q=new URLSearchParams(location.search), L=q.get("lang")||"pt";
-const T={en:["Secure payment","Payment is processed by our hotel partner. Sunny Trip never sees or stores your card details.","After paying, you'll return to Sunny and the booking is confirmed.","‹ Back","Test mode"],es:["Pago seguro","El pago lo procesa nuestro socio de hoteles. Sunny Trip nunca ve ni guarda los datos de tu tarjeta.","Después de pagar, vuelves a Sunny y la reserva se confirma.","‹ Volver","Modo de prueba"]}[L];
+const T={en:["Secure payment","Payment is processed by our booking partner. Sunny Trip never sees or stores your card details.","After paying, you'll return to Sunny and the booking is confirmed.","‹ Back","Test mode"],es:["Pago seguro","El pago lo procesa nuestro socio de reservas. Sunny Trip nunca ve ni guarda los datos de tu tarjeta.","Después de pagar, vuelves a Sunny y la reserva se confirma.","‹ Volver","Modo de prueba"]}[L];
 if(T){ h.textContent=T[0]; p.textContent=T[1]; f.textContent=T[2]; back.textContent=T[3]; mode.textContent=T[4]; document.documentElement.lang=L; }
 const base=q.get("back")||(location.origin+location.pathname.replace(/pay\.html$/,""));
 back.href=base; if(q.get("mode")==="sandbox") mode.hidden=false;
