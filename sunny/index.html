@@ -5846,8 +5846,8 @@ function frForm(T,g,sel){ const pend=S.frBusy, cc=(S.home&&S.home.cc)||"BR"; con
     <small class="sub xs">Escreva os nomes exatamente como no passaporte.</small>
     ${L.map((p,j)=>{ const n=nm(p.v); return `<fieldset class="frPax"><legend>${j+1}. ${tl(p)}</legend>
       <div class="g2"><label class="f"><span>Nome</span><input type="text" name="fn${j}" autocomplete="${j?"off":"given-name"}" value="${esc(n[0]||"")}" required></label><label class="f"><span>Sobrenome</span><input type="text" name="ln${j}" autocomplete="${j?"off":"family-name"}" value="${esc(n.slice(1).join(" ")||"")}" required></label></div>
-      <div class="g2"><label class="f"><span>Data de nascimento</span><input type="date" name="bd${j}" max="${new Date().toISOString().slice(0,10)}" required></label><label class="f"><span>Sexo</span><select name="gd${j}" required><option value="" disabled selected>Escolha</option><option value="F">Feminino</option><option value="M">Masculino</option><option value="X">Prefiro não dizer</option></select></label></div>
-      <label class="f"><span>Nacionalidade</span><select name="na${j}">${frNat(cc)}</select></label></fieldset>`; }).join("")}
+      <label class="f"><span>Data de nascimento</span><input type="date" name="bd${j}" max="${new Date().toISOString().slice(0,10)}" required></label>
+      <div class="g2"><label class="f"><span>Sexo</span><select name="gd${j}" required><option value="" disabled selected>Escolha</option><option value="F">Feminino</option><option value="M">Masculino</option><option value="X">Prefiro não dizer</option></select></label><label class="f"><span>Nacionalidade</span><select name="na${j}">${frNat(cc)}</select></label></div></fieldset>`; }).join("")}
     <span class="k">Contato para a passagem</span>
     <label class="f"><span>E-mail</span><input type="email" name="em" autocomplete="email" required></label>
     <div class="frTel"><label class="f"><span>DDI</span><input type="text" name="ddi" inputmode="numeric" value="+${FR_DDI[cc]||"55"}" required></label><label class="f"><span>Celular</span><input type="text" name="tel" inputmode="tel" autocomplete="tel-national" required></label></div>
