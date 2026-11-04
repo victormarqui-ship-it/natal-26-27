@@ -38,3 +38,4 @@ try{
   console.log('BUY',await p.evaluate(()=>JSON.stringify(S.trip&&S.trip.pk&&S.trip.pk.buy)));
   console.log('TOAST',await p.evaluate(()=>{const t=document.getElementById('sunToast');return t&&t.textContent;}));
 }catch(e){ console.log('PAYFAIL',e.message.slice(0,300)); await shot('10-falha'); } console.log('errs',errs); await b.close(); })();
+// 1793814838
