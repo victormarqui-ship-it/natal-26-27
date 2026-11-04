@@ -597,6 +597,16 @@ body:has(.start){background:var(--bg)}
 /* tipografia: títulos e números em Bricolage Grotesque, texto em Inter */
 h1,h2,h3,.big,.brand,.press,.pillbtn,.nxtB b,.kpi b,.post .pt b,.pk b,.escHead b{font-family:var(--fd)}
 .press{letter-spacing:.03em}
+
+/* hotéis reais */
+.hrGo{width:100%}
+.hrBox,.hrSel{display:grid;gap:8px}
+.hrC{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:8px;background:var(--card)}
+.hrC.on{border-color:var(--sun);background:color-mix(in srgb,var(--sun) 12%,var(--card))}
+.hrC img,.hrC .hrPh{width:64px;height:64px;border-radius:10px;object-fit:cover;display:grid;place-items:center;background:var(--line);font-size:26px}
+.hrT{min-width:0;display:grid;gap:1px}.hrT b{font-size:15px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.hrT small{font-size:12.5px;color:var(--sub);font-weight:700}.hrT small.ok{color:var(--green-d,#46a302)}
+.hrP{text-align:right;display:grid;gap:2px;justify-items:end;font-variant-numeric:tabular-nums}.hrP small{font-size:12px;color:var(--sub);font-weight:700}
 </style>
 
 <div id="splash" role="img" aria-label="Sunny Trip">
@@ -5386,7 +5396,7 @@ function pkItems(T){
   const v=out.filter(x=>x.key==="v:volta"); return [...out.filter(x=>x.key!=="v:volta"),...v];
 }
 function pkOpt(T,x){ const P=pkInit(T); if(x.tipo==="hotel"){ const k=P.h[x.key]||P.base.tier; return HOPT.find(h=>h.k===k)||HOPT[2]; } if(x.tipo==="trem") return null; const k=P.f[x.key]||"equil"; return FOPT.find(f=>f.k===k)||FOPT[1]; }
-function pkPrice(T,x,opt){ opt=opt||pkOpt(T,x); if(x.tipo==="hotel") return x.base*opt.f; if(x.tipo==="trem") return x.base; return x.base*opt.f; }
+function pkPrice(T,x,opt){ if(x.tipo==="hotel"&&!opt){ const r=(T.pk&&T.pk.hsel||{})[x.key]; if(r) return r.eur; } opt=opt||pkOpt(T,x); if(x.tipo==="hotel") return x.base*opt.f; if(x.tipo==="trem") return x.base; return x.base*opt.f; }
 function pkDetail(x,opt,T){ if(x.tipo==="hotel") return T?`${inCur(pkPrice(T,x,opt)/Math.max(1,x.nights),S.cur)} por noite`:""; if(x.tipo==="trem") return ""; const s=pkStops(x.km,opt.st); return `~${String(pkHours(x.km,s)).replace(".",",")}h · ${s?s+" "+(s>1?"escalas":"escala"):"direto"}`; }
 /* aplica as escolhas ao orçamento da viagem (aba Custos usa os mesmos números) */
 function pkApply(T){
@@ -5430,12 +5440,13 @@ function costCard(T){
 function viewBook(){
   const T=S.trip; pkApply(T); const P=pkInit(T), X=pkItems(T), tot=pkTotal(T); const done=X.filter(x=>P.buy[x.key]).length;
   const nextK=(X.find(x=>!P.buy[x.key])||{}).key; const paid=Object.values(P.buy).reduce((a,b)=>a+(b.eur||0),0);
-  const PY=payers(); const card=x=>{ const opt=pkOpt(T,x), price=pkPrice(T,x,opt), b=P.buy[x.key], open=S.bkSwap===x.key, form=S.bkPay===x.key;
+  const PY=payers(); const card=x=>{ const opt=pkOpt(T,x), price=pkPrice(T,x), real=x.tipo==="hotel"&&(P.hsel||{})[x.key], b=P.buy[x.key], open=S.bkSwap===x.key, form=S.bkPay===x.key;
     const opts=x.tipo==="hotel"?HOPT:x.tipo==="trem"?[]:FOPT;
     return `<div class="glass card bk${b?" done":""}${S.bkMode==="comprar"&&x.key===nextK?" focus":""}" id="bk-${esc(x.key.replace(/[^a-z0-9]/gi,"_"))}">
-      <div class="bkTop"><span class="e">${x.e}</span><span class="t"><b>${esc(x.t)}</b><small class="sub sm">${esc(x.s)}</small></span><span class="v">${b?`<span class="okp">✓ ${money(b.valor,b.moeda)}</span>`:`<b>${inCur(price,S.cur)}</b><small class="sub xs">estimado</small>`}</span></div>
+      <div class="bkTop"><span class="e">${x.e}</span><span class="t"><b>${esc(x.t)}</b><small class="sub sm">${esc(x.s)}</small></span><span class="v">${b?`<span class="okp">✓ ${money(b.valor,b.moeda)}</span>`:`<b>${inCur(price,S.cur)}</b><small class="sub xs">${real?"preço de hoje":"estimado"}</small>`}</span></div>
       ${opt?`<div class="bkSel"><span><b>${esc(opt.n)}</b><small class="sub sm">${esc(pkDetail(x,opt,T)||opt.d||"")}</small></span>${opts.length&&!b?`<button class="link" data-bkswap="${esc(x.key)}">${open?"Fechar":"Trocar"}</button>`:""}</div>`:""}
-      ${open?`<div class="bkOpts">${opts.map(o=>{ const p=pkPrice(T,x,o), on=o.k===opt.k, d=p-price; return `<button class="bkOpt${on?" on":""}" data-bkpick="${esc(x.key)}|${esc(o.k)}" aria-pressed="${on}"><span><b>${esc(o.n)}</b><small>${esc(pkDetail(x,o,T))}${x.tipo==="hotel"?"":" · "+esc(o.d)}</small></span><span class="pp"><b>${inCur(p,S.cur)}</b>${on?"":`<small class="${d>0?"up":"down"}">${d>0?"+":"−"}${inCur(Math.abs(d),S.cur)}</small>`}</span></button>`; }).join("")}</div>`:""}
+      ${open?`<div class="bkOpts">${opts.map(o=>{ const p=pkPrice(T,x,o), on=o.k===opt.k, d=p-pkPrice(T,x,opt); return `<button class="bkOpt${on?" on":""}" data-bkpick="${esc(x.key)}|${esc(o.k)}" aria-pressed="${on}"><span><b>${esc(o.n)}</b><small>${esc(pkDetail(x,o,T))}${x.tipo==="hotel"?"":" · "+esc(o.d)}</small></span><span class="pp"><b>${inCur(p,S.cur)}</b>${on?"":`<small class="${d>0?"up":"down"}">${d>0?"+":"−"}${inCur(Math.abs(d),S.cur)}</small>`}</span></button>`; }).join("")}</div>`:""}
+      ${typeof hrBlock==="function"?hrBlock(T,x):""}
       ${b?`<div class="row" style="justify-content:space-between"><small class="sub sm">Comprado${b.quem!=null&&T.viajantes[b.quem]?` · ${esc(T.viajantes[b.quem].nome)} pagou`:""} · lançado em Custos</small><button class="link" data-bkundo="${esc(x.key)}">Desfazer</button></div>`
        :form?`<form class="bkPay" data-bkpay="${esc(x.key)}"><span class="k">Quanto você pagou?</span><div class="g2"><label class="f"><span>Valor</span><input id="bkv" type="number" name="valor" inputmode="decimal" step="0.01" min="0.01" value="${Math.round(price*rate(S.cur))}"></label><label class="f"><span>Moeda</span><select id="bkm" name="moeda">${[...new Set([S.cur,"EUR","USD",...T.cityIds.map(c=>CUR_OF(KB[c].pais))])].map(c=>`<option value="${c}">${curSym(c)} ${c}</option>`).join("")}</select></label></div>
           <label class="f"><span>Quem pagou</span><select id="bkq" name="quem">${PY.map(p=>`<option value="${p.i}">${esc(p.nome)}</option>`).join("")}</select></label><div class="g2"><button type="button" class="press ghost" data-bkpaycancel>Cancelar</button><button class="press green" type="submit">Salvar</button></div></form>`
@@ -5473,6 +5484,65 @@ function bkSubmit(form){
   const X=pkItems(T); const nx=X.find(i=>!P.buy[i.key]); if(!nx) celebrate();
   bkRerender(nx&&nx.key);
 }
+
+/* ===== Hotéis reais (Nuitée/LiteAPI pelo servidor do Sunny): busca, escolha e reserva com pagamento da Nuitée ===== */
+const SUNNY_API="https://sunny-api.sunnytrip.workers.dev"; // servidor do Sunny (Cloudflare)
+const HR={}; // cache da sessão: chave do item → {loading,list,err,at}
+const hrOn=()=>!!SUNNY_API&&/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname);
+async function sunnyApi(path,body){ const r=await fetch(SUNNY_API+path,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)}); const j=await r.json().catch(()=>({error:"resposta inválida"})); if(!r.ok||j.error) throw Object.assign(new Error(j.error||"erro"),{detail:j}); return j; }
+function hrQuery(T,x){ const s=x.stay, C=KB[s.id]; const p=pax(T); const kids=(T.viajantes||[]).filter(v=>v.tipo==="crianca"&&v.idade<18).map(v=>v.idade|0);
+  const opt=pkOpt(T,x); return {lat:C.lat,lon:C.lon,cc:C.pais,checkin:s.ci,checkout:s.co,adults:Math.max(1,p.adults),children:kids,rooms:Math.max(1,Math.ceil(p.adults/2)),currency:"EUR",nationality:(S.home&&S.home.cc)||"BR",stars:opt.star>0?[opt.star]:[],limit:8}; }
+async function hrLoad(key){ const T=S.trip; const x=pkItems(T).find(i=>i.key===key); if(!x) return; HR[key]={loading:true}; bkRerender();
+  try{ const j=await sunnyApi("/hotels/search",hrQuery(T,x)); HR[key]={list:j.hotels||[],mode:j.mode,at:Date.now()}; }
+  catch(e){ HR[key]={err:true}; }
+  bkRerender(); }
+const hrStars=n=>n?"★".repeat(Math.round(n)):"";
+function hrBlock(T,x){ if(!hrOn()||x.tipo!=="hotel") return ""; const P=T.pk, sel=(P.hsel||{})[x.key], b=P.buy[x.key], st=HR[x.key]||{}; if(b) return "";
+  const nights=Math.max(1,x.nights);
+  const card=h=>{ const on=sel&&sel.id===h.id; return `<div class="hrC${on?" on":""}">${h.photo?`<img src="${esc(h.photo)}" alt="" loading="lazy">`:`<span class="hrPh">🏨</span>`}<span class="hrT"><b>${esc(h.name)}</b><small>${hrStars(h.stars)}${h.rating?` · ${(+h.rating).toFixed(1)}`:""}${h.board?` · ${esc(h.board)}`:""}</small><small class="${h.refundable?"ok":"sub"}">${h.refundable?"Cancelamento grátis":"Não reembolsável"}</small></span><span class="hrP"><b>${inCur(h.price,S.cur)}</b><small>${inCur(h.price/nights,S.cur)}/noite</small>${on?`<span class="okp">✓ Escolhido</span>`:`<button class="link" data-hrpick="${esc(x.key)}|${esc(h.id)}">Escolher</button>`}</span></div>`; };
+  if(sel&&S.hrOpen!==x.key) return `<div class="hrSel">${card(sel)}<div class="g2"><button class="press ghost" data-hropen="${esc(x.key)}">Trocar hotel</button><button class="press" data-hrbook="${esc(x.key)}">Reservar aqui</button></div>${S.hrForm===x.key?hrForm(T,x,sel):""}</div>`;
+  if(st.loading) return `<div class="hrBox"><span class="sub sm">☀️ Buscando hotéis com preço de hoje…</span></div>`;
+  if(st.err) return `<div class="hrBox"><span class="sub sm">Não consegui buscar os hotéis agora.</span><button class="link" data-hrload="${esc(x.key)}">Tentar de novo</button></div>`;
+  if(st.list){ if(!st.list.length) return `<div class="hrBox"><span class="sub sm">Nenhum hotel disponível nessas datas perto do centro.</span></div>`;
+    return `<div class="hrBox"><span class="k">Hotéis com preço de hoje${st.mode==="sandbox"?" · modo de teste":""}</span>${st.list.map(card).join("")}<small class="sub xs">Preço total da estadia, com taxas incluídas. Reserva confirmada na hora.</small></div>`; }
+  return `<button class="press ghost hrGo" data-hrload="${esc(x.key)}">🏨 Ver hotéis com preço de hoje</button>`; }
+function hrForm(T,x,sel){ const me=(T.viajantes||[]).find(v=>v.tipo!=="pet"&&v.tipo!=="crianca")||{}; const nm=(me.nome&&!/^(Adulto|Viajante|Idoso)/.test(me.nome))?me.nome.split(" "):["",""]; const pend=S.hrBusy;
+  return `<form class="bkPay" data-hrform="${esc(x.key)}"><span class="k">Em nome de quem fica a reserva?</span>
+    <div class="g2"><label class="f"><span>Nome</span><input id="hrfn" name="fn" autocomplete="given-name" value="${esc(nm[0]||"")}" required></label><label class="f"><span>Sobrenome</span><input id="hrln" name="ln" autocomplete="family-name" value="${esc(nm.slice(1).join(" ")||"")}" required></label></div>
+    <label class="f"><span>E-mail para a confirmação</span><input id="hrem" name="em" type="email" autocomplete="email" required></label>
+    <small class="sub xs">${esc(sel.name)} · ${fmtD(x.stay.ci)} – ${fmtD(x.stay.co)} · ${inCur(sel.price,S.cur)}${sel.refundable?" · cancelamento grátis":" · não reembolsável"}. O pagamento é feito na página segura do nosso parceiro de hotéis.</small>
+    <div class="g2"><button type="button" class="press ghost" data-hrcancel>Cancelar</button><button class="press green" type="submit" ${pend?"disabled":""}>${pend?"Abrindo…":"Ir para o pagamento"}</button></div></form>`; }
+async function hrSubmit(f){ const T=S.trip, key=f.dataset.hrform, x=pkItems(T).find(i=>i.key===key), sel=(T.pk.hsel||{})[key]; if(!x||!sel) return;
+  const holder={firstName:f.fn.value.trim(),lastName:f.ln.value.trim(),email:f.em.value.trim()}; if(!holder.firstName||!holder.lastName||!/@/.test(holder.email)){ sunToast("Preencha nome, sobrenome e e-mail."); return; }
+  S.hrBusy=true; bkRerender();
+  try{ const p=await sunnyApi("/hotels/prebook",{offerId:sel.offerId});
+    const pend={uid:tripUid(T),key,prebookId:p.prebookId,transactionId:p.transactionId,holder,hotel:sel,price:p.price||sel.price,currency:p.currency||"EUR",at:Date.now()};
+    try{ localStorage.setItem("sunny.hrPend",JSON.stringify(pend)); }catch(e){}
+    const back=location.origin+location.pathname;
+    const q=new URLSearchParams({sk:p.secretKey,pid:p.prebookId,tid:p.transactionId,mode:p.mode||"sandbox",lang:S.lang||"pt",back});
+    location.href="pay.html?"+q.toString();
+  }catch(e){ S.hrBusy=false; sunToast("Esse quarto acabou de esgotar ou mudou de preço. Escolha outro hotel."); HR[key]=null; S.hrForm=null; bkRerender(); } }
+function hrClick(D){ const T=S.trip; if(!T||!T.pk) return false; const P=T.pk;
+  if(D.hrload){ hrLoad(D.hrload); return true; }
+  if(D.hrpick){ const [k,id]=D.hrpick.split("|"); const h=((HR[k]||{}).list||[]).find(z=>z.id===id); if(h){ P.hsel=P.hsel||{}; P.hsel[k]={...h,eur:h.price}; S.hrOpen=null; pkApply(T); bkRerender(); } return true; }
+  if(D.hropen){ S.hrOpen=D.hropen; S.hrForm=null; if(!HR[D.hropen]) hrLoad(D.hropen); else bkRerender(); return true; }
+  if(D.hrbook){ S.hrForm=D.hrbook; bkRerender(); setTimeout(()=>{ const i=document.getElementById("hrem"); if(i) i.focus(); },60); return true; }
+  if("hrcancel" in D){ S.hrForm=null; bkRerender(); return true; }
+  return false; }
+/* volta do pagamento: confirma a reserva */
+async function hrReturn(){ const q=new URLSearchParams(location.search); if(q.get("bk")!=="1") return; let pend=null; try{ pend=JSON.parse(localStorage.getItem("sunny.hrPend")||"null"); }catch(e){}
+  try{ history.replaceState(null,"",location.pathname); }catch(e){}
+  if(!pend||pend.prebookId!==q.get("pid")) return;
+  const ti=S.trips.findIndex(t=>t.uid===pend.uid); if(ti<0) return; S.ti=ti; S.trip=S.trips[ti]; pkInit(S.trip); S.view="book"; S.bkMode="comprar"; render();
+  sunToast("Confirmando a reserva…");
+  try{ const r=await sunnyApi("/hotels/book",{prebookId:pend.prebookId,transactionId:q.get("tid")||pend.transactionId,holder:pend.holder});
+    const T=S.trip, P=T.pk, x=pkItems(T).find(i=>i.key===pend.key); const valor=+r.price||+pend.price, moeda=r.currency||pend.currency||"EUR"; const gid="g"+Date.now().toString(36);
+    T.gastos.push({id:gid,desc:tr(x?x.t:"Hotel")+" · "+pend.hotel.name,valor,moeda,cat:"Hospedagem",pagou:(payers()[0]||{i:0}).i,entre:people().map(p=>p.i)});
+    P.buy[pend.key]={valor,moeda,eur:valor/rate(moeda),quem:(payers()[0]||{i:0}).i,gid,at:Date.now(),bookingId:r.bookingId,conf:r.confirmation,hotel:pend.hotel.name};
+    T.reservas=T.reservas||[]; T.reservas.push({kind:"hotel",name:pend.hotel.name,checkin:x?x.stay.ci:"",checkout:x?x.stay.co:"",code:r.confirmation||r.bookingId});
+    try{ localStorage.removeItem("sunny.hrPend"); }catch(e){} persistTrip(); celebrate(); sunToast("Reserva confirmada! ✅ O comprovante chega no seu e-mail."); render();
+  }catch(e){ sunToast("Não consegui confirmar a reserva. Se aparecer alguma cobrança, escreva para contato@sunnytrip.app."); render(); } }
+setTimeout(()=>{ try{ hrReturn(); }catch(e){} },400);
 
 /* ===== Sunny — agente de IA do app (texto + voz + ações) =====
    Cérebros, em ordem: 1) Claude (quando o app roda dentro do Claude: capability "sample", com ferramentas)
@@ -7006,6 +7076,7 @@ document.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b||b.disabled) return; const D=b.dataset, F=S.form;
   if("back" in D){ goBack(); return; }
   if((D.book||D.bkswap||D.bkpick||D.bkdone||D.bkundo||"bkpaycancel" in D)&&bkClick(D)) return;
+  if((D.hrload||D.hrpick||D.hropen||D.hrbook||"hrcancel" in D)&&typeof hrClick==="function"&&hrClick(D)) return;
   if("demo" in D){ const T=S.trip; const di=T.dias.findIndex((d,i)=>i>=5&&d.tipo==="livre"); S.demoDate=S.demoDate?null:(T.dias[di>=0?di:Math.min(4,T.dias.length-1)]).data; S.tab="inicio"; render(); window.scrollTo(0,0); return; }
   if(D.shimport){ sharedImport(D.shimport); return; }
   if("shclose" in D){ S.shared=null; S.view="home"; render(); return; }
@@ -7158,6 +7229,7 @@ document.addEventListener("input",e=>{ const D=e.target.dataset; if("passq" in D
 document.addEventListener("submit",e=>{
   const f=e.target; e.preventDefault();
   if(f.dataset.bkpay){ bkSubmit(f); return; }
+  if(f.dataset.hrform){ hrSubmit(f); return; }
   if("addg" in f.dataset){ keepForm(); const v=parseFloat(String(GF.valor).replace(",","."));
     if(!GF.desc.trim()||!(v>0)||!GF.entre.length){ alertIn(f,"Falta o que foi, o valor ou com quem dividir."); return; }
     S.trip.gastos.push({id:"g"+Date.now(),desc:GF.desc.trim(),valor:v,moeda:GF.moeda,cat:GF.cat,pagou:GF.pagou,entre:GF.entre.slice()});
