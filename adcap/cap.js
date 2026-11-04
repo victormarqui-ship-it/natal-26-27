@@ -2,7 +2,7 @@ const {chromium}=require('playwright'); const fs=require('fs');
 (async()=>{ const b=await chromium.launch(); fs.mkdirSync('adcap/shots/hotel',{recursive:true});
 const ctx=await b.newContext({locale:"pt-BR",viewport:{width:390,height:844},deviceScaleFactor:2});
 await ctx.addInitScript(()=>{ Object.defineProperty(navigator,'webdriver',{get:()=>false}); });
-const p=await ctx.newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{ if(m.type()==='error') errs.push('console:'+m.text()); });
+const p=await ctx.newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('response',async r=>{ if(/sunny-api/.test(r.url())&&r.status()>=400){ try{ console.log('APIERR',r.url(),r.status(),(await r.text()).slice(0,600)); }catch(e){} } }); p.on('request',r=>{ if(/prebook/.test(r.url())) console.log('REQ',r.postData()); }); p.on('console',m=>{ if(m.type()==='error') errs.push('console:'+m.text()); });
 const shot=async n=>{ void 0; await p.waitForTimeout(800); await p.screenshot({path:`adcap/shots/hotel/${n}.jpg`,type:'jpeg',quality:85}); };
 await p.goto('https://victormarqui-ship-it.github.io/natal-26-27/sunny/'); await p.waitForTimeout(4000); await p.addStyleTag({content:'#agFab{display:none!important}'});
 await p.evaluate(()=>{ const c=citiesOf("BR").find(x=>x.name==="São Paulo"); S.wel.city=c; welDone(); S.form={...S.form,paises:["IT"],cidades:["roma","florenca"],ida:"2027-04-10",volta:"2027-04-16",noites:null,adultos:2,idades:[7]}; startGen(S.form); });
