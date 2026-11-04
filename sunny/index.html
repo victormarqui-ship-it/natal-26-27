@@ -3,7 +3,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="description" content="Sunny Trip: roteiro, calendário, mala com peso, custos, divisão de gastos e reservas.">
 <title>Sunny Trip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 /* Visual de app de jogo: cores chapadas e vivas, cantos redondos, botões "de apertar" com sombra sólida,
    uma pergunta por tela com barra de progresso, roteiro como um caminho de fases e um mascote (o Sol). */
@@ -12,7 +12,8 @@
   --sun:#ffc800; --sun-d:#e5a400; --green:#58cc02; --green-d:#46a302; --blue:#1cb0f6; --blue-d:#1899d6;
   --red:#ff4b4b; --red-d:#ea2b2b; --purple:#ce82ff; --purple-d:#a568cc; --orange:#ff9600; --orange-d:#cd7900;
   --sel:#fff3c4; --sel-b:#ffd23f; --acc:#c78a00; --off:#efe6c8; --off-d:#dccf9f;
-  --f:"Nunito","Twemoji Country Flags", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f:"Inter","Twemoji Country Flags", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fd:"Bricolage Grotesque","Inter","Twemoji Country Flags", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#15120a; --ink:#fbf4dc; --sub:#c2b694; --line:#352e1c; --card:#211c10; --sh:0 1px 0 rgba(0,0,0,.4); --soft:#2a2410; --sel:#3d3008; --sel-b:#9c7a00; --acc:#ffd23f; --off:#3d3520; --off-d:#2a2410; color-scheme:dark}}
@@ -592,6 +593,10 @@ body:has(.start){background:var(--bg)}
 .bkOpt .up{color:var(--red)}.bkOpt .down{color:var(--green-d,#46a302)}
 .bkPay{display:grid;gap:10px}
 .bk a.lnk{text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px}
+
+/* tipografia: títulos e números em Bricolage Grotesque, texto em Inter */
+h1,h2,h3,.big,.brand,.press,.pillbtn,.nxtB b,.kpi b,.post .pt b,.pk b,.escHead b{font-family:var(--fd)}
+.press{letter-spacing:.03em}
 </style>
 
 <div id="splash" role="img" aria-label="Sunny Trip">
@@ -5274,7 +5279,7 @@ function viewPlus(){
 function openPlus(from){ S.plusBack=from||S.view; S.view="plus"; S.plusSoon=false; S.plusCodeErr=false; if(typeof agToggle==="function"&&AG.open) agToggle(false); render(); window.scrollTo(0,0); }
 
 /* ---------- partilha: link que abre a viagem no app de quem recebe ---------- */
-const SITE_URL="https://victormarqui-ship-it.github.io/natal-26-27/sunny/"; // trocar pelo domínio próprio quando existir
+const SITE_URL="https://sunnytrip.app/app/";
 const b64u={ enc:u8=>{ let s=""; u8.forEach(b=>s+=String.fromCharCode(b)); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); },
   dec:t=>{ t=t.replace(/-/g,"+").replace(/_/g,"/"); while(t.length%4) t+="="; const s=atob(t); return Uint8Array.from(s,c=>c.charCodeAt(0)); } };
 async function zip(str){ const u=new TextEncoder().encode(str); if(typeof CompressionStream==="undefined") return "j"+b64u.enc(u);
@@ -5330,6 +5335,19 @@ function startWithCity(id){ const cc=id.includes(":")?id.split(":")[0]:(KB[id]&&
   S.cq=""; S.sq={}; S.wzReturn=false; save(); S.view="wz"; S.wz=WZ.findIndex(w=>w.id==="datas"); render(); window.scrollTo(0,0); return true; }
 function readEntryParams(){ try{ const q=new URLSearchParams(location.search); const L=q.get("lang"), go=q.get("go"); if(L&&["pt","en","es"].includes(L)&&!S.homeSet) S.lang=L; if(go) S.pendingGo=go;
   if(L||go) history.replaceState(null,"",location.pathname+location.hash); }catch(e){} }
+
+/* migração do endereço antigo (github.io) para sunnytrip.app: traz as viagens salvas */
+(function(){ const h=location.hash||""; if(!h.startsWith("#mig=")) return; window.__MIG=true;
+  unzip(h.slice(5)).then(txt=>{ const o=JSON.parse(txt)||{}; const K="sunnytrip.v1";
+    Object.entries(o).forEach(([k,v])=>{ if(typeof v!=="string") return;
+      if(k!==K){ if(localStorage.getItem(k)==null) localStorage.setItem(k,v); return; }
+      let cur=null, old=null; try{ cur=JSON.parse(localStorage.getItem(K)||"null"); old=JSON.parse(v); }catch(e){}
+      if(!old) return; if(!cur||!(cur.trips||[]).length){ localStorage.setItem(K,v); return; }
+      const key=t=>t.uid||t.id||t.titulo+"|"+t.ida; const have=new Set(cur.trips.map(key));
+      (old.trips||[]).forEach(t=>{ if(!have.has(key(t))) cur.trips.push(t); }); if(!cur.homeSet&&old.homeSet){ cur.homeSet=true; cur.homeCity=old.homeCity; cur.homeCC=old.homeCC; }
+      localStorage.setItem(K,JSON.stringify(cur)); });
+  }).catch(()=>{}).finally(()=>{ location.replace(location.pathname+location.search); });
+})();
 
 /* ===== Quanto vai custar: previsão da viagem, voos e hotéis escolhidos, troca e compra passo a passo ===== */
 const FOPT=[{k:"barato",n:"Mais barato",d:"Até 2 escalas, horários menos práticos",f:.85,st:2},{k:"equil",n:"Equilíbrio",d:"Até 1 escala, em bons horários",f:1,st:1},{k:"rapido",n:"Mais rápido",d:"Direto ou com a escala mais curta",f:1.35,st:0}];
@@ -6242,7 +6260,7 @@ const LS="sunnytrip.v1";
 const S={cq:"",sq:{},ores:{},trips:[],cur:null,trip:null,tab:"inicio",day:0,dayOpen:false,view:"home",wz:0,theme:"auto",wx:{},fx:null,chat:[],
   form:{chegada:true,paises:[],cidades:[],ida:"",volta:"",tipo:"intl",origemCity:null,voltaCity:null,adultos:2,idosos:0,idades:[],pet:false,petNome:"",ritmo:"Equilibrado",orc:"Médio",inter:["História","Gastronomia"]}};
 function load(){ S.home=detectHome(); S.lang=S.home.lang; S.cur=S.home.cur; try{const j=JSON.parse(localStorage.getItem(LS)||"null"); if(j){ if(j.lang) S.lang=j.lang; if(j.cur) S.cur=j.cur;S.trips=j.trips||[];S.theme=j.theme||"auto";S.fx=j.fx||null;S.wx=j.wx||{}; S.agUrl=j.agUrl||""; S.agModel=j.agModel||""; S.voiceWait=j.voiceWait||"normal"; S.voiceName=j.voiceName||{}; S.voiceRate=j.voiceRate||1; S.voiceAccent=j.voiceAccent||{}; S.homeSet=!!j.homeSet; S.pass=j.pass||{extra:[]}; S.myRef=j.myRef||null; S.refBy=j.refBy||null; S.plus=j.plus||null; S.aiUse=j.aiUse||null; S.homeCity=j.homeCity||null; if(j.homeCC&&GEO[j.homeCC]) S.home={...S.home,cc:j.homeCC,cur:CUR_OF(j.homeCC)}; S.hol=j.hol||{}; if(j.form) S.form=Object.assign(S.form,j.form);}}catch(e){}}
-function save(){try{localStorage.setItem(LS,JSON.stringify({lang:S.lang,cur:S.cur,trips:S.trips,theme:S.theme,fx:S.fx,wx:S.wx,form:S.form,hol:S.hol,agUrl:S.agUrl||"",agModel:S.agModel||"",voiceWait:S.voiceWait||"normal",voiceName:S.voiceName||{},voiceRate:S.voiceRate||1,voiceAccent:S.voiceAccent||{},homeSet:!!S.homeSet,myRef:S.myRef||null,refBy:S.refBy||null,pass:S.pass||null,plus:S.plus||null,aiUse:S.aiUse||null,homeCity:S.homeCity||null,homeCC:S.home&&S.home.cc}));}catch(e){}}
+function save(){if(window.__MIG)return;try{localStorage.setItem(LS,JSON.stringify({lang:S.lang,cur:S.cur,trips:S.trips,theme:S.theme,fx:S.fx,wx:S.wx,form:S.form,hol:S.hol,agUrl:S.agUrl||"",agModel:S.agModel||"",voiceWait:S.voiceWait||"normal",voiceName:S.voiceName||{},voiceRate:S.voiceRate||1,voiceAccent:S.voiceAccent||{},homeSet:!!S.homeSet,myRef:S.myRef||null,refBy:S.refBy||null,pass:S.pass||null,plus:S.plus||null,aiUse:S.aiUse||null,homeCity:S.homeCity||null,homeCC:S.home&&S.home.cc}));}catch(e){}}
 function applyTheme(){ if(S.theme==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",S.theme); }
 const themeBtn=()=>`<button class="pillbtn" data-cfg aria-label="Ajustes">${ICO("globe")} ${(S.lang||"pt").toUpperCase()} · ${esc(curSym(S.cur))}</button>`;
 function voiceCard(){ const lang=typeof agVoiceLang==="function"?agVoiceLang():"pt-BR"; const vs=typeof agVoiceList==="function"?agVoiceList(lang):[]; const cur=(S.voiceName||{})[S.lang||"pt"]||"";
@@ -7165,7 +7183,7 @@ function navRestore(){ let n=null; try{ n=JSON.parse(localStorage.getItem(NAVK)|
 window.addEventListener("pagehide",navSave); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") navSave(); });
 let _navT=null; window.addEventListener("scroll",()=>{ clearTimeout(_navT); _navT=setTimeout(navSave,400); },{passive:true});
 document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest('a[target="_blank"]'); if(a) navSave(); },true);
-load(); if(typeof geoAddLoad==="function") geoAddLoad(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; if(typeof readEntryParams==="function") readEntryParams(); const SHL=(location.hash||"").startsWith("#t="); const WEL=!SHL&&!S.homeSet&&!navigator.webdriver; if(WEL) S.view="welcome"; if(SHL) setTimeout(sharedCheck,0); if(!SHL&&!WEL&&S.pendingGo){ const g=S.pendingGo; S.pendingGo=null; setTimeout(()=>startWithCity(g),0); } const RESUME=WEL?null:navRestore(); const resumed=!!RESUME&&(RESUME.view!=="home"||(RESUME.ag&&RESUME.ag.open)); render(); if(resumed&&RESUME.y) setTimeout(()=>window.scrollTo(0,RESUME.y),60); if(resumed&&S.view==="trip") fetchLive(); (function(){ const sp=document.getElementById("splash"); if(!sp||resumed){ if(sp) sp.remove(); document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })(); agBoot(); if(RESUME&&RESUME.ag){ if(RESUME.ag.q) AG.q=RESUME.ag.q; if(RESUME.ag.open) agToggle(true); }
+load(); if(typeof geoAddLoad==="function") geoAddLoad(); i18nObserve(); S.trips.forEach(t=>registerKbx(t.kbx)); (async()=>{ try{ if(!S.fx||!S.fx.rates||Date.now()-S.fx.at>6*36e5){ const r=await fetch("https://api.frankfurter.app/latest?from=EUR"); if(r.ok){ const j=await r.json(); if(j.rates){ S.fx={rates:j.rates,date:j.date,at:Date.now()}; save(); } } } }catch(e){} })(); if(S.trips.length) S.view="home"; if(typeof readEntryParams==="function") readEntryParams(); const SHL=(location.hash||"").startsWith("#t="); const WEL=!SHL&&!S.homeSet&&!navigator.webdriver&&!window.__MIG; if(WEL) S.view="welcome"; if(SHL) setTimeout(sharedCheck,0); if(!SHL&&!WEL&&S.pendingGo){ const g=S.pendingGo; S.pendingGo=null; setTimeout(()=>startWithCity(g),0); } const RESUME=WEL?null:navRestore(); const resumed=!!RESUME&&(RESUME.view!=="home"||(RESUME.ag&&RESUME.ag.open)); render(); if(resumed&&RESUME.y) setTimeout(()=>window.scrollTo(0,RESUME.y),60); if(resumed&&S.view==="trip") fetchLive(); (function(){ const sp=document.getElementById("splash"); if(!sp||resumed){ if(sp) sp.remove(); document.getElementById("app").style.opacity=""; return; } const app=document.getElementById("app"); let shown=false, done=false; const show=()=>{ if(shown) return; shown=true; if(S.view==="home") render(); app.style.opacity=""; }; const end=()=>{ if(done) return; done=true; show(); sp.remove(); }; setTimeout(show,1580); sp.addEventListener("animationend",e=>{ if(e.animationName==="splOut") end(); }); setTimeout(end,2300); })(); agBoot(); if(RESUME&&RESUME.ag){ if(RESUME.ag.q) AG.q=RESUME.ag.q; if(RESUME.ag.open) agToggle(true); }
 
 document.addEventListener("click",e=>{ const a=e.target.closest("a[data-bkgo]"); if(!a) return; const k=a.dataset.bkgo; setTimeout(()=>{ if(S.view==="book"&&S.trip&&S.trip.pk&&!S.trip.pk.buy[k]){ S.bkPay=k; bkRerender(); } },600); });
 
