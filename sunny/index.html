@@ -5899,7 +5899,8 @@ setTimeout(()=>{ try{ frReturn(); }catch(e){} },450);
 const TX={list:{},det:{},opt:{}}; let txCur=null, txSkipPop=false;
 const TX_Q=new URLSearchParams(location.search);
 const txOn=()=>typeof hrOn==="function"&&hrOn();
-function txStay(T,cid){ return stays(T).find(s=>s.id===cid)||{ci:T.ida,co:T.volta}; }
+function txStay(T,cid){ const s=stays(T).find(s=>s.id===cid); if(s) return s; const d=txCur&&txCur.day; return d?{ci:d,co:addDays(d,1)}:{ci:T.ida,co:T.volta}; }
+const txDenied=()=>{ try{ return Date.now()-(+localStorage.getItem("sunny.txNo")||0)<6*3600e3; }catch(e){ return false; } };
 /* participantes: cada viajante (sem pet) vira a categoria de ingresso que cabe na idade */
 function txPax(T,cats){ const C=(cats&&cats.length?cats:[{key:"adult",min:18,max:99}]); const adult=C.find(c=>c.key==="adult")||C[0]; const out={};
   (T.viajantes||[]).filter(v=>v.tipo!=="pet").forEach(v=>{ let k=adult.key; if(v.tipo==="crianca"){ const a=v.idade|0; const c=C.find(c=>c.key!==adult.key&&a>=(c.min??0)&&a<=(c.max??17)); if(c) k=c.key; } out[k]=(out[k]||0)+1; });
@@ -5908,14 +5909,14 @@ const txPaxN=p=>Object.values(p).reduce((a,b)=>a+b,0);
 const txDur=d=>{ if(!d) return ""; const v=+d.v, u=String(d.u||""); if(/min/.test(u)) return v>=60?`${Math.floor(v/60)}h${v%60?" "+(v%60)+"min":""}`:`${v} min`; if(/hour/.test(u)) return `${String(v).replace(".",",")}h`; if(/day/.test(u)) return `${v} ${v>1?"dias":"dia"}`; return `${v} ${u}`; };
 const txHM=dt=>{ const m=String(dt||"").match(/T(\d{2}):(\d{2})/); return m?`${m[1]}:${m[2]}`:""; };
 /* abre a tela de passeios de uma cidade */
-function txOpen(cid){ const T=S.trip; if(!T||!KB[cid]) return; txCur={cid,view:"list"}; try{ history.pushState({tx:1},""); }catch(e){} document.body.classList.add("hdLock"); txDraw(); if(!TX.list[cid]) txLoad(cid); }
+function txOpen(cid,day){ const T=S.trip; if(!T||!KB[cid]) return; txCur={cid,view:"list",day:day||null}; try{ history.pushState({tx:1},""); }catch(e){} document.body.classList.add("hdLock"); txDraw(); if(!TX.list[cid]) txLoad(cid); }
 function txClose(fromPop){ if(fromPop&&txSkipPop){ txSkipPop=false; return true; } if(!txCur) return false; txCur=null; const el=document.getElementById("txDet"); if(el) el.remove(); document.body.classList.remove("hdLock"); if(!fromPop){ try{ if(history.state&&history.state.tx){ txSkipPop=true; history.back(); } }catch(e){} } return true; }
 async function txLoad(cid){ const T=S.trip, C=KB[cid], st=txStay(T,cid); TX.list[cid]={loading:true}; txDraw();
-  try{ const j=await sunnyApi("/tours/search",{lat:C.lat,lon:C.lon,radiusKm:12,lang:S.lang||"pt",currency:"EUR",from:st.ci,to:st.co,limit:24}); TX.list[cid]={tours:j.tours||[],mode:j.mode}; }
-  catch(e){ TX.list[cid]={err:true,noAccess:e.detail&&e.detail.status===403}; } txDraw(); }
+  try{ const j=await sunnyApi("/tours/search",{lat:C.lat,lon:C.lon,radiusKm:12,lang:S.lang||"pt",currency:"EUR",from:st.ci,to:st.co,limit:24}); TX.list[cid]={tours:j.tours||[],mode:j.mode}; try{ localStorage.removeItem("sunny.txNo"); }catch(_){} }
+  catch(e){ const no=e.detail&&e.detail.status===403; TX.list[cid]={err:true,noAccess:no}; if(no) try{ localStorage.setItem("sunny.txNo",Date.now()); }catch(_){} } txDraw(); }
 async function txDetail(id){ txCur.view="detail"; txCur.id=id; txCur.date=null; txCur.slot=null; txCur.form=false; const T=S.trip; if(!TX.det[id]||TX.det[id].err){ TX.det[id]={loading:true}; txDraw(true);
   try{ TX.det[id]={d:await sunnyApi("/tours/detail",{id,lang:S.lang||"pt",currency:"EUR"})}; }catch(e){ TX.det[id]={err:true}; } }
-  const d=(TX.det[id]||{}).d; if(d&&txCur&&txCur.id===id){ const st=txStay(T,txCur.cid); const inStay=(d.dates||[]).filter(x=>x>=st.ci&&x<st.co); txCur.date=inStay[0]||null; if(txCur.date) txOptions(); }
+  const d=(TX.det[id]||{}).d; if(d&&txCur&&txCur.id===id){ const st=txStay(T,txCur.cid); const inStay=(d.dates||[]).filter(x=>x>=st.ci&&x<st.co); txCur.date=(txCur.day&&inStay.includes(txCur.day))?txCur.day:(inStay[0]||null); if(txCur.date) txOptions(); }
   txDraw(true); }
 async function txOptions(){ const T=S.trip, id=txCur.id, d=(TX.det[id]||{}).d||{}, date=txCur.date; if(!date) return; const pax=txPax(T,d.categories); const k=id+"|"+date+"|"+JSON.stringify(pax);
   txCur.slot=null; txCur.form=false; if(!TX.opt[k]||TX.opt[k].err){ TX.opt[k]={loading:true}; txDraw();
@@ -6015,7 +6016,7 @@ async function txSubmit(f){ const T=S.trip, d=(TX.det[txCur.id]||{}).d||{}, o=tx
 function txClick(D){
   if("txclose" in D){ txClose(); return true; }
   if("txback" in D){ if(txCur.view==="detail"){ txCur.view="list"; txDraw(true); } else txClose(); return true; }
-  if(D.txcity){ txOpen(D.txcity); return true; }
+  if(D.txcity){ txOpen(D.txcity,D.txday||null); return true; }
   if(D.txload){ txLoad(D.txload); return true; }
   if(D.txsort){ S.txSort=D.txsort; txDraw(true); return true; }
   if(D.txdate){ txCur.date=D.txdate; txOptions(); return true; }
@@ -6050,6 +6051,9 @@ async function txReturn(){ const q=TX_Q; if(q.get("bk")!=="1") return; let pend=
   }catch(e){ sunToast("Não consegui confirmar o passeio. Se aparecer alguma cobrança, escreva para contato@sunnytrip.app."); render(); } }
 async function txPoll(id,n){ try{ const r=await sunnyApi("/tours/booking",{bookingId:id}); const T=S.trip; const t=(T.tours||[]).find(z=>z.bookingId===id); if(t){ Object.assign(t,{status:r.status,ref:r.ref||t.ref,ticketUrl:r.ticketUrl||t.ticketUrl}); persistTrip(); if(S.view==="book") bkRerender(); } if(r.status!=="CONFIRMED"&&n<6) setTimeout(()=>txPoll(id,n+1),15000); }catch(e){} }
 setTimeout(()=>{ try{ txReturn(); }catch(e){} },500);
+/* botão do dia no roteiro: abre os passeios da cidade do dia, já no dia certo */
+function txDayBtn(T,d){ if(!txOn()||txDenied()) return null; const cid=T.cityIds.concat(Object.keys(KB)).find(id=>KB[id]&&KB[id].nome===d.cidade); if(!cid) return null;
+  return `<button class="press ghost" data-txcity="${esc(cid)}" data-txday="${esc(d.data||"")}">🎟️ Passeios e ingressos</button>`; }
 
 /* ===== Sunny — agente de IA do app (texto + voz + ações) =====
    Cérebros, em ordem: 1) Claude (quando o app roda dentro do Claude: capability "sample", com ferramentas)
@@ -7374,7 +7378,7 @@ function dayDetail(){
     <ul class="tl">${d.itens.map(([h,t],ii)=>{ const g=T.guia.find(x=>x.cidade===d.cidade); const v=g&&g.ver.find(x=>t.startsWith(x[0])); const rm=itemRemovable(h,t,v); return `<li style="grid-template-columns:${v?"64px":"44px"} 1fr${rm?" 40px":""}">${v?`<span class="h phw tlph" data-ph="p:${esc(d.cidade)}|${esc(v[0])}" ${v[2]?`data-src="${esc(v[2])}"`:""}>${slotEmo(h)}</span>`:`<span class="h">${slotEmo(h)}</span>`}<span class="tx"><small>${esc(h)}${(()=>{ const m=itemDur(T,d,h,t); return m&&d.tipo!=="bate-volta"?` · ⏱ ${fmtMin(m)}`:""; })()}</small>${esc(t)}</span>${rm?`<button class="tlx" data-delit="${ii}" aria-label="Tirar do dia">×</button>`:""}</li>`; }).join("")}</ul>
     ${dayTimeBar(T,d)}
     ${S.undo&&S.undo.day===S.day?`<div class="undoBar"><span>Tirado: <b>${esc(S.undo.item[1].split(".")[0])}</b></span><button class="link" data-undo>Desfazer</button></div>`:""}
-    ${d.tipo!=="deslocamento"?`<div class="g2"><button class="press ${S.dayAddOpen?"":"green"}" data-dayadd>${S.dayAddOpen?"✓ Pronto":"+ Adicionar passeio"}</button><a class="press ghost lnk" href="${esc(gygDayUrl(T,d))}" target="_blank" rel="noopener">🎟️ Passeios guiados</a></div>`:`<button class="press ghost" data-dayadd>${S.dayAddOpen?"✓ Pronto":"+ Adicionar algo ao dia"}</button>`}
+    ${d.tipo!=="deslocamento"?`<div class="g2"><button class="press ${S.dayAddOpen?"":"green"}" data-dayadd>${S.dayAddOpen?"✓ Pronto":"+ Adicionar passeio"}</button>${(typeof txDayBtn==="function"&&txDayBtn(T,d))||`<a class="press ghost lnk" href="${esc(gygDayUrl(T,d))}" target="_blank" rel="noopener">🎟️ Passeios guiados</a>`}</div>`:`<button class="press ghost" data-dayadd>${S.dayAddOpen?"✓ Pronto":"+ Adicionar algo ao dia"}</button>`}
     ${S.dayAddOpen?dayPicker(T,d):""}
     ${typeof routeCard==="function"?routeCard(T,S.day):""}
     ${typeof moveCard==="function"?moveCard(T,S.day):""}
