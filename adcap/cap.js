@@ -11,7 +11,7 @@ await p.evaluate(()=>openBook("ver")); await shot("01-book");
 await p.evaluate(()=>{ const b=document.querySelector('[data-hrload]'); b.scrollIntoView({block:"center"}); b.click(); });
 await p.waitForFunction(()=>Object.values(HR).some(h=>h&&(h.list||h.err)),null,{timeout:30000}).catch(()=>{});
 await p.evaluate(()=>{ const el=document.querySelector('.hrBox'); if(el) el.scrollIntoView({block:"start"}); }); await shot("02-lista");
-console.log('HR',JSON.stringify(Object.values(HR).map(h=>h&&({err:h.err,n:h.list&&h.list.length,mode:h.mode}))));
+console.log('HR',await p.evaluate(()=>JSON.stringify(Object.values(HR).map(h=>h&&({err:h.err,n:h.list&&h.list.length,mode:h.mode,first:h.list&&h.list[0]&&h.list[0].name})))));
 await p.evaluate(()=>{ const b=document.querySelector('[data-hrpick]'); if(b) b.click(); }); await p.waitForTimeout(500);
 await p.evaluate(()=>{ const el=document.querySelector('.hrSel'); if(el) el.scrollIntoView({block:"center"}); }); await shot("03-escolhido");
 await p.evaluate(()=>{ const b=document.querySelector('[data-hrbook]'); if(b) b.click(); }); await p.waitForTimeout(400);
