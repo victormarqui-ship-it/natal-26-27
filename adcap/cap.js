@@ -21,11 +21,13 @@ await p.evaluate(()=>{ const f=document.querySelector('[data-hrform]'); if(f) f.
 await p.waitForURL(/pay\.html/,{timeout:30000}).catch(()=>{}); await p.waitForTimeout(9000); await shot("05-pagamento");
 console.log('URL',p.url().slice(0,120));
 try{
-  const fr=p.frameLocator('iframe[name^="__privateStripeFrame"]').first();
-  await fr.locator('input[name="number"]').fill('4242424242424242',{timeout:20000});
-  await fr.locator('input[name="expiry"]').fill('12 / 30');
-  await fr.locator('input[name="cvc"]').fill('123');
-  const pc=fr.locator('input[name="postalCode"]'); if(await pc.count()) await pc.fill('12345');
+  let fr=null; for(let k=0;k<20&&!fr;k++){ for(const f of p.frames()){ try{ if(await f.locator('input[autocomplete="cc-number"],input[name="number"],#Field-numberInput').count()){ fr=f; break; } }catch(e){} } if(!fr) await p.waitForTimeout(1000); }
+  console.log('FRAMES',p.frames().map(f=>f.name().slice(0,40)+'|'+f.url().slice(0,60)).join(' ;; '));
+  if(!fr) throw new Error('sem campo de cartão');
+  await fr.locator('input[autocomplete="cc-number"],input[name="number"],#Field-numberInput').first().fill('4242424242424242');
+  await fr.locator('input[autocomplete="cc-exp"],input[name="expiry"],#Field-expiryInput').first().fill('12 / 30');
+  await fr.locator('input[autocomplete="cc-csc"],input[name="cvc"],#Field-cvcInput').first().fill('123');
+  const pc=fr.locator('input[autocomplete="postal-code"],input[name="postalCode"]'); if(await pc.count()) await pc.first().fill('12345');
   await shot('06-cartao');
   await p.getByRole('button',{name:/pay/i}).last().click();
   await p.waitForURL(/bk=1/,{timeout:60000}); console.log('RETURN',p.url().slice(0,160));
