@@ -19,4 +19,17 @@ await p.fill('#hrem','teste@sunnytrip.app').catch(()=>{}); await p.fill('#hrfn',
 await p.evaluate(()=>{ const el=document.querySelector('[data-hrform]'); if(el) el.scrollIntoView({block:"center"}); }); await shot("04-form");
 await p.evaluate(()=>{ const f=document.querySelector('[data-hrform]'); if(f) f.requestSubmit(); });
 await p.waitForURL(/pay\.html/,{timeout:30000}).catch(()=>{}); await p.waitForTimeout(9000); await shot("05-pagamento");
-console.log('URL',p.url().slice(0,120)); console.log('errs',errs); await b.close(); })();
+console.log('URL',p.url().slice(0,120));
+try{
+  const fr=p.frameLocator('iframe[name^="__privateStripeFrame"]').first();
+  await fr.locator('input[name="number"]').fill('4242424242424242',{timeout:20000});
+  await fr.locator('input[name="expiry"]').fill('12 / 30');
+  await fr.locator('input[name="cvc"]').fill('123');
+  const pc=fr.locator('input[name="postalCode"]'); if(await pc.count()) await pc.fill('12345');
+  await shot('06-cartao');
+  await p.getByRole('button',{name:/pay/i}).last().click();
+  await p.waitForURL(/bk=1/,{timeout:60000}); console.log('RETURN',p.url().slice(0,160));
+  await p.waitForTimeout(12000); await shot('07-confirmado');
+  console.log('BUY',await p.evaluate(()=>JSON.stringify(S.trip&&S.trip.pk&&S.trip.pk.buy)));
+  console.log('TOAST',await p.evaluate(()=>{const t=document.getElementById('sunToast');return t&&t.textContent;}));
+}catch(e){ console.log('PAYFAIL',e.message.slice(0,300)); await shot('06-falha'); } console.log('errs',errs); await b.close(); })();
