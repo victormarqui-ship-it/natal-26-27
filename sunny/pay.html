@@ -1,0 +1,22 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex">
+<title>Pagamento · Sunny Trip</title><link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Inter:wght@400;600&display=swap">
+<style>:root{--ink:#3c2a00;--sub:#6b5a2e;--bg:#fffdf7;--line:#f1e6c6}body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Inter,system-ui,sans-serif}
+.w{max-width:520px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 18px 40px}h1{font:800 26px/1.15 "Bricolage Grotesque",Inter,sans-serif;margin:8px 0 4px}p{margin:0 0 16px;color:var(--sub)}
+a{color:var(--ink);font-weight:600}.top{display:flex;justify-content:space-between;align-items:center}.tag{background:#ffc800;border-radius:99px;padding:3px 10px;font-size:13px;font-weight:600}
+#targetElement{margin-top:12px;min-height:260px}.foot{margin-top:18px;font-size:13px;color:var(--sub)}</style></head>
+<body><div class="w"><div class="top"><a id="back" href="./">‹ Voltar</a><span class="tag" id="mode" hidden>Modo de teste</span></div>
+<h1 id="h">Pagamento seguro</h1><p id="p">O pagamento é processado pelo nosso parceiro de hotéis. O Sunny Trip não vê nem guarda os dados do seu cartão.</p>
+<div id="targetElement"></div><p class="foot" id="f">Depois de pagar, você volta para o Sunny e a reserva é confirmada.</p></div>
+<script>
+const q=new URLSearchParams(location.search), L=q.get("lang")||"pt";
+const T={en:["Secure payment","Payment is processed by our hotel partner. Sunny Trip never sees or stores your card details.","After paying, you'll return to Sunny and the booking is confirmed.","‹ Back","Test mode"],es:["Pago seguro","El pago lo procesa nuestro socio de hoteles. Sunny Trip nunca ve ni guarda los datos de tu tarjeta.","Después de pagar, vuelves a Sunny y la reserva se confirma.","‹ Volver","Modo de prueba"]}[L];
+if(T){ h.textContent=T[0]; p.textContent=T[1]; f.textContent=T[2]; back.textContent=T[3]; mode.textContent=T[4]; document.documentElement.lang=L; }
+const base=q.get("back")||(location.origin+location.pathname.replace(/pay\.html$/,""));
+back.href=base; if(q.get("mode")==="sandbox") mode.hidden=false;
+const s=document.createElement("script"); s.src="https://payment-wrapper.liteapi.travel/dist/liteAPIPayment.js?v=a1";
+s.onload=()=>{ const cfg={publicKey:q.get("mode")==="sandbox"?"sandbox":"live",appearance:{theme:"flat"},options:{business:{name:"Sunny Trip"}},targetElement:"#targetElement",secretKey:q.get("sk"),returnUrl:base+"?bk=1&pid="+encodeURIComponent(q.get("pid")||"")+"&tid="+encodeURIComponent(q.get("tid")||"")};
+  try{ new LiteAPIPayment(cfg).handlePayment(); }catch(e){ targetElement.textContent="Não foi possível abrir o pagamento agora."; } };
+s.onerror=()=>{ targetElement.textContent="Não foi possível carregar o pagamento. Verifique a conexão e tente de novo."; };
+document.head.appendChild(s);
+</script></body></html>
